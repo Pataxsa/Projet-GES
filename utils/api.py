@@ -43,6 +43,18 @@ class Api:
         
         return self.__getData("lines", kwargs)["results"]
     
-    #Fonction publique qui renvoie le CO2 total par année d'une commune
-    def getCO2fromcommune(self, commune):
-        return 0
+    #Fonction publique qui renvoie le CO2 total par année d'une commune (renvoie un dictionnaire clés:années et valeurs: total co2)
+    def getCO2fromcommune(self, commune:str = ""):
+        params = [b for b in self.params if "emissions_publication_p" in b]
+        lines = self.getLines(select=["date_de_publication"]+params, size=self.maxlines, qs=f"type_de_structure: Collectivité territoriale AND type_de_collectivite:Communes AND raison_sociale:\"{commune}\"")
+
+        data = {}
+
+        for val in lines:
+            dt = 0
+            for param in params:
+                if param in val.keys():
+                    dt += val[param]
+            data.update({val["date_de_publication"]: dt})
+        
+        return data
