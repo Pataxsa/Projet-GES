@@ -1,2 +1,6 @@
-# Ignore python cache
+# Ignore python cache and builds
 __pycache__
+/build
+/dist
+/*.spec
+/build.bat

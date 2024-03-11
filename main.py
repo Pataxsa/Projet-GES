@@ -22,7 +22,7 @@ try:
                 dt += val[param]
         data.append(dt)
     
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(num="GES")
     ax.set_title(f"Bilan GES commune {commune}")
     ax.plot(dates, data, label="CO2")
     plt.xlabel('Dates')
