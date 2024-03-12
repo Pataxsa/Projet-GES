@@ -15,7 +15,7 @@ class Api:
         self.communes = sorted(list(set([commune["raison_sociale"] for commune in self.getLines(select=["raison_sociale"], qs="type_de_structure: Collectivité territoriale AND type_de_collectivite:Communes", size=self.maxlines)])))
 
         # TODO: Pour plus tard
-        self.departements = sorted(list(set([departement["raison_sociale"] for departement in self.getLines(select=["raison_sociale"], qs="type_de_structure: Collectivité territoriale AND type_de_collectivite:Départements", size=self.maxlines)])))
+        #self.departements = sorted(list(set([departement["raison_sociale"] for departement in self.getLines(select=["raison_sociale"], qs="type_de_structure: Collectivité territoriale AND type_de_collectivite:Départements", size=self.maxlines)])))
     
     #Fonction privée pour faire des requetes basiques avec des paramètres
     def __getData(self, link:str, param:dict):
@@ -48,9 +48,9 @@ class Api:
         return self.__getData("lines", kwargs)["results"]
     
     #Fonction publique qui renvoie le CO2 total par année d'une commune (renvoie un dictionnaire clés:années et valeurs:total co2)
-    def getCO2fromcommune(self, commune:str = ""):
+    def getCO2(self, type_structure:str, nom:str):
         params = [b for b in self.params if "emissions_publication_p" in b]
-        lines = self.getLines(select=["date_de_publication"]+params, size=self.maxlines, qs=f"type_de_structure: Collectivité territoriale AND type_de_collectivite:Communes AND raison_sociale:\"{commune}\"")
+        lines = self.getLines(select=["date_de_publication"]+params, size=self.maxlines, qs=f"type_de_structure: Collectivité territoriale AND type_de_collectivite:{type_structure} AND raison_sociale:\"{nom}\"")
 
         data = {}
 

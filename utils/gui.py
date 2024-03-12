@@ -19,7 +19,7 @@ class Gui:
         self.window = tk.Tk()
         self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0])+5, state="readonly")
         self.ville_label = tk.Label(self.window, text="Commune :")
-        self.research_button = tk.Button(self.window, text="Rechercher", command=self.__recherche_affichage_ges)
+        self.research_button = tk.Button(self.window, text="Rechercher", command=self.__show_graphic)
         self.graphic_widget = None
 
         #Paramètres de l'interface
@@ -44,10 +44,10 @@ class Gui:
         
 
     #Script a exécuter lorsque l'on clique sur le boutton
-    def __recherche_affichage_ges(self):
+    def __show_graphic(self):
         try:
             inputdata = self.list_ville.get()
-            data = self.api.getCO2fromcommune(inputdata)
+            data = self.api.getCO2("Communes", inputdata)
             dates = list(data.keys())
             totalco2 = list(data.values())
 
