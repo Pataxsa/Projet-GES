@@ -1,7 +1,7 @@
 from utils.libs import checkLibs
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
+from sys import exit
 checkLibs()
 from requests.exceptions import HTTPError
 from utils.api import Api
@@ -38,6 +38,7 @@ def recherche_affichage_ges():
             inputdata = input(
                 "Saisir la commune (écrire \"leave\" pour quitter): ")
         fenetre.destroy()
+        exit()
     except HTTPError as e:
         print("Erreur de requete vers l'API: " + str(e.response))
 
