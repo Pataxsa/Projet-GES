@@ -1,5 +1,6 @@
 # Ignore python cache and builds
 __pycache__
+.pytest_cache
 /build
 /dist
 /*.spec
