@@ -1,11 +1,16 @@
+"""
+Module api pour générer la base de l'API
+"""
+
 from requests import get
 from requests.exceptions import HTTPError
 
-"""
-Classe API pour faire des requetes https
-Lien vers la doc API: https://data.ademe.fr/datasets/gnzo7xgwv5d271w1t0yw8ynb/api-doc
-"""
 class Api:
+    """
+    Classe API pour faire des requetes https
+    Lien vers la doc API: https://data.ademe.fr/datasets/gnzo7xgwv5d271w1t0yw8ynb/api-doc
+    """
+
     #Initialisation (constructeur)
     def __init__(self):
         self.__apilink = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"

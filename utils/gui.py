@@ -1,15 +1,21 @@
+"""
+Module gui pour créer une interface
+"""
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from requests.exceptions import HTTPError
-from utils.api import Api
+from api import Api
 
-"""
-Classe GUI pour générer une interface
-"""
+
 class Gui:
+    """
+    Classe Gui qui génère une interface
+    """
+
     #Initialisation de la classe et des fenetres avec ses composants
     def __init__(self, title:str = "Title", resizable:bool = True):
         #Initialisation de l'API
@@ -27,8 +33,11 @@ class Gui:
         self.resizable = resizable
 
 
-    #Lancement de la fenetre
     def init(self):
+        """
+        Fonction init pour lancer une interface
+        """
+
         self.window.title(self.title)
         self.window.resizable(self.resizable, self.resizable)
 
@@ -41,10 +50,13 @@ class Gui:
         self.research_button.grid(row=1, column=0, columnspan=2, pady=10)
 
         self.window.mainloop()
-    
 
-    #Tests de l'initialisation
+
     def testinit(self):
+        """
+        Fonction testinit pour lancer une interface utilisée pour les tests
+        """
+
         self.window.title(self.title)
         self.window.resizable(self.resizable, self.resizable)
 
@@ -57,7 +69,7 @@ class Gui:
         self.research_button.grid(row=1, column=0, columnspan=2, pady=10)
 
         self.close()
-        
+
 
     #Script a exécuter lorsque l'on clique sur le boutton
     def __show_graphic(self):
@@ -76,7 +88,7 @@ class Gui:
 
             graphic = FigureCanvasTkAgg(fig, master=self.window)
 
-            if self.graphic_widget != None:
+            if self.graphic_widget is not None:
                 self.graphic_widget.grid_remove()
 
             self.graphic_widget = graphic.get_tk_widget()
@@ -85,11 +97,16 @@ class Gui:
             plt.close()
         except HTTPError as e:
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
-    
+
+
     #Ajuster la taille de la barre de selection (car sinon on ne vois pas bien)
-    def __selected(self, event):
+    def __selected(self):
         self.list_ville.config(width=len(self.list_ville.get())+5)
-    
-    #Fonction pour fermer la fenetre
+
+
     def close(self):
+        """
+        Fonction close pour fermer l'interface
+        """
+
         self.window.destroy()
