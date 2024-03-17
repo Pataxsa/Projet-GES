@@ -41,6 +41,22 @@ class Gui:
         self.research_button.grid(row=1, column=0, columnspan=2, pady=10)
 
         self.window.mainloop()
+    
+
+    #Tests de l'initialisation
+    def testinit(self):
+        self.window.title(self.title)
+        self.window.resizable(self.resizable, self.resizable)
+
+        self.list_ville.config(values=self.api.communes)
+        self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
+        self.list_ville.current(0)
+
+        self.list_ville.grid(row=0, column=1)
+        self.ville_label.grid(row=0, column=0)
+        self.research_button.grid(row=1, column=0, columnspan=2, pady=10)
+
+        self.close()
         
 
     #Script a exécuter lorsque l'on clique sur le boutton
@@ -73,3 +89,7 @@ class Gui:
     #Ajuster la taille de la barre de selection (car sinon on ne vois pas bien)
     def __selected(self, event):
         self.list_ville.config(width=len(self.list_ville.get())+5)
+    
+
+    def close(self):
+        self.window.destroy()

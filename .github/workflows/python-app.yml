@@ -38,4 +38,4 @@ jobs:
       run: |
         export DISPLAY=:99
         Xvfb :99 &
-        pytest main.py
+        pytest test.py
