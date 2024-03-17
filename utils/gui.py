@@ -90,6 +90,6 @@ class Gui:
     def __selected(self, event):
         self.list_ville.config(width=len(self.list_ville.get())+5)
     
-
+    #Fonction pour fermer la fenetre
     def close(self):
         self.window.destroy()
