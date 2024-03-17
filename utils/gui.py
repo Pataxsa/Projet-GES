@@ -8,7 +8,7 @@ from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from requests.exceptions import HTTPError
-from api import Api
+from utils.api import Api
 
 
 class Gui:
