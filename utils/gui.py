@@ -68,6 +68,8 @@ class Gui:
         self.ville_label.grid(row=0, column=0)
         self.research_button.grid(row=1, column=0, columnspan=2, pady=10)
 
+        self.__show_graphic()
+
         self.close()
 
 
