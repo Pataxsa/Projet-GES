@@ -19,7 +19,10 @@ class Gui:
     #Initialisation de la classe et des fenetres avec ses composants
     def __init__(self, title:str = "Title", resizable:bool = True):
         #Initialisation de l'API
-        self.api = Api()
+        try:
+            self.api = Api()
+        except HTTPError as e:
+            messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
         #Initialisation des composants de l'interface
         self.window = tk.Tk()
@@ -31,6 +34,10 @@ class Gui:
         #Paramètres de l'interface
         self.title = title
         self.resizable = resizable
+        self.minsize = (400, 200)
+
+        #Parametres de l'API
+        self.dataname = "Communes"
 
 
     def init(self):
@@ -40,14 +47,15 @@ class Gui:
 
         self.window.title(self.title)
         self.window.resizable(self.resizable, self.resizable)
+        self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=self.api.communes)
+        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements)
         self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
-        self.list_ville.current(0)
+        self.list_ville.current(1)
 
-        self.list_ville.grid(row=0, column=1)
-        self.ville_label.grid(row=0, column=0)
-        self.research_button.grid(row=1, column=0, columnspan=2, pady=10)
+        self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
+        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
+        self.research_button.place(relx=0.5, y=80, anchor="center")
 
         self.window.mainloop()
 
@@ -59,14 +67,15 @@ class Gui:
 
         self.window.title(self.title)
         self.window.resizable(self.resizable, self.resizable)
+        self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=self.api.communes)
+        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements)
         self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
-        self.list_ville.current(0)
+        self.list_ville.current(1)
 
-        self.list_ville.grid(row=0, column=1)
-        self.ville_label.grid(row=0, column=0)
-        self.research_button.grid(row=1, column=0, columnspan=2, pady=10)
+        self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
+        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
+        self.research_button.place(relx=0.5, y=80, anchor="center")
 
         self.__show_graphic()
 
@@ -77,16 +86,21 @@ class Gui:
     def __show_graphic(self):
         try:
             inputdata = self.list_ville.get()
-            data = self.api.getCO2("Communes", inputdata)
+            data = self.api.getCO2(self.dataname, inputdata)
             dates = list(data.keys())
             totalco2 = list(data.values())
 
             fig, ax = plt.subplots(num="GES")
-            ax.set_title(f"Bilan GES commune {inputdata}")
+            ax.set_title(f"Bilan GES {self.dataname[:-1]} {inputdata}")
             ax.bar(dates, totalco2, label="CO2")
             plt.xlabel('Dates')
             plt.ylabel('Tonnes de CO2')
+            plt.xticks(dates, data, rotation=90)
+            plt.tick_params(axis='x', which='major', labelsize=6)
             ax.legend()
+
+            fig.set_figwidth(fig.get_figwidth()*1.5)
+            fig.set_figheight(fig.get_figheight()*1.5)
 
             graphic = FigureCanvasTkAgg(fig, master=self.window)
 
@@ -94,16 +108,29 @@ class Gui:
                 self.graphic_widget.grid_remove()
 
             self.graphic_widget = graphic.get_tk_widget()
-            self.graphic_widget.grid(row=3, column=0, columnspan=2, pady=10)
+            self.graphic_widget.place(relx=0.5, y=500, anchor="center")
+
+            self.window.minsize(self.minsize[0]+600, self.minsize[1]+680)
 
             plt.close()
         except HTTPError as e:
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
 
-    #Ajuster la taille de la barre de selection (car sinon on ne vois pas bien)
-    def __selected(self):
-        self.list_ville.config(width=len(self.list_ville.get())+5)
+    #Ajuster la taille de la barre de selection et vérifier si on peux sélectionner la valeur
+    def __selected(self, event):
+        if self.list_ville.get().startswith("=="):
+            self.list_ville.current(1)
+            self.dataname = "Communes"
+        else:
+            self.list_ville.config(width=len(self.list_ville.get())+5)
+            self.list_ville.place_configure(x=len(self.list_ville.get())*3+12)
+
+            #TODO: souci au niveau de la sélection (plusieurs valeures sont les mêmes ex: dans self.api.communes il y a Paris et aussi dans self.api.departements)
+            if self.list_ville.get() in self.api.communes:
+                self.dataname = "Communes"
+            else:
+                self.dataname = "Départements"
 
 
     def close(self):
