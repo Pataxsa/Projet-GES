@@ -105,7 +105,7 @@ class Gui:
             graphic = FigureCanvasTkAgg(fig, master=self.window)
 
             if self.graphic_widget is not None:
-                self.graphic_widget.grid_remove()
+                self.graphic_widget.destroy()
 
             self.graphic_widget = graphic.get_tk_widget()
             self.graphic_widget.place(relx=0.5, y=500, anchor="center")
