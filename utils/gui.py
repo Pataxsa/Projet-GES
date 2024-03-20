@@ -17,11 +17,12 @@ class Gui:
     """
 
     #Initialisation de la classe et des fenetres avec ses composants
-    def __init__(self, title:str = "Title", resizable:bool = True):
+    def __init__(self, title:str = "Title", resizable:bool = True, tests:bool = False):
         #Initialisation de l'API
         try:
             self.api = Api()
         except HTTPError as e:
+            if tests: raise e
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
         #Initialisation des composants de l'interface
@@ -35,6 +36,7 @@ class Gui:
         self.title = title
         self.resizable = resizable
         self.minsize = (400, 200)
+        self.tests = tests
 
         #Parametres de l'API
         self.dataname = "Communes"
@@ -95,7 +97,7 @@ class Gui:
             ax.bar(dates, totalco2, label="CO2")
             plt.xlabel('Dates')
             plt.ylabel('Tonnes de CO2')
-            plt.xticks(dates, data, rotation=90)
+            plt.xticks(dates, rotation=90)
             plt.tick_params(axis='x', which='major', labelsize=6)
             ax.legend()
 
@@ -114,6 +116,7 @@ class Gui:
 
             plt.close()
         except HTTPError as e:
+            if self.tests: raise e
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
 
@@ -122,15 +125,21 @@ class Gui:
         if self.list_ville.get().startswith("=="):
             self.list_ville.current(1)
             self.dataname = "Communes"
+            self.ville_label.config(text="Communes : ")
+            self.list_ville.place_configure(x=len(self.list_ville.get())*3+12)
         else:
             self.list_ville.config(width=len(self.list_ville.get())+5)
-            self.list_ville.place_configure(x=len(self.list_ville.get())*3+12)
 
-            #TODO: souci au niveau de la sélection (plusieurs valeures sont les mêmes ex: dans self.api.communes il y a Paris et aussi dans self.api.departements)
-            if self.list_ville.get() in self.api.communes:
+            current = self.list_ville.current()
+            values = self.list_ville.config().items().mapping["values"][4]
+            if current > values.index("==COMMUNES==") and current < values.index("==DEPARTEMENTS=="):
                 self.dataname = "Communes"
+                self.ville_label.config(text="Commune : ")
+                self.list_ville.place_configure(x=len(self.list_ville.get())*3+12)
             else:
                 self.dataname = "Départements"
+                self.ville_label.config(text="Département : ")
+                self.list_ville.place_configure(x=len(self.list_ville.get())*3+14)
 
 
     def close(self):

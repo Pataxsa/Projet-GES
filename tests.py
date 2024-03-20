@@ -7,6 +7,6 @@ def test():
     Effectue un test de l'initialisation
     """
 
-    gui = Gui("Recherche GES par Ville", True)
+    gui = Gui("Recherche GES par Ville", tests=True)
 
     gui.testinit()
