@@ -6,7 +6,7 @@ from folium import TileLayer, Map, GeoJsonPopup, GeoJson, LayerControl
 from json import load
 from branca.colormap import LinearColormap
 from utils.api import Api
-from os import startfile
+import webbrowser
 
 class MAP:
     """
@@ -99,7 +99,7 @@ class MAP:
 
         if self.generated:
             self.map.save(name)
-            startfile(name)
+            webbrowser.open(name)
     
 
     def __check(self, feature, data, colormap):
