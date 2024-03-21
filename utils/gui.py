@@ -9,6 +9,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from requests.exceptions import HTTPError
 from utils.api import Api
+from utils.map import MAP
 
 
 class Gui:
@@ -24,12 +25,16 @@ class Gui:
         except HTTPError as e:
             if tests: raise e
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
+        
+        #Initialisation de la carte
+        self.map = MAP(self.api)
 
         #Initialisation des composants de l'interface
         self.window = tk.Tk()
         self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0])+5, state="readonly")
         self.ville_label = tk.Label(self.window, text="Commune :")
         self.research_button = tk.Button(self.window, text="Rechercher", command=self.__show_graphic)
+        self.map_button = tk.Button(self.window, text="Générer une carte", command=self.__generatemap)
         self.graphic_widget = None
 
         #Paramètres de l'interface
@@ -51,13 +56,14 @@ class Gui:
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements)
+        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
         self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
         self.list_ville.current(1)
 
         self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
         self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
-        self.research_button.place(relx=0.5, y=80, anchor="center")
+        self.research_button.place(relx=0.5, y=80, anchor="center", x=-60)
+        self.map_button.place(relx=0.5, y=80, anchor="center", x=40)
 
         self.window.mainloop()
 
@@ -77,9 +83,11 @@ class Gui:
 
         self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
         self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
-        self.research_button.place(relx=0.5, y=80, anchor="center")
+        self.research_button.place(relx=0.5, y=80, anchor="center", x=-60)
+        self.map_button.place(relx=0.5, y=80, anchor="center", x=40)
 
         self.__show_graphic()
+        self.__generatemap(False)
 
         self.close()
 
@@ -118,6 +126,13 @@ class Gui:
         except HTTPError as e:
             if self.tests: raise e
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
+    
+
+    #Fonction pour générer une carte en fonction du CO2
+    def __generatemap(self, save=True):
+        self.map.generate()
+        if save:
+            self.map.save("map.html")
 
 
     #Ajuster la taille de la barre de selection et vérifier si on peux sélectionner la valeur
@@ -125,8 +140,9 @@ class Gui:
         if self.list_ville.get().startswith("=="):
             self.list_ville.current(1)
             self.dataname = "Communes"
-            self.ville_label.config(text="Communes : ")
+            self.ville_label.config(text="Commune : ")
             self.list_ville.place_configure(x=len(self.list_ville.get())*3+12)
+            self.list_ville.config(width=len(self.list_ville.get())+5)
         else:
             self.list_ville.config(width=len(self.list_ville.get())+5)
 
@@ -136,10 +152,14 @@ class Gui:
                 self.dataname = "Communes"
                 self.ville_label.config(text="Commune : ")
                 self.list_ville.place_configure(x=len(self.list_ville.get())*3+12)
-            else:
+            elif current > values.index("==DEPARTEMENTS==") and current < values.index("==REGIONS=="):
                 self.dataname = "Départements"
                 self.ville_label.config(text="Département : ")
                 self.list_ville.place_configure(x=len(self.list_ville.get())*3+14)
+            else:
+                self.dataname = "Régions"
+                self.ville_label.config(text="Région : ")
+                self.list_ville.place_configure(x=len(self.list_ville.get())*3+2)
 
 
     def close(self):
