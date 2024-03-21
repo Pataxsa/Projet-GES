@@ -3,7 +3,7 @@ Module api pour générer la base de l'API
 """
 
 from requests import get
-from requests.exceptions import HTTPError
+from requests.exceptions import HTTPError, ConnectionError
 
 class Api:
     """
@@ -24,18 +24,21 @@ class Api:
     
     #Fonction privée pour faire des requetes basiques avec des paramètres
     def __getData(self, link:str, param:dict):
-        if (len(param) >= 1):
-            rsp = self.__apilink + link + "?"
+        try:
+            if (len(param) >= 1):
+                rsp = self.__apilink + link + "?"
 
-            for key, val in param.items():
-                if rsp.endswith("?"):
-                    rsp += key+"="+str(val)
-                else:
-                    rsp += "&"+key+"="+str(val)
-            
-            response = get(rsp)
-        else:
-            response = get(self.__apilink + link)
+                for key, val in param.items():
+                    if rsp.endswith("?"):
+                        rsp += key+"="+str(val)
+                    else:
+                        rsp += "&"+key+"="+str(val)
+                
+                response = get(rsp)
+            else:
+                response = get(self.__apilink + link)
+        except ConnectionError as e:
+            raise HTTPError(response="Connexion impossible")
 
         if(not response.ok): raise HTTPError(response=response._content)
 
