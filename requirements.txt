@@ -1,0 +1,4 @@
+requests==2.31.0
+matplotlib==3.8.3
+folium==0.16.0
+branca==0.7.1

@@ -1,6 +1,9 @@
-# Ignore python cache and builds
+# Ignore python cache
 __pycache__
-/build
-/dist
-/*.spec
-/build.bat
+.pytest_cache
+
+# Ignore visual studio code config
+.vscode
+
+#Ignore map
+map.html
