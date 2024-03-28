@@ -7,7 +7,6 @@ from json import load
 from branca.colormap import LinearColormap
 from utils.api import Api
 import webbrowser
-import pathlib
 
 class MAP:
     """
@@ -17,8 +16,8 @@ class MAP:
     #Initialisation (constructeur)
     def __init__(self, api:Api):
         self.map = None
-        self.geojson_departements = load(open(".\\data\\departements.geojson"))
-        self.geojson_regions = load(open(".\\data\\regions.geojson"))
+        self.geojson_departements = load(open("./data/departements.geojson"))
+        self.geojson_regions = load(open("./data/regions.geojson"))
         self.api = api
         self.generated = False
     
