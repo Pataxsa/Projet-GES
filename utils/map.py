@@ -19,11 +19,11 @@ class MAP:
         self.map = None
         self.geojson_departements = load(
             open(
-                "./data/departements.geojson"
+                ".\\data\\departements.geojson"
             ))
         self.geojson_regions = load(
             open(
-                "./data/regions.geojson"
+                ".\\data\\regions.geojson"
             ))
         self.api = api
         self.generated = False
