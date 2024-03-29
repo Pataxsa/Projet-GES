@@ -97,12 +97,12 @@ class Api:
                 for val in self.france:
                         date = val["date_de_publication"]
                         totalco2 = 0
-                        if val["type_de_structure"] == "Collectivité territoriale" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
-
-                            for param in params:
-                                if param in val.keys():
-                                    totalco2 += val[param]
-                            dates_co2.update({date: totalco2})
+                        if "type_de_collectivite" in val.keys() and "type_de_structure" in val.keys(): #vérification car certaines ne les possèdent pas
+                            if val["type_de_structure"] == "Collectivité territoriale (dont EPCI)" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
+                                for param in params:
+                                    if param in val.keys():
+                                        totalco2 += val[param]
+                                dates_co2.update({date: totalco2})
         return dates_co2
         
 #Fonction privée pour faire des requetes basiques avec des paramètres
@@ -139,47 +139,6 @@ class Api:
             kwargs.update({"select": data})
 
         return self.__getData("lines", kwargs)["results"]
-
-    #Fonction publique qui renvoie le CO2 total par année d'un lieu (renvoie un dictionnaire clés:années et valeurs:total co2)
-    def getCO2(self, type_structure: str, nom: str):
-        params = [b for b in self.params if "emissions_publication_p" in b]
-        match type_structure:
-            case "Communes":
-                lines = self.getLines(
-                    select=["date_de_publication"] + params,
-                    size=self.maxlines,
-                    qs=
-                    f"type_de_structure: Collectivité territoriale AND type_de_collectivite:{type_structure} AND raison_sociale:\"{nom}\""
-                )
-            case "Départements":
-                lines = self.getLines(select=["date_de_publication"] + params,
-                                      size=self.maxlines,
-                                      qs=f"departement:\"{nom}\"")
-            case "Régions":
-                lines = self.getLines(select=["date_de_publication"] + params,
-                                      size=self.maxlines,
-                                      qs=f"region:\"{nom}\"")
-            case _:
-                lines = self.getLines(
-                    select=["date_de_publication"] + params,
-                    size=self.maxlines,
-                    qs=
-                    f"type_de_structure: Collectivité territoriale AND type_de_collectivite:{type_structure} AND raison_sociale:\"{nom}\""
-                )
-
-        data = {}
-
-        for val in lines:
-            date = val["date_de_publication"]
-            totalco2 = 0
-
-            for param in params:
-                if param in val.keys():
-                    totalco2 += val[param]
-
-            data.update({date: totalco2})
-
-        return data
 
     #Fonction publique qui renvoie le CO2 total d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
     def getCO2Total(self, type_structure: str):
