@@ -17,7 +17,7 @@ class MAP:
     #Initialisation (constructeur)
     def __init__(self, api: Api):
         self.map = None
-        self.geojson_departements = load(open(".\data\departements.geojson"))
+        self.geojson_departements = load(open(".\\data\\departements.geojson"))
         self.geojson_regions = load(open(".\\data\\regions.geojson"))
         self.api = api
         self.generated = False
@@ -42,7 +42,7 @@ class MAP:
                 "CO2":
                 str(round((data_regions[prm["properties"]["nom"]]), 2)) +
                 " Tonnes" if (prm["properties"]["nom"]
-                              in data_regions) else "Pas de valeures"
+                              in data_regions) else "Pas de valeurs"
             })
 
         for prm in self.geojson_departements["features"]:
@@ -50,7 +50,7 @@ class MAP:
                 "CO2":
                 str(round((data_departements[prm["properties"]["nom"]]), 2)) +
                 " Tonnes" if (prm["properties"]["nom"]
-                              in data_departements) else "Pas de valeures"
+                              in data_departements) else "Pas de valeurs"
             })
 
         colormap_regions = LinearColormap(["green", "yellow", "red"],
