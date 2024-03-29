@@ -17,8 +17,14 @@ class MAP:
     #Initialisation (constructeur)
     def __init__(self, api: Api):
         self.map = None
-        self.geojson_departements = load(open(".\\data\\departements.geojson"))
-        self.geojson_regions = load(open(".\\data\\regions.geojson"))
+        self.geojson_departements = load(
+            open(
+                "./data/departements.geojson"
+            ))
+        self.geojson_regions = load(
+            open(
+                "./data/regions.geojson"
+            ))
         self.api = api
         self.generated = False
 
@@ -120,7 +126,7 @@ class MAP:
 
     def save(self, name: str):
         """
-        Sauveguarde la carte et lance le fichier html
+        Sauvegarde la carte et lance le fichier html
         """
 
         if self.generated:
