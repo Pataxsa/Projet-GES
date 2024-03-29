@@ -89,11 +89,47 @@ class Api:
         
         self.france = self.getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b],size=self.maxlines)
 
-   
-    def tri_France(type_data):
-        pass
+    #trier l'objet self.france
+    def tri_France(self,type_data,nom):
+        params = [b for b in self.params if "emissions_publication_p" in b]
+        dates_co2 = {}
 
-    #Fonction privée pour faire des requetes basiques avec des paramètres
+        match type_data:
+            case "departement":
+                    for val in self.france:
+                        date = val["date_de_publication"]
+                        totalco2 = 0
+                        if val["departement"] == nom:
+
+                            for param in params:
+                                if param in val.keys():
+                                    totalco2 += val[param]
+                            dates_co2.update({date: totalco2})
+                
+            case "region":
+                for val in self.france:
+                        date = val["date_de_publication"]
+                        totalco2 = 0
+                        if val["region"] == nom:
+
+                            for param in params:
+                                if param in val.keys():
+                                    totalco2 += val[param]
+                            dates_co2.update({date: totalco2})
+
+            case "commune":
+                for val in self.france:
+                        date = val["date_de_publication"]
+                        totalco2 = 0
+                        if val["type_de_structure"] == "Collectivité territoriale" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
+
+                            for param in params:
+                                if param in val.keys():
+                                    totalco2 += val[param]
+                            dates_co2.update({date: totalco2})
+        return dates_co2
+        
+#Fonction privée pour faire des requetes basiques avec des paramètres
         
 
     def __getData(self, link: str, param: dict):
