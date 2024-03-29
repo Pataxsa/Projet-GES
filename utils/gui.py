@@ -117,7 +117,7 @@ class Gui:
             # Ajout des titres de l'axe x au-dessus des barres
             for i in range(len(dates)):
                 ax.text(dates[i],
-                        totalco2[i] + 1000,
+                        totalco2[i],
                         str(dates[i]),
                         ha='center',
                         va='bottom',
