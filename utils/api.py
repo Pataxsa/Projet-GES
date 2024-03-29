@@ -71,7 +71,7 @@ class Api:
         dates_co2 = {}
 
         match type_data:
-            case "departement":
+            case "Départements":
                     for val in self.france:
                         date = val["date_de_publication"]
                         totalco2 = 0
@@ -82,7 +82,7 @@ class Api:
                                     totalco2 += val[param]
                             dates_co2.update({date: totalco2})
                 
-            case "region":
+            case "Régions":
                 for val in self.france:
                         date = val["date_de_publication"]
                         totalco2 = 0
@@ -93,7 +93,7 @@ class Api:
                                     totalco2 += val[param]
                             dates_co2.update({date: totalco2})
 
-            case "commune":
+            case "Communes":
                 for val in self.france:
                         date = val["date_de_publication"]
                         totalco2 = 0

@@ -106,7 +106,7 @@ class Gui:
     def __show_graphic(self):
         try:
             inputdata = self.list_ville.get()
-            data = self.api.getCO2(self.dataname, inputdata)
+            data = self.api.tri_france(self.dataname,inputdata)
             dates = list(data.keys())
             totalco2 = list(data.values())
 
