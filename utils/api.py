@@ -61,33 +61,13 @@ class Api:
 
         #TODO: Lent: non optimisé
         #Pour optimiser on pourrais faire une seule requete puis trier (pour plus optimiser faire une seule requete dès le lancement)
-        self.communes = sorted(
-            list(
-                set([
-                    commune["raison_sociale"] for commune in self.getLines(
-                        select=["raison_sociale"],
-                        qs=
-                        "type_de_structure: Collectivité territoriale AND type_de_collectivite:Communes",
-                        size=self.maxlines)
-                ])))
-        self.departements = sorted(
-            list(
-                set([
-                    departement["departement"]
-                    for departement in self.getLines(select=["departement"],
-                                                     size=self.maxlines)
-                ])))
-        self.regions = sorted(
-            list(
-                set([
-                    region["region"]
-                    for region in self.getLines(select=[
-                        "region",
-                    ],
-                                                size=self.maxlines)
-                ])))
+        
         
         self.france = self.getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b],size=self.maxlines)
+        self.communes = sorted(set([com["raison_sociale"] for com in self.france]))
+        self.departements = sorted(set([com["departement"] for com in self.france]))
+        self.regions = sorted(set([com["region"] for com in self.france]))
+
 
     #trier l'objet self.france
     def tri_France(self,type_data,nom):
