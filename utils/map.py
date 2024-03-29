@@ -17,8 +17,8 @@ class MAP:
     #Initialisation (constructeur)
     def __init__(self, api: Api):
         self.map = None
-        self.geojson_departements = load(open("./data/departements.geojson"))
-        self.geojson_regions = load(open("./data/regions.geojson"))
+        self.geojson_departements = load(open(".\data\departements.geojson"))
+        self.geojson_regions = load(open(".\\data\\regions.geojson"))
         self.api = api
         self.generated = False
 
@@ -40,17 +40,17 @@ class MAP:
         for prm in self.geojson_regions["features"]:
             prm["properties"].update({
                 "CO2":
-                str(data_regions[prm["properties"]["nom"]]) + " Tonnes" if
-                (prm["properties"]["nom"]
-                 in data_regions) else "Pas de valeures"
+                str(round((data_regions[prm["properties"]["nom"]]), 2)) +
+                " Tonnes" if (prm["properties"]["nom"]
+                              in data_regions) else "Pas de valeures"
             })
 
         for prm in self.geojson_departements["features"]:
             prm["properties"].update({
                 "CO2":
-                str(data_departements[prm["properties"]["nom"]]) + " Tonnes" if
-                (prm["properties"]["nom"]
-                 in data_departements) else "Pas de valeures"
+                str(round((data_departements[prm["properties"]["nom"]]), 2)) +
+                " Tonnes" if (prm["properties"]["nom"]
+                              in data_departements) else "Pas de valeures"
             })
 
         colormap_regions = LinearColormap(["green", "yellow", "red"],
