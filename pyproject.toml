@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "projet-ges"
+version = "0.1.0"
+description = "Un projet permettant de consulter les rapports BEGES par commune, region ou departement et ainsi connaitre les rejets de gaz à effet de serre en France"
+authors = ["Noam <noam.chamouard@etudiant.univ-lr.fr>","Axel <axel.cvjetic@etudiant.univ-lr.fr>","Dimitri <dimitri.ollivier@etudiant.univ-lr.fr>","Iyan christ <iyan.mugisha@etudiant.univ-lr.fr>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+tkinter = "^8.6.12"
+
+[tool.poetry.group.dev.dependencies]
+folium = "^0.16.0"
+branca = "^0.7.1"
+requests = "^2.31.0"
+matplotlib = "^3.8.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
