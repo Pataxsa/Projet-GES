@@ -4,8 +4,6 @@ Module api pour générer la base de l'API
 
 from requests import get
 from requests.exceptions import HTTPError, ConnectionError
-from time import perf_counter
-
 
 class Api:
     """
