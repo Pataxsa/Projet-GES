@@ -7,7 +7,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-tkinter = "^8.6.12"
 
 [tool.poetry.group.dev.dependencies]
 folium = "^0.16.0"

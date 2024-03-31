@@ -1,9 +1,9 @@
 #!/bin/bash
 #installer poetry sinon c'est compliqué
-curl -sSL https://install.python-poetry.org | python -
+pip install poetry
 
 #doit d'exécution pour lancer le script
-chmod +x install_poetry.sh
+chmod +x .
 
 #installation des dépendances
 poetry install
