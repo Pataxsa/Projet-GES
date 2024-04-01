@@ -17,43 +17,33 @@ class Gui:
     Classe Gui qui génère une interface
     """
 
-    #Initialisation de la classe et des fenetres avec ses composants
-    def __init__(self,
-                 title: str = "Title",
-                 resizable: bool = True,
-                 tests: bool = False):
-        #Initialisation de l'API
+    # Initialisation de la classe et des fenetres avec ses composants
+    def __init__(self, title:str = "Title", resizable:bool = True, tests:bool = False):
+        # Initialisation de l'API
         try:
             self.api = Api()
         except HTTPError as e:
             if tests: raise e
-            messagebox.showerror(
-                "Erreur", "Erreur de requete vers l'API: " + str(e.response))
+            messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
-        #Initialisation de la carte
+        # Initialisation de la carte
         self.map = MAP(self.api)
 
-        #Initialisation des composants de l'interface
+        # Initialisation des composants de l'interface
         self.window = tk.Tk()
-        self.list_ville = ttk.Combobox(self.window,
-                                       width=len(self.api.communes[0]) + 5,
-                                       state="readonly")
+        self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0]) + 5, state="readonly")
         self.ville_label = tk.Label(self.window, text="Commune :")
-        self.research_button = tk.Button(self.window,
-                                         text="Rechercher",
-                                         command=self.__show_graphic)
-        self.map_button = tk.Button(self.window,
-                                    text="Générer une carte",
-                                    command=self.__generatemap)
+        self.research_button = tk.Button(self.window, text="Rechercher", command=self.__show_graphic)
+        self.map_button = tk.Button(self.window, text="Générer une carte", command=self.__generatemap)
         self.graphic_widget = None
 
-        #Paramètres de l'interface
+        # Paramètres de l'interface
         self.title = title
         self.resizable = resizable
         self.minsize = (400, 200)
         self.tests = tests
 
-        #Parametres de l'API
+        # Parametres de l'API
         self.dataname = "Communes"
 
     def init(self):
@@ -65,9 +55,7 @@ class Gui:
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes +
-                               ["==DEPARTEMENTS=="] + self.api.departements +
-                               ["==REGIONS=="] + self.api.regions)
+        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
         self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
         self.list_ville.current(1)
 
@@ -87,8 +75,7 @@ class Gui:
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes +
-                               ["==DEPARTEMENTS=="] + self.api.departements)
+        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
         self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
         self.list_ville.current(1)
 
@@ -102,11 +89,11 @@ class Gui:
 
         self.close()
 
-    #Script a exécuter lorsque l'on clique sur le boutton
+    # Script a exécuter lorsque l'on clique sur le boutton
     def __show_graphic(self):
         try:
             inputdata = self.list_ville.get()
-            data = self.api.tri_France(self.dataname,inputdata)
+            data = self.api.getCO2(self.dataname, inputdata)
             dates = list(data.keys())
             totalco2 = list(data.values())
 
@@ -122,7 +109,8 @@ class Gui:
                         ha='center',
                         va='bottom',
                         rotation=90,
-                        fontsize=8)
+                        fontsize=8
+                    )
 
             plt.xlabel('Dates')
             plt.ylabel('Tonnes de CO2')
@@ -145,48 +133,39 @@ class Gui:
             plt.close()
         except HTTPError as e:
             if self.tests: raise e
-            messagebox.showerror(
-                "Erreur", "Erreur de requete vers l'API: " + str(e.response))
+            messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
-    #Fonction pour générer une carte en fonction du CO2
+    # Fonction pour générer une carte en fonction du CO2
     def __generatemap(self, save=True):
         self.map.generate()
         if save:
             self.map.save("map.html")
 
-    #Ajuster la taille de la barre de selection et vérifier si on peux sélectionner la valeur
+    # Ajuster la taille de la barre de selection et vérifier si on peux sélectionner la valeur
     def __selected(self, event):
         if self.list_ville.get().startswith("=="):
             self.list_ville.current(1)
             self.dataname = "Communes"
             self.ville_label.config(text="Commune : ")
-            self.list_ville.place_configure(x=len(self.list_ville.get()) * 3 +
-                                            12)
+            self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 12)
             self.list_ville.config(width=len(self.list_ville.get()) + 5)
         else:
             self.list_ville.config(width=len(self.list_ville.get()) + 5)
 
             current = self.list_ville.current()
             values = self.list_ville.config().items().mapping["values"][4]
-            if current > values.index(
-                    "==COMMUNES==") and current < values.index(
-                        "==DEPARTEMENTS=="):
+            if current > values.index("==COMMUNES==") and current < values.index("==DEPARTEMENTS=="):
                 self.dataname = "Communes"
                 self.ville_label.config(text="Commune : ")
-                self.list_ville.place_configure(
-                    x=len(self.list_ville.get()) * 3 + 12)
-            elif current > values.index(
-                    "==DEPARTEMENTS==") and current < values.index(
-                        "==REGIONS=="):
+                self.list_ville.place_configure(x=len(self.list_ville.get()) * 3 + 12)
+            elif current > values.index("==DEPARTEMENTS==") and current < values.index("==REGIONS=="):
                 self.dataname = "Départements"
                 self.ville_label.config(text="Département : ")
-                self.list_ville.place_configure(
-                    x=len(self.list_ville.get()) * 3 + 14)
+                self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 14)
             else:
                 self.dataname = "Régions"
                 self.ville_label.config(text="Région : ")
-                self.list_ville.place_configure(
-                    x=len(self.list_ville.get()) * 3 + 2)
+                self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 2)
 
     def close(self):
         """

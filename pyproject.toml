@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Un projet permettant de consulter les rapports BEGES par commune, region ou departement et ainsi connaitre les rejets de gaz à effet de serre en France"
 authors = ["Noam <noam.chamouard@etudiant.univ-lr.fr>","Axel <axel.cvjetic@etudiant.univ-lr.fr>","Dimitri <dimitri.ollivier@etudiant.univ-lr.fr>","Iyan christ <iyan.mugisha@etudiant.univ-lr.fr>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"

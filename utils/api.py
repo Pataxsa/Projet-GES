@@ -5,16 +5,14 @@ Module api pour générer la base de l'API
 from requests import get
 from requests.exceptions import HTTPError, ConnectionError
 
-
 class Api:
     """
     Classe API pour faire des requetes https
     Lien vers la doc API: https://data.ademe.fr/datasets/gnzo7xgwv5d271w1t0yw8ynb/api-doc
     """
 
-    #Initialisation (constructeur)
+    # Initialisation (constructeur)
     def __init__(self):
-
         self.__apilink = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
         self.maxlines = 10000
         self.minlines = 1
@@ -59,56 +57,13 @@ class Api:
             '_i', '_rand'
         ]
         
-        self.france = self.getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b],size=self.maxlines)
+        self.france = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b],size=self.maxlines)
         self.communes = sorted(set([com["raison_sociale"] for com in self.france if "type_de_collectivite" in com.keys() and "type_de_structure" in com.keys() and com["type_de_collectivite"] == "Communes" and com["type_de_structure"] == "Collectivité territoriale (dont EPCI)"]))
-        self.departements = sorted(set([com["departement"] for com in self.france]))
-        self.regions = sorted(set([com["region"] for com in self.france]))
+        self.departements = sorted(set([dep["departement"] for dep in self.france]))
+        self.regions = sorted(set([reg["region"] for reg in self.france]))
         
-
-    #trier l'objet self.france
-    def tri_France(self,type_data,nom):
-        params = [b for b in self.params if "emissions_publication_p" in b]
-        dates_co2 = {}
-
-        match type_data:
-            case "Départements":
-                    for val in self.france:
-                        date = val["date_de_publication"]
-                        totalco2 = 0
-                        if val["departement"] == nom:
-
-                            for param in params:
-                                if param in val.keys():
-                                    totalco2 += val[param]
-                            dates_co2.update({date: totalco2})
-                
-            case "Régions":
-                for val in self.france:
-                        date = val["date_de_publication"]
-                        totalco2 = 0
-                        if val["region"] == nom:
-
-                            for param in params:
-                                if param in val.keys():
-                                    totalco2 += val[param]
-                            dates_co2.update({date: totalco2})
-
-            case "Communes":
-                for val in self.france:
-                        date = val["date_de_publication"]
-                        totalco2 = 0
-                        if "type_de_collectivite" in val.keys() and "type_de_structure" in val.keys(): #vérification car certaines ne les possèdent pas
-                            if val["type_de_structure"] == "Collectivité territoriale (dont EPCI)" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
-                                for param in params:
-                                    if param in val.keys():
-                                        totalco2 += val[param]
-                                dates_co2.update({date: totalco2})
-        return dates_co2
-        
-#Fonction privée pour faire des requetes basiques avec des paramètres
-        
-
-    def __getData(self, link: str, param: dict):
+    # Fonction privée pour faire des requetes basiques avec des paramètres
+    def __getData(self, link:str, param:dict):
         try:
             if (len(param) >= 1):
                 rsp = self.__apilink + link + "?"
@@ -129,8 +84,8 @@ class Api:
 
         return response.json()
 
-    #Fonction publique qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le parametre size pour prendre en compte plus de valeurs)
-    def getLines(self, select: list = None, **kwargs):
+    # Fonction privé qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le parametre size pour prendre en compte plus de valeurs)
+    def __getLines(self, select:list = None, **kwargs):
         if (select != None):
             data = ""
             for val in select:
@@ -139,22 +94,66 @@ class Api:
             kwargs.update({"select": data})
 
         return self.__getData("lines", kwargs)["results"]
+    
+    def getCO2(self, type_data:str, nom:str):
+        """
+        Fonction getCO2 qui renvoie le CO2 total par année d'un lieu (renvoie un dictionnaire clés:années et valeurs:total co2)
+        """
 
-    #Fonction publique qui renvoie le CO2 total d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
-    def getCO2Total(self, type_structure: str):
+        params = [b for b in self.params if "emissions_publication_p" in b]
+        dates_co2 = {}
+
+        match type_data:
+            case "Départements":
+                    for val in self.france:
+                        date = val["date_de_publication"]
+                        totalco2 = 0
+                        if val["departement"] == nom:
+                            for param in params:
+                                if param in val.keys():
+                                    totalco2 += val[param]
+                            dates_co2.update({date: totalco2})
+            case "Régions":
+                for val in self.france:
+                        date = val["date_de_publication"]
+                        totalco2 = 0
+                        if val["region"] == nom:
+                            for param in params:
+                                if param in val.keys():
+                                    totalco2 += val[param]
+                            dates_co2.update({date: totalco2})
+            case "Communes":
+                for val in self.france:
+                        date = val["date_de_publication"]
+                        totalco2 = 0
+                        #vérification des clés car certaines clés n'existent pas
+                        if "type_de_collectivite" in val.keys() and "type_de_structure" in val.keys() and val["type_de_structure"] == "Collectivité territoriale (dont EPCI)" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
+                            for param in params:
+                                if param in val.keys():
+                                    totalco2 += val[param]
+                            dates_co2.update({date: totalco2})
+
+        return dates_co2
+
+    #TODO: a réecrire pour optimiser map.py
+    def getCO2Total(self, type_structure:str):
+        """
+        Fonction getCO2Total qui renvoie le CO2 total d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
+        """
+
         params = [b for b in self.params if "emissions_publication_p" in b]
         dataname = None
         match type_structure:
             case "Départements":
-                lines = self.getLines(select=["departement"] + params,
+                lines = self.__getLines(select=["departement"] + params,
                                       size=self.maxlines)
                 dataname = "departement"
             case "Régions":
-                lines = self.getLines(select=["region"] + params,
+                lines = self.__getLines(select=["region"] + params,
                                       size=self.maxlines)
                 dataname = "region"
             case _:
-                lines = self.getLines(select=["departement"] + params,
+                lines = self.__getLines(select=["departement"] + params,
                                       size=self.maxlines)
 
         data = {}
