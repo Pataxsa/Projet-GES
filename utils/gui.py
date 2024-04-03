@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from requests.exceptions import HTTPError
 from utils.api import Api
 from utils.map import MAP
-
+from customtkinter import CTkButton, CTkLabel, set_appearance_mode
 
 class Gui:
     """
@@ -32,9 +32,9 @@ class Gui:
         # Initialisation des composants de l'interface
         self.window = tk.Tk()
         self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0]) + 5, state="readonly")
-        self.ville_label = tk.Label(self.window, text="Commune :")
-        self.research_button = tk.Button(self.window, text="Rechercher", command=self.__show_graphic)
-        self.map_button = tk.Button(self.window, text="Générer une carte", command=self.__generatemap)
+        #self.ville_label = CTkLabel(self.window, text="Commune :")
+        self.research_button = CTkButton(self.window, text="Rechercher", command=self.__show_graphic)
+        self.map_button = CTkButton(self.window, text="Générer une carte", command=self.__generatemap)
         self.graphic_widget = None
 
         # Paramètres de l'interface
@@ -55,14 +55,16 @@ class Gui:
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
+        self.list_ville.configure(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
+        self.list_ville.configure(justify='center')
         self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
         self.list_ville.current(1)
 
-        self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
-        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
-        self.research_button.place(relx=0.5, y=80, anchor="center", x=-60)
-        self.map_button.place(relx=0.5, y=80, anchor="center", x=40)
+        self.list_ville.place(relx=0.5, y=30, anchor="center", x=-20)
+        #self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
+        self.research_button.place(relx=0.5, y=80, anchor="center", x=-90)
+        self.map_button.place(relx=0.5, y=80, anchor="center", x=55)
+
 
         self.window.mainloop()
 
@@ -75,7 +77,7 @@ class Gui:
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
+        self.list_ville.configure(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
         self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
         self.list_ville.current(1)
 
@@ -146,25 +148,25 @@ class Gui:
         if self.list_ville.get().startswith("=="):
             self.list_ville.current(1)
             self.dataname = "Communes"
-            self.ville_label.config(text="Commune : ")
+            self.ville_label.configure(text="Commune : ")
             self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 12)
-            self.list_ville.config(width=len(self.list_ville.get()) + 5)
+            self.list_ville.configure(width=len(self.list_ville.get()) + 5)
         else:
-            self.list_ville.config(width=len(self.list_ville.get()) + 5)
+            self.list_ville.configure(width=len(self.list_ville.get()) + 5)
 
             current = self.list_ville.current()
-            values = self.list_ville.config().items().mapping["values"][4]
+            values = self.list_ville.configure().items().mapping["values"][4]
             if current > values.index("==COMMUNES==") and current < values.index("==DEPARTEMENTS=="):
                 self.dataname = "Communes"
-                self.ville_label.config(text="Commune : ")
+                self.ville_label.configure(text="Commune : ")
                 self.list_ville.place_configure(x=len(self.list_ville.get()) * 3 + 12)
             elif current > values.index("==DEPARTEMENTS==") and current < values.index("==REGIONS=="):
                 self.dataname = "Départements"
-                self.ville_label.config(text="Département : ")
+                self.ville_label.configure(text="Département : ")
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 14)
             else:
                 self.dataname = "Régions"
-                self.ville_label.config(text="Région : ")
+                self.ville_label.configure(text="Région : ")
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 2)
 
     def close(self):

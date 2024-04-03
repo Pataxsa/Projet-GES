@@ -4,9 +4,11 @@ Module main pour créer et lancer l'interface
 import subprocess
 from utils.gui import Gui
 
+
 try:
     subprocess.run(["pip","install","poetry"])
-    subprocess.run(["poetry","install"])
+    subprocess.run(["poetry","install"]) #poetry
+
     print("Poetry a été installé avec succès!")
 
 except subprocess.CalledProcessError as e:
