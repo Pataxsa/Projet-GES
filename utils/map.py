@@ -35,10 +35,10 @@ class MAP:
         data_regions = self.api.getCO2Total("Régions")
 
         for prm in self.geojson_regions["features"]:
-            prm["properties"].update({ "CO2": f"{int(data_regions[prm["properties"]["nom"]])} Tonnes" if (prm["properties"]["nom"] in data_regions) else "Pas de valeurs" })
+            prm["properties"].update({ "CO2": f"{int(data_regions[prm['properties']['nom']])} Tonnes" if (prm["properties"]["nom"] in data_regions) else "Pas de valeurs" })
 
         for prm in self.geojson_departements["features"]:
-            prm["properties"].update({ "CO2": f"{int(data_departements[prm["properties"]["nom"]])} Tonnes" if (prm["properties"]["nom"] in data_departements) else "Pas de valeurs" })
+            prm["properties"].update({ "CO2": f"{int(data_departements[prm['properties']['nom']])} Tonnes" if (prm["properties"]["nom"] in data_departements) else "Pas de valeurs" })
 
         colormap_regions = LinearColormap(["green", "yellow", "red"], vmin=min(data_regions.values()), vmax=(sum(data_regions.values())/len(data_regions.values())))
 
