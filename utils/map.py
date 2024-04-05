@@ -47,10 +47,11 @@ class MAP:
         TileLayer('cartodbpositron', name='GES').add_to(self.map)
 
         for prm in self.geojson_regions["features"]:
-            prm["properties"].update({ "CO2": f"{int(self.data_regions[prm["properties"]["nom"]])} Tonnes" if (prm["properties"]["nom"] in self.data_regions) else "Pas de valeurs" })
+            prm["properties"].update({ "CO2": f"{int(self.data_regions[prm['properties']['nom']])} Tonnes" if (prm['properties']['nom'] in self.data_regions) else "Pas de valeurs" })
 
         for prm in self.geojson_departements["features"]:
-            prm["properties"].update({ "CO2": f"{int(self.data_departements[prm["properties"]["nom"]])} Tonnes" if (prm["properties"]["nom"] in self.data_departements) else "Pas de valeurs" })
+            prm["properties"].update({ "CO2": f"{int(self.data_departements[prm['properties']['nom']])} Tonnes" if (prm['properties']['nom'] in self.data_departements) else "Pas de valeurs" })
+
 
         self.__addGeoJson("Régions", self.data_regions, self.geojson_regions, True)
         self.__addGeoJson("Départements", self.data_departements, self.geojson_departements)

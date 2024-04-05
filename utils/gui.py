@@ -170,10 +170,3 @@ class Gui:
                 self.dataname = "Régions"
                 self.ville_label.configure(text="Région : ")
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 2)
-
-    def close(self):
-        """
-        Fonction close pour fermer l'interface
-        """
-
-        self.window.destroy()
