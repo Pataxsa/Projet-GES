@@ -84,11 +84,11 @@ class Gui:
         self.window.minsize(self.minsize[0], self.minsize[1])
 
         self.list_ville.configure(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
-        self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
+        self.list_ville.bind("<<ComboboxSelected>>", self.__on_selected)
         self.list_ville.current(1)
 
         self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
-        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
+        #self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
         self.research_button.place(relx=0.5, y=80, anchor="center", x=-60)
         self.map_button.place(relx=0.5, y=80, anchor="center", x=40)
 
@@ -150,7 +150,7 @@ class Gui:
         if self.list_ville.get().startswith("=="):
             self.list_ville.current(1)
             self.dataname = "Communes"
-            self.ville_label.configure(text="Commune : ")
+            #self.ville_label.configure(text="Commune : ")
             self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 12)
             self.list_ville.configure(width=len(self.list_ville.get()) + 5)
         else:
@@ -160,13 +160,13 @@ class Gui:
             values = self.list_ville.configure().items().mapping["values"][4]
             if current > values.index("==COMMUNES==") and current < values.index("==DEPARTEMENTS=="):
                 self.dataname = "Communes"
-                self.ville_label.configure(text="Commune : ")
+                #self.ville_label.configure(text="Commune : ")
                 self.list_ville.place_configure(x=len(self.list_ville.get()) * 3 + 12)
             elif current > values.index("==DEPARTEMENTS==") and current < values.index("==REGIONS=="):
                 self.dataname = "Départements"
-                self.ville_label.configure(text="Département : ")
+                #self.ville_label.configure(text="Département : ")
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 14)
             else:
                 self.dataname = "Régions"
-                self.ville_label.configure(text="Région : ")
+                #self.ville_label.configure(text="Région : ")
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 2)
