@@ -7,6 +7,8 @@ from tkinter import ttk
 from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
+from os.path import isfile
+from os import remove
 from requests.exceptions import HTTPError
 from utils.api import Api
 from utils.map import MAP
@@ -51,13 +53,17 @@ class Gui:
         Fonction init pour lancer une interface
         """
 
+        # Supprimer la carte si elle existe (afin de la réactualiser par la suite)
+        if isfile("map.html"):
+            remove("map.html")
+
         self.window.title(self.title)
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
 
         self.list_ville.configure(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
         self.list_ville.configure(justify='center')
-        self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
+        self.list_ville.bind("<<ComboboxSelected>>", self.__on_selected)
         self.list_ville.current(1)
 
         self.list_ville.place(relx=0.5, y=30, anchor="center", x=-20)
@@ -91,7 +97,14 @@ class Gui:
 
         self.close()
 
-    # Script a exécuter lorsque l'on clique sur le boutton
+    def close(self):
+        """
+        Fonction close pour fermer l'interface
+        """
+
+        self.window.destroy()
+
+    # Fonction privé qui permet d'afficher le graphique sur l'interface
     def __show_graphic(self):
         try:
             inputdata = self.list_ville.get()
@@ -127,14 +140,13 @@ class Gui:
             if self.tests: raise e
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
-    # Fonction pour générer une carte en fonction du CO2
-    def __generatemap(self, save=True):
-        self.map.generate()
+    # Fonction privé pour générer une carte en fonction du CO2
+    def __generatemap(self, save:bool=True):
         if save:
             self.map.save("map.html")
 
-    # Ajuster la taille de la barre de selection et vérifier si on peux sélectionner la valeur
-    def __selected(self, event):
+    # Fonction privé (evenement) qui ajuste la taille de la barre de selection
+    def __on_selected(self, event):
         if self.list_ville.get().startswith("=="):
             self.list_ville.current(1)
             self.dataname = "Communes"

@@ -13,6 +13,7 @@ class Api:
 
     # Initialisation (constructeur)
     def __init__(self):
+        # Parametres de l'API
         self.__apilink = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
         self.maxlines = 10000
         self.minlines = 1
@@ -57,6 +58,7 @@ class Api:
             '_i', '_rand'
         ]
         
+        # Nom des communes/departements/regions + données totale (self.france)
         self.france = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b],size=self.maxlines)
         self.communes = sorted(set([com["raison_sociale"] for com in self.france if "type_de_collectivite" in com.keys() and "type_de_structure" in com.keys() and com["type_de_collectivite"] == "Communes" and com["type_de_structure"] == "Collectivité territoriale (dont EPCI)"]))
         self.departements = sorted(set([dep["departement"] for dep in self.france]))
@@ -135,30 +137,23 @@ class Api:
 
         return dates_co2
 
-    #TODO: a réecrire pour optimiser map.py
     def getCO2Total(self, type_structure:str):
         """
-        Fonction getCO2Total qui renvoie le CO2 total d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
+        Fonction getCO2Total qui renvoie le CO2 total (toutes les dates) d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
         """
 
         params = [b for b in self.params if "emissions_publication_p" in b]
         dataname = None
+
         match type_structure:
             case "Départements":
-                lines = self.__getLines(select=["departement"] + params,
-                                      size=self.maxlines)
                 dataname = "departement"
             case "Régions":
-                lines = self.__getLines(select=["region"] + params,
-                                      size=self.maxlines)
                 dataname = "region"
-            case _:
-                lines = self.__getLines(select=["departement"] + params,
-                                      size=self.maxlines)
 
         data = {}
 
-        for val in lines:
+        for val in self.france:
             nom = val[dataname]
             totalco2 = 0
 
