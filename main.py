@@ -25,6 +25,7 @@ for i in modules:
 
         except subprocess.CalledProcessError as e:
             print(f"Une erreur s'est produite lors de l'installation de Poetry : {e}")
+            break
 
 
 #Crée une interface
