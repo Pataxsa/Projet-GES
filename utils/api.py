@@ -106,7 +106,7 @@ class Api:
         match type_data:
             case "Départements":
                     for val in self.france:
-                        date = val["date_de_publication"]
+                        date = val["date_de_publication"][0:4]
                         totalco2 = 0
                         if val["departement"] == nom:
                             for param in params:
@@ -115,7 +115,7 @@ class Api:
                             dates_co2.update({date: totalco2})
             case "Régions":
                 for val in self.france:
-                        date = val["date_de_publication"]
+                        date = val["date_de_publication"][0:4]
                         totalco2 = 0
                         if val["region"] == nom:
                             for param in params:
@@ -124,7 +124,7 @@ class Api:
                             dates_co2.update({date: totalco2})
             case "Communes":
                 for val in self.france:
-                        date = val["date_de_publication"]
+                        date = val["date_de_publication"][0:4]
                         totalco2 = 0
                         #vérification des clés car certaines clés n'existent pas
                         if "type_de_collectivite" in val.keys() and "type_de_structure" in val.keys() and val["type_de_structure"] == "Collectivité territoriale (dont EPCI)" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:

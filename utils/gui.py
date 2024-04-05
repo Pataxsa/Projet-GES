@@ -103,20 +103,10 @@ class Gui:
             ax.set_title(f"Bilan GES {self.dataname[:-1]} {inputdata}")
             ax.bar(dates, totalco2, label="CO2")
 
-            # Ajout des titres de l'axe x au-dessus des barres
-            for i in range(len(dates)):
-                ax.text(dates[i],
-                        totalco2[i],
-                        str(dates[i]),
-                        ha='center',
-                        va='bottom',
-                        rotation=90,
-                        fontsize=8
-                    )
-
             plt.xlabel('Dates')
             plt.ylabel('Tonnes de CO2')
-            plt.xticks([])
+
+            plt.xticks(rotation=90) #dates à la verticale
             ax.legend()
 
             fig.set_figwidth(fig.get_figwidth() * 1.2)
