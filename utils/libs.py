@@ -2,7 +2,7 @@ from subprocess import run, CalledProcessError
 
 def checkLibs():
     modules = ['folium','branca','requests','matplotlib','customtkinter']
-    possession = run(["py", "-m", "pip", "list"], capture_output=True, text=True).stdout.split()
+    possession = run(["pip", "list"], capture_output=True, text=True).stdout.split()
     possession = [possession[i] for i in range(0,len(possession),2)]
 
     for i in modules:
