@@ -114,7 +114,10 @@ class Api:
                             for param in params:
                                 if param in val.keys():
                                     totalco2 += val[param]
-                            dates_co2.update({date: totalco2})
+                            if date in dates_co2.keys():
+                                dates_co2.update({date: dates_co2[date]+totalco2})
+                            else:
+                                dates_co2.update({date: totalco2})
             case "Régions":
                 for val in self.france:
                         date = val["date_de_publication"].split("-")[0]
@@ -123,7 +126,10 @@ class Api:
                             for param in params:
                                 if param in val.keys():
                                     totalco2 += val[param]
-                            dates_co2.update({date: totalco2})
+                            if date in dates_co2.keys():
+                                dates_co2.update({date: dates_co2[date]+totalco2})
+                            else:
+                                dates_co2.update({date: totalco2})
             case "Communes":
                 for val in self.france:
                         date = val["date_de_publication"].split("-")[0]
@@ -133,7 +139,10 @@ class Api:
                             for param in params:
                                 if param in val.keys():
                                     totalco2 += val[param]
-                            dates_co2.update({date: totalco2})
+                            if date in dates_co2.keys():
+                                dates_co2.update({date: dates_co2[date]+totalco2})
+                            else:
+                                dates_co2.update({date: totalco2})
 
         return dates_co2
 

@@ -32,24 +32,15 @@ class Gui:
         # Initialisation de la carte
         self.map = MAP(self.api)
 
+        # Initialisation des ressources de l'interface
+        self.img = Image.open(".\\interface\\img\\GES.jpg")
+
         # Initialisation des composants de l'interface
         self.window = tk.Tk()
-        self.window.state('zoomed')
-        self.canvas = tk.Canvas(self.window, width=800, height=600)
-
-        self.background_image = Image.open("Images/GES.jpg").resize((self.canvas.winfo_screenwidth(),self.canvas.winfo_screenheight()),Image.ANTIALIAS)
-        self.background_photo = ImageTk.PhotoImage(self.background_image)
-        self.long,self.larg = self.background_image.size
-
-        x = (self.canvas.winfo_screenwidth() - self.long) // 2
-        y = (self.canvas.winfo_screenheight() - self.larg) // 2
-
-        self.canvas.pack(fill="both", expand=True)
-        self.canvas.create_image(x,y , image=self.background_photo, anchor="nw")
-
-
+        self.canvas = tk.Canvas(self.window)
+        self.background_photo = None
         self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0]) + 5, state="readonly")
-        self.ville_label = CTkLabel(self.window, text="Commune :",text_color="black",fg_color="white",height=21)
+        self.ville_label = CTkLabel(self.window, text="Commune :", text_color="black", height=21)
         self.research_button = CTkButton(self.window, text="Rechercher", command=self.__show_graphic)
         self.map_button = CTkButton(self.window, text="Générer une carte", command=self.__generatemap)
         self.graphic_widget = None
@@ -57,7 +48,7 @@ class Gui:
         # Paramètres de l'interface
         self.title = title
         self.resizable = resizable
-        self.minsize = (self.canvas.winfo_screenwidth(), self.canvas.winfo_screenheight())
+        self.minsize = (400, 200)
         self.tests = tests
 
         # Parametres de l'API
@@ -86,6 +77,8 @@ class Gui:
         self.research_button.place(relx=0.5, y=80, anchor="center", x=-90)
         self.map_button.place(relx=0.5, y=80, anchor="center", x=55)
 
+        self.canvas.bind('<Configure>', self.__on_resize)
+        self.canvas.pack(fill="both", expand=True)
 
         self.window.mainloop()
 
@@ -127,7 +120,7 @@ class Gui:
             dates = list(data.keys())
             totalco2 = list(data.values())
 
-            self.canvas.delete("all") #supprimer l'image de fond
+            self.canvas.delete("all") # supprimer l'image de fond
 
             fig, ax = plt.subplots(num="GES")
             ax.set_title(f"Bilan GES {self.dataname[:-1]} {inputdata}")
@@ -136,7 +129,7 @@ class Gui:
             plt.xlabel('Dates')
             plt.ylabel('Tonnes de CO2')
 
-            plt.xticks(rotation=90) #dates à la verticale
+            plt.xticks(rotation=90) # dates à la verticale
             ax.legend()
 
             fig.set_figwidth(fig.get_figwidth() * 1.2)
@@ -187,3 +180,18 @@ class Gui:
                 self.dataname = "Régions"
                 self.ville_label.configure(text="Région : ")
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 2)
+    
+    # Fonction privé (evenement) qui ajuste la taille du fond lorsque l'on redimentionne la taille de la fenetre
+    def __on_resize(self, event):
+        if not self.graphic_widget:
+            x = event.width
+            y = event.height
+            background_image = self.img.resize((x,y),Image.Resampling.BILINEAR)
+            self.background_photo = ImageTk.PhotoImage(background_image)
+            long, larg = background_image.size
+
+            x = (x - long) // 2
+            y = (y - larg) // 2
+
+            self.canvas.delete("all")
+            self.canvas.create_image(x,y , image=self.background_photo, anchor="nw")
