@@ -13,6 +13,7 @@ from requests.exceptions import HTTPError
 from utils.api import Api
 from utils.map import MAP
 from customtkinter import CTkButton, CTkLabel
+from PIL import Image, ImageTk
 
 class Gui:
     """
@@ -33,8 +34,22 @@ class Gui:
 
         # Initialisation des composants de l'interface
         self.window = tk.Tk()
+        self.window.state('zoomed')
+        self.canvas = tk.Canvas(self.window, width=800, height=600)
+
+        self.background_image = Image.open("Images/GES.jpg").resize((self.canvas.winfo_screenwidth(),self.canvas.winfo_screenheight()),Image.ANTIALIAS)
+        self.background_photo = ImageTk.PhotoImage(self.background_image)
+        self.long,self.larg = self.background_image.size
+
+        x = (self.canvas.winfo_screenwidth() - self.long) // 2
+        y = (self.canvas.winfo_screenheight() - self.larg) // 2
+
+        self.canvas.pack(fill="both", expand=True)
+        self.canvas.create_image(x,y , image=self.background_photo, anchor="nw")
+
+
         self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0]) + 5, state="readonly")
-        self.ville_label = CTkLabel(self.window, text="Commune :",text_color="black",fg_color="transparent")
+        self.ville_label = CTkLabel(self.window, text="Commune :",text_color="black",fg_color="white",height=21)
         self.research_button = CTkButton(self.window, text="Rechercher", command=self.__show_graphic)
         self.map_button = CTkButton(self.window, text="Générer une carte", command=self.__generatemap)
         self.graphic_widget = None
@@ -42,7 +57,7 @@ class Gui:
         # Paramètres de l'interface
         self.title = title
         self.resizable = resizable
-        self.minsize = (400, 200)
+        self.minsize = (self.canvas.winfo_screenwidth(), self.canvas.winfo_screenheight())
         self.tests = tests
 
         # Parametres de l'API
@@ -111,6 +126,8 @@ class Gui:
             data = self.api.getCO2(self.dataname, inputdata)
             dates = list(data.keys())
             totalco2 = list(data.values())
+
+            self.canvas.delete("all") #supprimer l'image de fond
 
             fig, ax = plt.subplots(num="GES")
             ax.set_title(f"Bilan GES {self.dataname[:-1]} {inputdata}")
