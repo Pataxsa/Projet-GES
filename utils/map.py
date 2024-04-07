@@ -16,7 +16,7 @@ class MAP:
     """
 
     # Initialisation (constructeur)
-    def __init__(self, api:Api):
+    def __init__(self, api: Api) -> None:
         # Api et Carte
         self.map = Map(location=[46.862725, 2.287592], zoom_start=6, tiles=None)
         self.api = api
@@ -32,7 +32,7 @@ class MAP:
         # Générer la carte (une fois car la carte ne changera jamais)
         self.__generate()
 
-    def save(self, name:str):
+    def save(self, name: str) -> None:
         """
         Fonction save qui sauvegarde la carte si le fichier existe et lance le fichier html
         """
@@ -43,7 +43,7 @@ class MAP:
         webbrowser.open(name)
 
     # Fonction privé qui permet de générer les données de la carte
-    def __generate(self):
+    def __generate(self) -> None:
         TileLayer('cartodbpositron', name='GES').add_to(self.map)
 
         for prm in self.geojson_regions["features"]:
@@ -59,7 +59,7 @@ class MAP:
         LayerControl().add_to(self.map)
     
     # Fonction privé qui permet l'ajout des données sur la carte (geojson et colormap)
-    def __addGeoJson(self, name:str, data:dict, geojson:dict, show:bool = False):
+    def __addGeoJson(self, name: str, data: dict, geojson: dict, show: bool = False) -> None:
         colormap = LinearColormap(["green", "yellow", "red"], vmin=min(data.values()), vmax=(sum(data.values())/len(data.values())))
 
         colormap.caption = f"Total CO2 en tonnes des {name.lower()}"
@@ -86,7 +86,7 @@ class MAP:
         ).add_to(self.map)
 
     # Fonction privé qui permet de gérer les couleurs sur la carte
-    def __usecolor(self, feature, data, colormap):
+    def __usecolor(self, feature, data, colormap) -> str:
         if feature["properties"]["nom"] in data.keys():
             return colormap(data[feature["properties"]["nom"]])
         else:

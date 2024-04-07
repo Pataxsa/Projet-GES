@@ -12,7 +12,7 @@ class Api:
     """
 
     # Initialisation (constructeur)
-    def __init__(self):
+    def __init__(self) -> None:
         # Parametres de l'API
         self.__apilink = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
         self.maxlines = 10000
@@ -65,16 +65,13 @@ class Api:
         self.regions = sorted(set([reg["region"] for reg in self.france]))
         
     # Fonction privée pour faire des requetes basiques avec des paramètres
-    def __getData(self, link:str, param:dict):
+    def __getData(self, link: str, param: dict) -> dict:
         try:
             if (len(param) >= 1):
                 rsp = self.__apilink + link + "?"
 
-                for key, val in param.items():
-                    if rsp.endswith("?"):
-                        rsp += key + "=" + str(val)
-                    else:
-                        rsp += "&" + key + "=" + str(val)
+                for (index, (key, val)) in enumerate(param.items()):
+                    rsp += f"&{key}={val}" if index >= 1 else f"{key}={val}"
 
                 response = get(rsp)
             else:
@@ -87,7 +84,7 @@ class Api:
         return response.json()
 
     # Fonction privé qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le parametre size pour prendre en compte plus de valeurs)
-    def __getLines(self, select:list = None, **kwargs):
+    def __getLines(self, select: list = None, **kwargs) -> list:
         if (select != None):
             data = ""
             for val in select:
@@ -97,7 +94,7 @@ class Api:
 
         return self.__getData("lines", kwargs)["results"]
     
-    def getCO2(self, type_data:str, nom:str):
+    def getCO2(self, type_data: str, nom: str) -> dict:
         """
         Fonction getCO2 qui renvoie le CO2 total par année d'un lieu (renvoie un dictionnaire clés:années et valeurs:total co2)
         """
@@ -146,7 +143,7 @@ class Api:
 
         return dates_co2
 
-    def getCO2Total(self, type_structure:str):
+    def getCO2Total(self, type_structure: str) -> dict:
         """
         Fonction getCO2Total qui renvoie le CO2 total (toutes les dates) d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
         """

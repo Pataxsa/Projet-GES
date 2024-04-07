@@ -21,7 +21,7 @@ class Gui:
     """
 
     # Initialisation de la classe et des fenetres avec ses composants
-    def __init__(self, title:str = "Title", resizable:bool = True, tests:bool = False):
+    def __init__(self, title: str = "Title", resizable: bool = True, tests: bool = False) -> None:
         # Initialisation de l'API
         try:
             self.api = Api()
@@ -54,7 +54,7 @@ class Gui:
         # Parametres de l'API
         self.dataname = "Communes"
 
-    def init(self):
+    def init(self) -> None:
         """
         Fonction init pour lancer une interface
         """
@@ -82,7 +82,7 @@ class Gui:
 
         self.window.mainloop()
 
-    def testinit(self):
+    def testinit(self) -> None:
         """
         Fonction testinit pour lancer une interface utilisée pour les tests
         """
@@ -105,7 +105,7 @@ class Gui:
 
         self.close()
 
-    def close(self):
+    def close(self) -> None:
         """
         Fonction close pour fermer l'interface
         """
@@ -113,7 +113,7 @@ class Gui:
         self.window.destroy()
 
     # Fonction privé qui permet d'afficher le graphique sur l'interface
-    def __show_graphic(self):
+    def __show_graphic(self) -> None:
         try:
             inputdata = self.list_ville.get()
             data = self.api.getCO2(self.dataname, inputdata)
@@ -151,12 +151,12 @@ class Gui:
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
     # Fonction privé pour générer une carte en fonction du CO2
-    def __generatemap(self, save:bool=True):
+    def __generatemap(self, save: bool = True) -> None:
         if save:
             self.map.save("map.html")
 
     # Fonction privé (evenement) qui ajuste la taille de la barre de selection
-    def __on_selected(self, event):
+    def __on_selected(self, event) -> None:
         if self.list_ville.get().startswith("=="):
             self.list_ville.current(1)
             self.dataname = "Communes"
@@ -182,7 +182,7 @@ class Gui:
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 2)
     
     # Fonction privé (evenement) qui ajuste la taille du fond lorsque l'on redimentionne la taille de la fenetre
-    def __on_resize(self, event):
+    def __on_resize(self, event) -> None:
         if not self.graphic_widget:
             x = event.width
             y = event.height
