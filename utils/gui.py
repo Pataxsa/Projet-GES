@@ -40,7 +40,7 @@ class Gui:
         self.canvas = tk.Canvas(self.window)
         self.background_photo = None
         self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0]) + 5, state="readonly")
-        self.ville_label = CTkLabel(self.window, text="Commune :", text_color="black", height=21)
+        self.ville_label = CTkLabel(self.window, text="Commune :", text_color="black", height=20,padx=3,pady=3)
         self.research_button = CTkButton(self.window, text="Rechercher", command=self.__show_graphic)
         self.map_button = CTkButton(self.window, text="Générer une carte", command=self.__generatemap)
         self.graphic_widget = None
@@ -73,9 +73,9 @@ class Gui:
         self.list_ville.current(1)
 
         self.list_ville.place(relx=0.5, y=30, anchor="center", x=30)
-        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
-        self.research_button.place(relx=0.5, y=80, anchor="center", x=-90)
-        self.map_button.place(relx=0.5, y=80, anchor="center", x=55)
+        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-60)
+        self.research_button.place(relx=0.5, y=80, anchor="center", x=-95)
+        self.map_button.place(relx=0.5, y=80, anchor="center", x=60)
 
         self.canvas.bind('<Configure>', self.__on_resize)
         self.canvas.pack(fill="both", expand=True)
