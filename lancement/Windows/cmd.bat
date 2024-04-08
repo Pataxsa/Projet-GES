@@ -14,7 +14,7 @@ IF NOT EXIST %DATAPATH%\%ENV_NAME% (
     py -m pip install --upgrade pip 
     pip install setuptools
 
-    pip install -r requirements.txt 
+    pip install -r ../requirements.txt 
 )
 
 :loop
