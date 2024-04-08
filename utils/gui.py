@@ -63,6 +63,7 @@ class Gui:
         if isfile("map.html"):
             remove("map.html")
 
+        self.window.iconbitmap(f"{self.api.basepath}\\interface\\icons\\icon.ico")
         self.window.title(self.title)
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
