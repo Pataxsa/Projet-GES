@@ -7,11 +7,11 @@ set ENV_NAME=env
 
 :: Initialisation de l'environnement si il n'existe pas
 IF NOT EXIST %DATAPATH%\%ENV_NAME% ( 
-    python -m venv %DATAPATH%\%ENV_NAME%
+    py -m venv %DATAPATH%\%ENV_NAME%
 
     call %DATAPATH%\%ENV_NAME%\Scripts\activate 
 
-    python -m pip install --upgrade pip 
+    py -m pip install --upgrade pip 
     pip install setuptools
 
     pip install -r ../requirements.txt 
@@ -20,10 +20,10 @@ IF NOT EXIST %DATAPATH%\%ENV_NAME% (
     call %DATAPATH%\%ENV_NAME%\Scripts\activate
 
     :: Vérification et installation des dépendances dans l'environnement
-    python -c "import pkg_resources; pkg_resources.require(open('../requirements.txt',mode='r'))" 2>NUL || pip install -r ../requirements.txt
+    py -c "import pkg_resources; pkg_resources.require(open('requirements.txt',mode='r'))" 2>NUL || pip install -r requirements.txt
 )
 
 (
     :: Compilation du programme
-    pyinstaller -F --noconsole --onefile --add-data "interface;interface" --add-data "../../data/*.geojson;data" --name="Projet-GES" ../../main.py
+    pyinstaller -F --noconsole --onefile --add-data "interface;interface" --add-data "data/*.geojson;data" --name="Projet-GES" main.py
 )

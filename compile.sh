@@ -13,12 +13,12 @@ then
     python3 -m pip install --upgrade pip 
     pip3 install setuptools
 
-    pip3 install -r ../requirements.txt 
+    pip3 install -r requirements.txt 
 else
     $DATAPATH\\$ENV_NAME\bin\activate
 
     # Vérification et installation des dépendances dans l'environnement
-    python3 -c "import pkg_resources; pkg_resources.require(open('../requirements.txt',mode='r'))" &>/dev/null || pip3 install -r ../requirements.txt
+    python3 -c "import pkg_resources; pkg_resources.require(open('requirements.txt',mode='r'))" &>/dev/null || pip3 install -r requirements.txt
 
 # Compilation du programme
-pyinstaller -F --noconsole --onefile --add-data "interface;interface" --add-data "../../data/*.geojson;data" ../../main.py
+pyinstaller -F --noconsole --onefile --add-data "interface;interface" --add-data "data/*.geojson;data" main.py
