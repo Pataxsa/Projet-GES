@@ -63,7 +63,6 @@ class Gui:
         if isfile("map.html"):
             remove("map.html")
 
-        self.window.iconbitmap(f"{self.api.basepath}\\interface\\icons\\icon-x32.ico")
         self.window.title(self.title)
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
@@ -80,6 +79,8 @@ class Gui:
 
         self.canvas.bind('<Configure>', self.__on_resize)
         self.canvas.pack(fill="both", expand=True)
+
+        self.window.iconbitmap(f"{self.api.basepath}\\interface\\icons\\icon-x32.ico")
 
         self.window.mainloop()
 
