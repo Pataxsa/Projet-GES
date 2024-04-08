@@ -22,8 +22,8 @@ class MAP:
         self.api = api
         
         # Fichiers geojson des départements/regions
-        self.geojson_departements = load(open(".\\data\\departements.geojson"))
-        self.geojson_regions = load(open(".\\data\\regions.geojson"))
+        self.geojson_departements = load(open(f"{self.api.basepath}\\data\\departements.geojson"))
+        self.geojson_regions = load(open(f"{self.api.basepath}\\data\\regions.geojson"))
 
         # Co2 des departements/regions
         self.data_departements = self.api.getCO2Total("Départements")

@@ -4,6 +4,7 @@ Module api pour générer la base de l'API
 
 from requests import get
 from requests.exceptions import HTTPError, ConnectionError
+import sys
 
 class Api:
     """
@@ -57,6 +58,9 @@ class Api:
             'responsable_du_suivi', 'fonction', 'telephone', 'courriel', '_id',
             '_i', '_rand'
         ]
+
+        # Base du chemin d'accès pour les ressources
+        self.basepath = getattr(sys, '_MEIPASS', ".")
         
         # Nom des communes/departements/regions + données totale (self.france)
         self.france = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b],size=self.maxlines)

@@ -33,7 +33,7 @@ class Gui:
         self.map = MAP(self.api)
 
         # Initialisation des ressources de l'interface
-        self.img = Image.open(".\\interface\\img\\GES.jpg")
+        self.img = Image.open(f"{self.api.basepath}\\interface\\img\\GES.jpg")
 
         # Initialisation des composants de l'interface
         self.window = tk.Tk()
