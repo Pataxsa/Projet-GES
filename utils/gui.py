@@ -7,10 +7,13 @@ from tkinter import ttk
 from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
+from os.path import isfile
+from os import remove
 from requests.exceptions import HTTPError
 from utils.api import Api
 from utils.map import MAP
-
+from customtkinter import CTkButton, CTkLabel
+from PIL import Image, ImageTk
 
 class Gui:
     """
@@ -18,7 +21,7 @@ class Gui:
     """
 
     # Initialisation de la classe et des fenetres avec ses composants
-    def __init__(self, title:str = "Title", resizable:bool = True, tests:bool = False):
+    def __init__(self, title: str = "Title", resizable: bool = True, tests: bool = False) -> None:
         # Initialisation de l'API
         try:
             self.api = Api()
@@ -29,12 +32,17 @@ class Gui:
         # Initialisation de la carte
         self.map = MAP(self.api)
 
+        # Initialisation des ressources de l'interface
+        self.img = Image.open(f"{self.api.basepath}\\interface\\img\\GES.jpg")
+
         # Initialisation des composants de l'interface
         self.window = tk.Tk()
+        self.canvas = tk.Canvas(self.window)
+        self.background_photo = None
         self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0]) + 5, state="readonly")
-        self.ville_label = tk.Label(self.window, text="Commune :")
-        self.research_button = tk.Button(self.window, text="Rechercher", command=self.__show_graphic)
-        self.map_button = tk.Button(self.window, text="Générer une carte", command=self.__generatemap)
+        self.ville_label = CTkLabel(self.window, text="Commune :", text_color="black", height=20,padx=3,pady=3)
+        self.research_button = CTkButton(self.window, text="Rechercher", command=self.__show_graphic)
+        self.map_button = CTkButton(self.window, text="Générer une carte", command=self.__generatemap)
         self.graphic_widget = None
 
         # Paramètres de l'interface
@@ -46,27 +54,36 @@ class Gui:
         # Parametres de l'API
         self.dataname = "Communes"
 
-    def init(self):
+    def init(self) -> None:
         """
         Fonction init pour lancer une interface
         """
 
+        # Supprimer la carte si elle existe (afin de la réactualiser par la suite)
+        if isfile("map.html"):
+            remove("map.html")
+
+        self.window.iconbitmap(f"{self.api.basepath}\\interface\\icons\\icon.ico")
         self.window.title(self.title)
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
-        self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
+        self.list_ville.configure(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
+        self.list_ville.configure(justify='center')
+        self.list_ville.bind("<<ComboboxSelected>>", self.__on_selected)
         self.list_ville.current(1)
 
-        self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
-        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
-        self.research_button.place(relx=0.5, y=80, anchor="center", x=-60)
-        self.map_button.place(relx=0.5, y=80, anchor="center", x=40)
+        self.list_ville.place(relx=0.5, y=30, anchor="center", x=30)
+        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-60)
+        self.research_button.place(relx=0.5, y=80, anchor="center", x=-95)
+        self.map_button.place(relx=0.5, y=80, anchor="center", x=60)
+
+        self.canvas.bind('<Configure>', self.__on_resize)
+        self.canvas.pack(fill="both", expand=True)
 
         self.window.mainloop()
 
-    def testinit(self):
+    def testinit(self) -> None:
         """
         Fonction testinit pour lancer une interface utilisée pour les tests
         """
@@ -75,8 +92,8 @@ class Gui:
         self.window.resizable(self.resizable, self.resizable)
         self.window.minsize(self.minsize[0], self.minsize[1])
 
-        self.list_ville.config(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
-        self.list_ville.bind("<<ComboboxSelected>>", self.__selected)
+        self.list_ville.configure(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
+        self.list_ville.bind("<<ComboboxSelected>>", self.__on_selected)
         self.list_ville.current(1)
 
         self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
@@ -89,32 +106,31 @@ class Gui:
 
         self.close()
 
-    # Script a exécuter lorsque l'on clique sur le boutton
-    def __show_graphic(self):
+    def close(self) -> None:
+        """
+        Fonction close pour fermer l'interface
+        """
+
+        self.window.destroy()
+
+    # Fonction privé qui permet d'afficher le graphique sur l'interface
+    def __show_graphic(self) -> None:
         try:
             inputdata = self.list_ville.get()
             data = self.api.getCO2(self.dataname, inputdata)
             dates = list(data.keys())
             totalco2 = list(data.values())
 
+            self.canvas.delete("all") # supprimer l'image de fond
+
             fig, ax = plt.subplots(num="GES")
             ax.set_title(f"Bilan GES {self.dataname[:-1]} {inputdata}")
             ax.bar(dates, totalco2, label="CO2")
 
-            # Ajout des titres de l'axe x au-dessus des barres
-            for i in range(len(dates)):
-                ax.text(dates[i],
-                        totalco2[i],
-                        str(dates[i]),
-                        ha='center',
-                        va='bottom',
-                        rotation=90,
-                        fontsize=8
-                    )
-
             plt.xlabel('Dates')
             plt.ylabel('Tonnes de CO2')
-            plt.xticks([])
+
+            plt.xticks(rotation=90) # dates à la verticale
             ax.legend()
 
             fig.set_figwidth(fig.get_figwidth() * 1.2)
@@ -135,41 +151,48 @@ class Gui:
             if self.tests: raise e
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
-    # Fonction pour générer une carte en fonction du CO2
-    def __generatemap(self, save=True):
-        self.map.generate()
+    # Fonction privé pour générer une carte en fonction du CO2
+    def __generatemap(self, save: bool = True) -> None:
         if save:
             self.map.save("map.html")
 
-    # Ajuster la taille de la barre de selection et vérifier si on peux sélectionner la valeur
-    def __selected(self, event):
+    # Fonction privé (evenement) qui ajuste la taille de la barre de selection
+    def __on_selected(self, event) -> None:
         if self.list_ville.get().startswith("=="):
             self.list_ville.current(1)
             self.dataname = "Communes"
-            self.ville_label.config(text="Commune : ")
+            self.ville_label.configure(text="Commune : ")
             self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 12)
-            self.list_ville.config(width=len(self.list_ville.get()) + 5)
+            self.list_ville.configure(width=len(self.list_ville.get()) + 5)
         else:
-            self.list_ville.config(width=len(self.list_ville.get()) + 5)
+            self.list_ville.configure(width=len(self.list_ville.get()) + 5)
 
             current = self.list_ville.current()
-            values = self.list_ville.config().items().mapping["values"][4]
+            values = self.list_ville.configure().items().mapping["values"][4]
             if current > values.index("==COMMUNES==") and current < values.index("==DEPARTEMENTS=="):
                 self.dataname = "Communes"
-                self.ville_label.config(text="Commune : ")
+                self.ville_label.configure(text="Commune : ")
                 self.list_ville.place_configure(x=len(self.list_ville.get()) * 3 + 12)
             elif current > values.index("==DEPARTEMENTS==") and current < values.index("==REGIONS=="):
                 self.dataname = "Départements"
-                self.ville_label.config(text="Département : ")
+                self.ville_label.configure(text="Département : ")
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 14)
             else:
                 self.dataname = "Régions"
-                self.ville_label.config(text="Région : ")
+                self.ville_label.configure(text="Région : ")
                 self.list_ville.place_configure(x=(len(self.list_ville.get()) * 3) + 2)
+    
+    # Fonction privé (evenement) qui ajuste la taille du fond lorsque l'on redimentionne la taille de la fenetre
+    def __on_resize(self, event) -> None:
+        if not self.graphic_widget:
+            x = event.width
+            y = event.height
+            background_image = self.img.resize((x,y),Image.Resampling.BILINEAR)
+            self.background_photo = ImageTk.PhotoImage(background_image)
+            long, larg = background_image.size
 
-    def close(self):
-        """
-        Fonction close pour fermer l'interface
-        """
+            x = (x - long) // 2
+            y = (y - larg) // 2
 
-        self.window.destroy()
+            self.canvas.delete("all")
+            self.canvas.create_image(x,y , image=self.background_photo, anchor="nw")

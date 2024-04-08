@@ -5,5 +5,10 @@ __pycache__
 # Ignore visual studio code config
 .vscode
 
-#Ignore map
+# Ignore map
 map.html
+
+# Ignore builds and specs
+*.spec
+build
+dist
