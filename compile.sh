@@ -21,4 +21,4 @@ else
     python3 -c "import pkg_resources; pkg_resources.require(open('requirements.txt',mode='r'))" &>/dev/null || pip3 install -r requirements.txt
 
 # Compilation du programme
-pyinstaller -F --noconsole --onefile --add-data "interface;interface" --add-data "data/*.geojson;data" main.py
+pyinstaller -F --noconsole --onefile --add-data "interface;interface" --add-data "data/*.geojson;data" --icon="interface/icons/icon.ico" --name="Projet-GES" main.py

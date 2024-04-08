@@ -25,5 +25,5 @@ IF NOT EXIST %DATAPATH%\%ENV_NAME% (
 
 (
     :: Compilation du programme
-    pyinstaller -F --noconsole --onefile --add-data "interface;interface" --add-data "data/*.geojson;data" --name="Projet-GES" main.py
+    pyinstaller -F --noconsole --onefile --add-data "interface;interface" --add-data "data/*.geojson;data" --icon="interface/icons/icon.ico" --name="Projet-GES" main.py
 )
