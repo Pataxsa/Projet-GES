@@ -18,6 +18,7 @@ from PIL import Image, ImageTk
 class Gui:
     """
     Classe Gui qui génère une interface
+    Doc customtkinter: https://customtkinter.tomschimansky.com/documentation/
     """
 
     # Initialisation de la classe et des fenetres avec ses composants
