@@ -108,46 +108,46 @@ class Api:
 
         match type_data:
             case "Départements":
-                    for val in self.france:
-                        date = val["date_de_publication"].split("-")[0]
-                        totalco2 = 0
-                        if val["departement"] == nom:
-                            for param in params:
-                                if param in val.keys():
-                                    totalco2 += val[param]
-                            if date in dates_co2.keys():
-                                dates_co2.update({date: dates_co2[date]+totalco2})
-                            else:
-                                dates_co2.update({date: totalco2})
+                for val in self.france:
+                    date = val["date_de_publication"].split("-")[0]
+                    totalco2 = 0
+                    if val["departement"] == nom:
+                        for param in params:
+                            if param in val.keys():
+                                totalco2 += val[param]
+                        if date not in dates_co2.keys():
+                            dates_co2.update({date: totalco2})
+                        else:
+                            dates_co2.update({date: dates_co2[date]+totalco2})
             case "Régions":
                 for val in self.france:
-                        date = val["date_de_publication"].split("-")[0]
-                        totalco2 = 0
-                        if val["region"] == nom:
-                            for param in params:
-                                if param in val.keys():
-                                    totalco2 += val[param]
-                            if date in dates_co2.keys():
-                                dates_co2.update({date: dates_co2[date]+totalco2})
-                            else:
-                                dates_co2.update({date: totalco2})
+                    date = val["date_de_publication"].split("-")[0]
+                    totalco2 = 0
+                    if val["region"] == nom:
+                        for param in params:
+                            if param in val.keys():
+                                totalco2 += val[param]
+                        if date not in dates_co2.keys():
+                            dates_co2.update({date: totalco2})
+                        else:
+                            dates_co2.update({date: dates_co2[date]+totalco2})
             case "Communes":
                 for val in self.france:
-                        date = val["date_de_publication"].split("-")[0]
-                        totalco2 = 0
-                        #vérification des clés car certaines clés n'existent pas
-                        if "type_de_collectivite" in val.keys() and "type_de_structure" in val.keys() and val["type_de_structure"] == "Collectivité territoriale (dont EPCI)" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
-                            for param in params:
-                                if param in val.keys():
-                                    totalco2 += val[param]
-                            if date in dates_co2.keys():
-                                dates_co2.update({date: dates_co2[date]+totalco2})
-                            else:
-                                dates_co2.update({date: totalco2})
+                    date = val["date_de_publication"].split("-")[0]
+                    totalco2 = 0
+                    # vérification des clés car certaines clés n'existent pas
+                    if "type_de_collectivite" in val.keys() and "type_de_structure" in val.keys() and val["type_de_structure"] == "Collectivité territoriale (dont EPCI)" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
+                        for param in params:
+                            if param in val.keys():
+                                totalco2 += val[param]
+                        if date not in dates_co2.keys():
+                            dates_co2.update({date: totalco2})
+                        else:
+                            dates_co2.update({date: dates_co2[date]+totalco2})
 
         return dates_co2
 
-    def getCO2Total(self, type_structure: str) -> dict:
+    def getCO2Total(self, type_data: str) -> dict:
         """
         Fonction getCO2Total qui renvoie le CO2 total (toutes les dates) d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
         """
@@ -155,7 +155,7 @@ class Api:
         params = [b for b in self.params if "emissions_publication_p" in b]
         dataname = None
 
-        match type_structure:
+        match type_data:
             case "Départements":
                 dataname = "departement"
             case "Régions":
@@ -174,6 +174,6 @@ class Api:
             if nom not in data.keys():
                 data.update({nom: totalco2})
             else:
-                data.update({nom: data.get(nom) + totalco2})
+                data.update({nom: data[nom] + totalco2})
 
         return data
