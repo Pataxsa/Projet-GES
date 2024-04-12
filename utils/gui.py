@@ -155,7 +155,7 @@ class Gui:
             if self.tests: raise e
             messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
-    def __show_graphic_line(self) -> None:
+    def __show_graphic_line(self) -> None: # la même mais avec des points
         try:
             inputdata = self.list_ville.get()
             data = self.api.getCO2(self.dataname, inputdata)
