@@ -1,4 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
+# Fichier utilisé pour build le fichier en exe (version non portable)
+# Transformer les fichiers en setup (avec InstallForge par exemple: https://installforge.net/)
 
 
 a = Analysis(
