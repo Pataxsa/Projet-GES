@@ -11,3 +11,6 @@ map.html
 # Ignore builds
 build
 dist
+
+# Ignore specs in root
+./*.spec

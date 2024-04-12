@@ -1,4 +1,5 @@
 # Build.sh pour Linux
+# TODO: a mettre a jour plus tard
 
 DATAPATH="$HOME\\Projet-GES\\"
 ENV_NAME="env"
@@ -21,4 +22,4 @@ else
     pip-sync requirements.txt
 
 # Compilation du programme
-pyinstaller specs/build.spec
+pyinstaller specs/build-portable.spec
