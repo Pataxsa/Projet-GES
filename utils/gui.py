@@ -56,7 +56,7 @@ class Gui:
         # Parametres de l'API
         self.dataname = "Communes"
 
-    def init(self) -> None:
+    def configurations(self) -> None:
         """
         Fonction init pour lancer une interface
         """
@@ -86,29 +86,6 @@ class Gui:
         self.window.iconbitmap(f"{self.api.basepath}\\interface\\icons\\icon-x32.ico")
 
         self.window.mainloop()
-
-    def testinit(self) -> None:
-        """
-        Fonction testinit pour lancer une interface utilisée pour les tests
-        """
-
-        self.window.title(self.title)
-        self.window.resizable(self.resizable, self.resizable)
-        self.window.minsize(self.minsize[0], self.minsize[1])
-
-        self.list_ville.configure(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
-        self.list_ville.bind("<<ComboboxSelected>>", self.__on_selected)
-        self.list_ville.current(1)
-
-        self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
-        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
-        self.research_button.place(relx=0.5, y=80, anchor="center", x=-60)
-        self.map_button.place(relx=0.5, y=80, anchor="center", x=40)
-
-        self.__show_graphic_bar()
-        self.__generatemap(False)
-
-        self.close()
 
     def close(self) -> None:
         """
