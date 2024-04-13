@@ -8,7 +8,9 @@ __pycache__
 # Ignore map
 map.html
 
-# Ignore builds and specs
-*.spec
+# Ignore builds
 build
 dist
+
+# Ignore specs in root
+./*.spec
