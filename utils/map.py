@@ -7,7 +7,7 @@ from json import load
 from branca.colormap import LinearColormap
 from os.path import isfile
 from utils.api import Api
-import webbrowser
+from webbrowser import open as webopen
 
 
 class MAP:
@@ -40,7 +40,7 @@ class MAP:
         if not isfile("map.html"):
             self.map.save(name)
 
-        webbrowser.open(name)
+        webopen(name)
 
     # Fonction privé qui permet de générer les données de la carte
     def __generate(self) -> None:

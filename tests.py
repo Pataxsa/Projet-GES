@@ -1,5 +1,9 @@
-"""Module tests pour tester l'interface"""
+"""
+Module tests pour tester l'interface
+"""
 
+import tkinter as tk
+from tkinter import ttk
 from utils.gui import Gui
 
 def test():
@@ -8,4 +12,4 @@ def test():
     """
 
     gui = Gui("Recherche GES par Ville", tests=True)
-    gui.testinit()
+    gui.init()
