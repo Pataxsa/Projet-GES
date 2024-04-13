@@ -42,8 +42,7 @@ class Gui:
         self.background_photo = None
         self.list_ville = ttk.Combobox(self.window, width=len(self.api.communes[0]) + 5, state="readonly")
         self.ville_label = CTkLabel(self.window, text="Commune :", text_color="black", height=20,padx=3,pady=3)
-        self.research_button = CTkButton(self.window, text="afficher en barres", command=self.__show_graphic_bar)
-        self.research_line_button = CTkButton(self.window, text="Afficher par points", command=self.__show_graphic_line)
+        self.research_button = CTkButton(self.window, text="Rechercher", command=self.__show_graphic)
         self.map_button = CTkButton(self.window, text="Générer une carte", command=self.__generatemap)
         self.graphic_widget = None
 
@@ -56,7 +55,7 @@ class Gui:
         # Parametres de l'API
         self.dataname = "Communes"
 
-    def configurations(self) -> None:
+    def init(self) -> None:
         """
         Fonction init pour lancer une interface
         """
@@ -76,9 +75,8 @@ class Gui:
 
         self.list_ville.place(relx=0.5, y=30, anchor="center", x=30)
         self.ville_label.place(relx=0.5, y=30, anchor="center", x=-60)
-        self.research_button.place(relx=0.5, y=80, anchor="center", x=-95+90)
-        self.research_line_button.place(relx=0.5,y=80,anchor = "center",x=-160)
-        self.map_button.place(relx=0.5, y=80, anchor="center", x=60+90)
+        self.research_button.place(relx=0.5, y=80, anchor="center", x=-95)
+        self.map_button.place(relx=0.5, y=80, anchor="center", x=60)
 
         self.canvas.bind('<Configure>', self.__on_resize)
         self.canvas.pack(fill="both", expand=True)
@@ -86,6 +84,29 @@ class Gui:
         self.window.iconbitmap(f"{self.api.basepath}\\interface\\icons\\icon-x32.ico")
 
         self.window.mainloop()
+
+    def testinit(self) -> None:
+        """
+        Fonction testinit pour lancer une interface utilisée pour les tests
+        """
+
+        self.window.title(self.title)
+        self.window.resizable(self.resizable, self.resizable)
+        self.window.minsize(self.minsize[0], self.minsize[1])
+
+        self.list_ville.configure(values=["==COMMUNES=="] + self.api.communes + ["==DEPARTEMENTS=="] + self.api.departements + ["==REGIONS=="] + self.api.regions)
+        self.list_ville.bind("<<ComboboxSelected>>", self.__on_selected)
+        self.list_ville.current(1)
+
+        self.list_ville.place(relx=0.5, y=30, anchor="center", x=35)
+        self.ville_label.place(relx=0.5, y=30, anchor="center", x=-55)
+        self.research_button.place(relx=0.5, y=80, anchor="center", x=-60)
+        self.map_button.place(relx=0.5, y=80, anchor="center", x=40)
+
+        self.__show_graphic()
+        self.__generatemap(False)
+
+        self.close()
 
     def close(self) -> None:
         """
@@ -95,7 +116,7 @@ class Gui:
         self.window.destroy()
 
     # Fonction privé qui permet d'afficher le graphique sur l'interface
-    def __show_graphic_bar(self) -> None:
+    def __show_graphic(self) -> None:
         try:
             inputdata = self.list_ville.get()
             data = self.api.getCO2(self.dataname, inputdata)
@@ -107,43 +128,6 @@ class Gui:
             fig, ax = plt.subplots(num="GES")
             ax.set_title(f"Bilan GES {self.dataname[:-1]} {inputdata}")
             ax.bar(dates, totalco2, label="CO2")
-
-            plt.xlabel('Dates')
-            plt.ylabel('Tonnes de CO2')
-
-            plt.xticks(rotation=90) # dates à la verticale
-            ax.legend()
-
-            fig.set_figwidth(fig.get_figwidth() * 1.2)
-            fig.set_figheight(fig.get_figheight() * 1.2)
-
-            graphic = FigureCanvasTkAgg(fig, master=self.window)
-
-            if self.graphic_widget is not None:
-                self.graphic_widget.destroy()
-
-            self.graphic_widget = graphic.get_tk_widget()
-            self.graphic_widget.place(relx=0.5, y=500, anchor="center")
-
-            self.window.minsize(self.minsize[0] + 600, self.minsize[1] + 680)
-
-            plt.close()
-        except HTTPError as e:
-            if self.tests: raise e
-            messagebox.showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
-
-    def __show_graphic_line(self) -> None: # la même mais avec des points
-        try:
-            inputdata = self.list_ville.get()
-            data = self.api.getCO2(self.dataname, inputdata)
-            dates = list(data.keys())
-            totalco2 = list(data.values())
-
-            self.canvas.delete("all") # supprimer l'image de fond
-
-            fig, ax = plt.subplots(num="GES")
-            ax.set_title(f"Bilan GES {self.dataname[:-1]} {inputdata}")
-            ax.scatter(dates, totalco2, label="CO2")
 
             plt.xlabel('Dates')
             plt.ylabel('Tonnes de CO2')

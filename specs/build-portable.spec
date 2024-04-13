@@ -1,11 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
+# Fichier utilisé pour build le fichier en exe (version portable)
 
 
 a = Analysis(
-    ['main.py'],
+    ['../main.py'],
     pathex=[],
     binaries=[],
-    datas=[('interface', 'interface'), ('data/*.geojson', 'data')],
+    datas=[('../interface', 'interface'), ('../data', 'data')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -34,4 +35,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    version='version.txt',
+    icon=['../interface/icons/icon-x64.ico'],
 )

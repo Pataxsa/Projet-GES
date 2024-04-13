@@ -6,7 +6,7 @@ set DATAPATH="%LocalAppData%\Projet-GES"
 set ENV_NAME=env
 
 :: Initialisation de l'environnement si il n'existe pas
-IF NOT EXIST %DATAPATH%\%ENV_NAME% ( 
+if not exist %DATAPATH%\%ENV_NAME% ( 
     echo Installation de l'environnement...
     py -m venv %DATAPATH%\%ENV_NAME%
 

@@ -1,17 +1,19 @@
-"""Module tests pour tester l'interface
+"""
+Module tests pour tester l'interface
+"""
 
+import tkinter as tk
+from tkinter import ttk
 from utils.gui import Gui
 
 def test():
-
-    #Effectue un test de l'initialisation
-
+    """
+    Effectue un test de l'initialisation
+    """
 
     gui = Gui("Recherche GES par Ville", tests=True)
     gui.testinit()
-"""
-import tkinter as tk
-from tkinter import ttk
+    
 
 # Dictionnaire contenant les options supplémentaires pour chaque type de localité
 options_supplementaires = {

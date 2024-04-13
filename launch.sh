@@ -1,4 +1,5 @@
 # Launch.sh pour Linux
+# TODO: a mettre a jour plus tard
 
 DATAPATH="$HOME\\Projet-GES\\"
 ENV_NAME="env"

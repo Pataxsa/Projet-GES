@@ -1,5 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
-# Fichier utilisé pour build le fichier en exe
+# Fichier utilisé pour build le fichier en exe (version non portable)
+# Transformer les fichiers en setup (avec InstallForge par exemple: https://installforge.net/)
 
 
 a = Analysis(
@@ -19,16 +20,13 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
     [],
+    exclude_binaries=True,
     name='Projet-GES',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
@@ -37,4 +35,13 @@ exe = EXE(
     entitlements_file=None,
     version='version.txt',
     icon=['../interface/icons/icon-x64.ico'],
+)
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='Projet-GES',
 )
