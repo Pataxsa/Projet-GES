@@ -13,3 +13,5 @@ def test():
 
     gui = Gui("Recherche GES par Ville", tests=True)
     gui.init()
+
+test()

@@ -4,6 +4,7 @@ Module gui pour créer une interface
 
 # WARNING: LES IMPORTATIONS RALENTISSENT L'APP IL FAUT TOUJOURS OPTIMISER LES IMPORTATIONS COMME ICI (le preload doit se faire avant un maximum d'importations !)
 from tkinter import Tk, Canvas
+from time import sleep
 from tkinter.ttk import Combobox
 from tkinter.messagebox import showerror
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -104,13 +105,12 @@ class Gui:
 
     # Fonction privé qui permet d'afficher le graphique sur l'interface
     def __show_graphic(self) -> None:
+        self.canvas.delete("all") # supprimer l'image de fond
         try:
             inputdata = self.list_ville.get()
             data = self.api.getCO2(self.data_type, inputdata)
             dates = list(data.keys())
             totalco2 = list(data.values())
-
-            self.canvas.delete("all") # supprimer l'image de fond
 
             fig, ax = subplots(num="GES")
             ax.set_title(f"Bilan GES {self.data_type.removesuffix("s")} {inputdata}")
