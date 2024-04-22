@@ -5,6 +5,7 @@ Module api pour générer la base de l'API
 from requests import get
 from requests.exceptions import HTTPError, ConnectionError
 from utils.constants import API_LINK
+from typing import Any
 
 class Api:
     """
@@ -59,13 +60,13 @@ class Api:
         ]
         
         # Nom des communes/departements/regions + données totale (self.france)
-        self.france: list[dict[str, int | list]] = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b], size=self.maxlines)
+        self.france: list[dict[str, int | str]] = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b], size=self.maxlines)
         self.communes: list[str] = sorted(set([com["raison_sociale"] for com in self.france if "type_de_collectivite" in com.keys() and "type_de_structure" in com.keys() and com["type_de_collectivite"] == "Communes" and com["type_de_structure"] == "Collectivité territoriale (dont EPCI)"]))
         self.departements: list[str] = sorted(set([dep["departement"] for dep in self.france]))
         self.regions: list[str] = sorted(set([reg["region"] for reg in self.france]))
         
     # Fonction privée pour faire des requetes basiques avec des paramètres
-    def __getData(self, link: str, param: dict) -> dict[str, int | list]:
+    def __getData(self, link: str, param: dict[str, Any]) -> dict[str, int | list]:
         try:
             if (len(param) >= 1):
                 rsp = API_LINK + link + "?"
@@ -84,7 +85,7 @@ class Api:
         return response.json()
 
     # Fonction privé qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le parametre size pour prendre en compte plus de valeurs)
-    def __getLines(self, select: list = None, **kwargs) -> list[dict[str, int | list]]:
+    def __getLines(self, select: list[str] = None, **kwargs) -> list[dict[str, int | str]]:
         if (select != None):
             data = ""
             for val in select:

@@ -7,7 +7,7 @@ from json import load
 from branca.colormap import LinearColormap
 from os.path import isfile
 from utils.api import Api
-from utils.constants import RESOURCE_PATH
+from utils.constants import ROOT_PATH
 from webbrowser import open as webopen
 
 class Map:
@@ -21,8 +21,8 @@ class Map:
         self.__map: MAP = MAP(location=[46.862725, 2.287592], zoom_start=6, tiles=None)
         
         # Fichiers geojson des départements/regions
-        self.__geojson_departements: dict[str, str | list] = load(open(f"{RESOURCE_PATH}\\data\\departements.geojson"))
-        self.__geojson_regions: dict[str, str | list] = load(open(f"{RESOURCE_PATH}\\data\\regions.geojson"))
+        self.__geojson_departements: dict[str, str | list[dict[str, str | dict[str, str | int | list[list[float, float]]]]]] = load(open(f"{ROOT_PATH}\\data\\departements.geojson"))
+        self.__geojson_regions: dict[str, str | list[dict[str, str | dict[str, str | int | list[list[float, float]]]]]] = load(open(f"{ROOT_PATH}\\data\\regions.geojson"))
 
         # Co2 des departements/regions
         self.__data_departements: dict[str, int] = api.getCO2Total("Départements")
@@ -58,7 +58,7 @@ class Map:
         LayerControl().add_to(self.__map)
     
     # Fonction privé qui permet l'ajout des données sur la carte (geojson et colormap)
-    def __addGeoJson(self, name: str, data: dict, geojson: dict, show: bool = False) -> None:
+    def __addGeoJson(self, name: str, data: dict[str, int], geojson: dict[str, str | list[dict[str, str | dict[str, str | int | list[list[float, float]]]]]], show: bool = False) -> None:
         colormap = LinearColormap(["green", "yellow", "red"], vmin=min(data.values()), vmax=(sum(data.values())/len(data.values())))
 
         colormap.caption = f"Total CO2 en tonnes des {name.lower()}"
@@ -85,7 +85,7 @@ class Map:
         ).add_to(self.__map)
 
     # Fonction privé qui permet de gérer les couleurs sur la carte
-    def __usecolor(self, feature, data, colormap) -> str:
+    def __usecolor(self, feature: dict[str, str | dict[str, str | int | list[list[float, float]]]], data: dict[str, int], colormap: LinearColormap) -> str:
         if feature["properties"]["nom"] in data.keys():
             return colormap(data[feature["properties"]["nom"]])
         else:

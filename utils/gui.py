@@ -39,7 +39,7 @@ class Gui:
         self.map = Map(self.api)
 
         # Initialisation des ressources de l'interface
-        self.img = openimg(f"{RESOURCE_PATH}\\interface\\img\\GES.jpg")
+        self.img = openimg(f"{RESOURCE_PATH}\\img\\background.jpg")
 
         # Initialisation des composants de l'interface
         self.window = Tk()
@@ -86,7 +86,7 @@ class Gui:
         self.canvas.bind('<Configure>', self.__on_resize)
         self.canvas.pack(fill="both", expand=True)
 
-        self.window.iconbitmap(f"{RESOURCE_PATH}\\interface\\icons\\icon-x32.ico")
+        self.window.iconbitmap(f"{RESOURCE_PATH}\\icons\\icon-x32.ico")
 
         # Tester si l'interface fonctionne correctement
         if self.tests:
