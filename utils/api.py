@@ -1,10 +1,7 @@
-"""
-Module api pour générer la base de l'API
-"""
-
 from requests import get
 from requests.exceptions import HTTPError, ConnectionError
 import sys
+from concurrent.futures import ThreadPoolExecutor,as_completed
 
 class Api:
     """
@@ -12,12 +9,9 @@ class Api:
     Lien vers la doc API: https://data.ademe.fr/datasets/gnzo7xgwv5d271w1t0yw8ynb/api-doc
     """
 
-    # Initialisation (constructeur)
-    def __init__(self) -> None:
-        # Parametres de l'API
+    def __init__(self):
         self.__apilink = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
         self.maxlines = 10000
-        self.minlines = 1
         self.params = [
             'id', 'methode_beges_v4v5', 'date_de_publication',
             'type_de_structure', 'type_de_collectivite', 'raison_sociale',
@@ -59,121 +53,81 @@ class Api:
             '_i', '_rand'
         ]
 
-        # Base du chemin d'accès pour les ressources
-        self.basepath = getattr(sys, '_MEIPASS', ".")
-        
-        # Nom des communes/departements/regions + données totale (self.france)
-        self.france = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b],size=self.maxlines)
-        self.communes = sorted(set([com["raison_sociale"] for com in self.france if "type_de_collectivite" in com.keys() and "type_de_structure" in com.keys() and com["type_de_collectivite"] == "Communes" and com["type_de_structure"] == "Collectivité territoriale (dont EPCI)"]))
-        self.departements = sorted(set([dep["departement"] for dep in self.france]))
-        self.regions = sorted(set([reg["region"] for reg in self.france]))
-        
-    # Fonction privée pour faire des requetes basiques avec des paramètres
-    def __getData(self, link: str, param: dict) -> dict:
+        # Récupération des données de manière asynchrone
+        self.france = self.fetch_data()
+        self.communes = self.filter_communes()
+        self.departements = self.filter_departements()
+        self.regions = self.filter_regions()
+
+    def __getData(self, link, param):
         try:
-            if (len(param) >= 1):
-                rsp = self.__apilink + link + "?"
-
-                for (index, (key, val)) in enumerate(param.items()):
-                    rsp += f"&{key}={val}" if index >= 1 else f"{key}={val}"
-
-                response = get(rsp)
+            if param:
+                rsp = self.__apilink + link + "?" + "&".join(f"{key}={val}" for key, val in param.items())
             else:
-                response = get(self.__apilink + link)
-        except ConnectionError as e:
-            raise HTTPError(response="Connexion impossible")
+                rsp = self.__apilink + link
 
-        if (not response.ok): raise HTTPError(response=response._content)
+            response = get(rsp)
+            response.raise_for_status()
 
-        return response.json()
+            return response.json()
+        except (ConnectionError, HTTPError) as e:
+            raise HTTPError(response=f"Connexion impossible: {e}")
 
-    # Fonction privé qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le parametre size pour prendre en compte plus de valeurs)
-    def __getLines(self, select: list = None, **kwargs) -> list:
-        if (select != None):
-            data = ""
-            for val in select:
-                data += "%2C" + val
-            data = data.removeprefix("%2C")
-            kwargs.update({"select": data})
-
-        return self.__getData("lines", kwargs)["results"]
-    
-    def getCO2(self, type_data: str, nom: str) -> dict:
+    def make_requests(self, urls):
         """
-        Fonction getCO2 qui renvoie le CO2 total par année d'un lieu (renvoie un dictionnaire clés:années et valeurs:total co2)
+        Fait des requêtes en parallèle et renvoie les résultats
         """
+        results = []
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            # Soumettre les requêtes en parallèle
+            futures = [executor.submit(get, url) for url in urls]
 
-        params = [b for b in self.params if "emissions_publication_p" in b]
-        dates_co2 = {}
+            # Récupérer les résultats au fur et à mesure qu'ils sont prêts
+            for future in as_completed(futures):
+                try:
+                    response = future.result()
+                    results.append(response)
+                except Exception as e:
+                    print(f"Erreur lors de la requête : {e}")
 
-        match type_data:
-            case "Départements":
-                for val in self.france:
-                    date = val["date_de_publication"].split("-")[0]
-                    totalco2 = 0
-                    if val["departement"] == nom:
-                        for param in params:
-                            if param in val.keys():
-                                totalco2 += val[param]
-                        if date not in dates_co2.keys():
-                            dates_co2.update({date: totalco2})
-                        else:
-                            dates_co2.update({date: dates_co2[date]+totalco2})
-            case "Régions":
-                for val in self.france:
-                    date = val["date_de_publication"].split("-")[0]
-                    totalco2 = 0
-                    if val["region"] == nom:
-                        for param in params:
-                            if param in val.keys():
-                                totalco2 += val[param]
-                        if date not in dates_co2.keys():
-                            dates_co2.update({date: totalco2})
-                        else:
-                            dates_co2.update({date: dates_co2[date]+totalco2})
-            case "Communes":
-                for val in self.france:
-                    date = val["date_de_publication"].split("-")[0]
-                    totalco2 = 0
-                    # vérification des clés car certaines clés n'existent pas
-                    if "type_de_collectivite" in val.keys() and "type_de_structure" in val.keys() and val["type_de_structure"] == "Collectivité territoriale (dont EPCI)" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
-                        for param in params:
-                            if param in val.keys():
-                                totalco2 += val[param]
-                        if date not in dates_co2.keys():
-                            dates_co2.update({date: totalco2})
-                        else:
-                            dates_co2.update({date: dates_co2[date]+totalco2})
+        return results
 
-        return dates_co2
-
-    def getCO2Total(self, type_data: str) -> dict:
+    def fetch_data(self):
         """
-        Fonction getCO2Total qui renvoie le CO2 total (toutes les dates) d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
+        Récupère les données de l'API de manière asynchrone
         """
+        urls = [self.__apilink + f"lines?size={self.maxlines}&start={i * self.maxlines}" for i in range(self.maxlines)]
+        responses = self.make_requests(urls)
 
-        params = [b for b in self.params if "emissions_publication_p" in b]
-        dataname = None
+        # Fusionner les résultats de toutes les requêtes
+        all_data = []
+        for response in responses:
+            all_data.extend(response.json()["results"])
 
-        match type_data:
-            case "Départements":
-                dataname = "departement"
-            case "Régions":
-                dataname = "region"
+        return all_data
 
-        data = {}
+    def filter_communes(self):
+        """
+        juste les communes
+        """
+        return sorted(set([com["raison_sociale"] for com in self.france if self.__is_commune(com)]))
 
-        for val in self.france:
-            nom = val[dataname]
-            totalco2 = 0
+    def filter_departements(self):
+        """
+        juste les départements
+        """
+        return sorted(set([dep["departement"] for dep in self.france]))
 
-            for param in params:
-                if param in val.keys():
-                    totalco2 += val[param]
+    def filter_regions(self):
+        """
+        juste les régions
+        """
+        return sorted(set([reg["region"] for reg in self.france]))
 
-            if nom not in data.keys():
-                data.update({nom: totalco2})
-            else:
-                data.update({nom: data[nom] + totalco2})
-
-        return data
+    def __is_commune(self, data):
+        """
+        Vérifier si les données représentent une commune pertinente
+        """
+        return ("type_de_collectivite" in data.keys() and "type_de_structure" in data.keys()
+                and data["type_de_collectivite"] == "Communes"
+                and data["type_de_structure"] == "Collectivité territoriale (dont EPCI)")
