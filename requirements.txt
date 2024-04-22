@@ -8,6 +8,7 @@ branca == 0.7.1
 requests == 2.31.0
 matplotlib == 3.8.3
 pyinstaller == 6.5.0
+PyQt5 == 5.15.10
 
 # Autre dépendances
 altgraph==0.17.4
