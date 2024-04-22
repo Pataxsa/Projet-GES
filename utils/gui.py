@@ -2,6 +2,7 @@
 Module gui pour créer une interface
 """
 
+# TODO: Enlever ce fichier et utiliser PYSIDE6 a la place
 # WARNING: LES IMPORTATIONS RALENTISSENT L'APP IL FAUT TOUJOURS OPTIMISER LES IMPORTATIONS COMME ICI (le preload doit se faire avant un maximum d'importations !)
 from tkinter import Tk, Canvas
 from tkinter.ttk import Combobox
@@ -12,7 +13,8 @@ from os.path import isfile
 from os import remove
 from requests.exceptions import HTTPError
 from utils.api import Api
-from utils.map import MAP
+from utils.map import Map
+from utils.constants import RESOURCE_PATH
 from customtkinter import CTkButton, CTkLabel
 from PIL.Image import open as openimg
 from PIL.ImageTk import PhotoImage
@@ -34,10 +36,10 @@ class Gui:
             showerror("Erreur", "Erreur de requete vers l'API: " + str(e.response))
 
         # Initialisation de la carte
-        self.map = MAP(self.api)
+        self.map = Map(self.api)
 
         # Initialisation des ressources de l'interface
-        self.img = openimg(f"{self.api.basepath}\\interface\\img\\GES.jpg")
+        self.img = openimg(f"{RESOURCE_PATH}\\interface\\img\\GES.jpg")
 
         # Initialisation des composants de l'interface
         self.window = Tk()
@@ -56,7 +58,7 @@ class Gui:
         self.tests = tests
 
         # Parametres de l'API
-        self.data_type = "Communes"
+        self.data_type = None
 
     def init(self) -> None:
         """
@@ -84,7 +86,7 @@ class Gui:
         self.canvas.bind('<Configure>', self.__on_resize)
         self.canvas.pack(fill="both", expand=True)
 
-        self.window.iconbitmap(f"{self.api.basepath}\\interface\\icons\\icon-x32.ico")
+        self.window.iconbitmap(f"{RESOURCE_PATH}\\interface\\icons\\icon-x32.ico")
 
         # Tester si l'interface fonctionne correctement
         if self.tests:

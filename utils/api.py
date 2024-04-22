@@ -4,7 +4,7 @@ Module api pour générer la base de l'API
 
 from requests import get
 from requests.exceptions import HTTPError, ConnectionError
-import sys
+from utils.constants import API_LINK
 
 class Api:
     """
@@ -15,10 +15,9 @@ class Api:
     # Initialisation (constructeur)
     def __init__(self) -> None:
         # Parametres de l'API
-        self.__apilink = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
-        self.maxlines = 10000
-        self.minlines = 1
-        self.params = [
+        self.maxlines: int = 10000
+        self.minlines: int = 1
+        self.params: list[str] = [
             'id', 'methode_beges_v4v5', 'date_de_publication',
             'type_de_structure', 'type_de_collectivite', 'raison_sociale',
             'siren_principal', 'apenaf_associe', 'libelle',
@@ -58,29 +57,26 @@ class Api:
             'responsable_du_suivi', 'fonction', 'telephone', 'courriel', '_id',
             '_i', '_rand'
         ]
-
-        # Base du chemin d'accès pour les ressources
-        self.basepath = getattr(sys, '_MEIPASS', ".")
         
         # Nom des communes/departements/regions + données totale (self.france)
-        self.france = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b],size=self.maxlines)
-        self.communes = sorted(set([com["raison_sociale"] for com in self.france if "type_de_collectivite" in com.keys() and "type_de_structure" in com.keys() and com["type_de_collectivite"] == "Communes" and com["type_de_structure"] == "Collectivité territoriale (dont EPCI)"]))
-        self.departements = sorted(set([dep["departement"] for dep in self.france]))
-        self.regions = sorted(set([reg["region"] for reg in self.france]))
+        self.france: list[dict[str, int | list]] = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b], size=self.maxlines)
+        self.communes: list[str] = sorted(set([com["raison_sociale"] for com in self.france if "type_de_collectivite" in com.keys() and "type_de_structure" in com.keys() and com["type_de_collectivite"] == "Communes" and com["type_de_structure"] == "Collectivité territoriale (dont EPCI)"]))
+        self.departements: list[str] = sorted(set([dep["departement"] for dep in self.france]))
+        self.regions: list[str] = sorted(set([reg["region"] for reg in self.france]))
         
     # Fonction privée pour faire des requetes basiques avec des paramètres
-    def __getData(self, link: str, param: dict) -> dict:
+    def __getData(self, link: str, param: dict) -> dict[str, int | list]:
         try:
             if (len(param) >= 1):
-                rsp = self.__apilink + link + "?"
+                rsp = API_LINK + link + "?"
 
                 for (index, (key, val)) in enumerate(param.items()):
                     rsp += f"&{key}={val}" if index >= 1 else f"{key}={val}"
 
                 response = get(rsp)
             else:
-                response = get(self.__apilink + link)
-        except ConnectionError as e:
+                response = get(API_LINK + link)
+        except ConnectionError:
             raise HTTPError(response="Connexion impossible")
 
         if (not response.ok): raise HTTPError(response=response._content)
@@ -88,7 +84,7 @@ class Api:
         return response.json()
 
     # Fonction privé qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le parametre size pour prendre en compte plus de valeurs)
-    def __getLines(self, select: list = None, **kwargs) -> list:
+    def __getLines(self, select: list = None, **kwargs) -> list[dict[str, int | list]]:
         if (select != None):
             data = ""
             for val in select:
@@ -98,7 +94,7 @@ class Api:
 
         return self.__getData("lines", kwargs)["results"]
     
-    def getCO2(self, type_data: str, nom: str) -> dict:
+    def getCO2(self, type_data: str, nom: str) -> dict[str, int]:
         """
         Fonction getCO2 qui renvoie le CO2 total par année d'un lieu (renvoie un dictionnaire clés:années et valeurs:total co2)
         """
@@ -107,23 +103,11 @@ class Api:
         dates_co2 = {}
 
         match type_data:
-            case "Départements":
+            case "Régions" | "Départements":
                 for val in self.france:
                     date = val["date_de_publication"].split("-")[0]
                     totalco2 = 0
-                    if val["departement"] == nom:
-                        for param in params:
-                            if param in val.keys():
-                                totalco2 += val[param]
-                        if date not in dates_co2.keys():
-                            dates_co2.update({date: totalco2})
-                        else:
-                            dates_co2.update({date: dates_co2[date]+totalco2})
-            case "Régions":
-                for val in self.france:
-                    date = val["date_de_publication"].split("-")[0]
-                    totalco2 = 0
-                    if val["region"] == nom:
+                    if val[type_data.lower().replace("é", "e").removesuffix("s")] == nom:
                         for param in params:
                             if param in val.keys():
                                 totalco2 += val[param]
@@ -147,24 +131,16 @@ class Api:
 
         return dates_co2
 
-    def getCO2Total(self, type_data: str) -> dict:
+    def getCO2Total(self, type_data: str) -> dict[str, int]:
         """
         Fonction getCO2Total qui renvoie le CO2 total (toutes les dates) d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
         """
 
         params = [b for b in self.params if "emissions_publication_p" in b]
-        dataname = None
-
-        match type_data:
-            case "Départements":
-                dataname = "departement"
-            case "Régions":
-                dataname = "region"
-
         data = {}
 
         for val in self.france:
-            nom = val[dataname]
+            nom = val[type_data.lower().replace("é", "e").removesuffix("s")]
             totalco2 = 0
 
             for param in params:
