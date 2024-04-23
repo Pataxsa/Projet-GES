@@ -157,13 +157,17 @@ class Gui:
             self.data_type = selected_option
             self.graphic_button.configure(state="normal")
             self.ville_label.configure(text=f"{selected_option.removesuffix("s")} : ")
+            values = ["Retour"]
             match selected_option:
                 case "Régions":
-                    self.list_ville["values"] = ["Retour"] + self.api.regions
+                    values.extend(self.api.regions)
+                    self.list_ville["values"] = values
                 case "Départements":
-                    self.list_ville["values"] = ["Retour"] + self.api.departements
+                    values.extend(self.api.departements)
+                    self.list_ville["values"] = values
                 case "Communes":
-                    self.list_ville["values"] = ["Retour"] + self.api.communes
+                    values.extend(self.api.communes)
+                    self.list_ville["values"] = values
             self.list_ville.current(1)
             self.list_ville.place_configure(x=(len(self.ville_label.cget("text"))*2) + 26)
         else:

@@ -87,10 +87,7 @@ class Api:
     # Fonction privé qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le parametre size pour prendre en compte plus de valeurs)
     def __getLines(self, select: list[str] = None, **kwargs) -> list[dict[str, int | str]]:
         if (select != None):
-            data = ""
-            for val in select:
-                data += "%2C" + val
-            data = data.removeprefix("%2C")
+            data = "%2C".join(select)
             kwargs.update({"select": data})
 
         return self.__getData("lines", kwargs)["results"]
@@ -107,11 +104,10 @@ class Api:
             case "Régions" | "Départements":
                 for val in self.france:
                     date = val["date_de_publication"].split("-")[0]
-                    totalco2 = 0
                     if val[type_data.lower().replace("é", "e").removesuffix("s")] == nom:
-                        for param in params:
-                            if param in val.keys():
-                                totalco2 += val[param]
+
+                        totalco2 = sum([val[param] for param in params if param in val.keys()])
+                        
                         if date not in dates_co2.keys():
                             dates_co2.update({date: totalco2})
                         else:
@@ -119,12 +115,11 @@ class Api:
             case "Communes":
                 for val in self.france:
                     date = val["date_de_publication"].split("-")[0]
-                    totalco2 = 0
                     # vérification des clés car certaines clés n'existent pas
                     if "type_de_collectivite" in val.keys() and "type_de_structure" in val.keys() and val["type_de_structure"] == "Collectivité territoriale (dont EPCI)" and val["type_de_collectivite"] == "Communes" and val["raison_sociale"] == nom:
-                        for param in params:
-                            if param in val.keys():
-                                totalco2 += val[param]
+
+                        totalco2 = sum([val[param] for param in params if param in val.keys()])
+
                         if date not in dates_co2.keys():
                             dates_co2.update({date: totalco2})
                         else:
@@ -142,11 +137,8 @@ class Api:
 
         for val in self.france:
             nom = val[type_data.lower().replace("é", "e").removesuffix("s")]
-            totalco2 = 0
 
-            for param in params:
-                if param in val.keys():
-                    totalco2 += val[param]
+            totalco2 = sum([val[param] for param in params if param in val.keys()])
 
             if nom not in data.keys():
                 data.update({nom: totalco2})
