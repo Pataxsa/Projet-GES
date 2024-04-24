@@ -5,7 +5,7 @@ Module gui pour créer une interface
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg as Figure
 import matplotlib.pyplot as plt
 from os.path import isfile
 from os import remove
@@ -140,7 +140,7 @@ class Gui:
             fig.set_figwidth(fig.get_figwidth() * 1.2)
             fig.set_figheight(fig.get_figheight() * 1.2)
 
-            graphic = FigureCanvasTkAgg(fig, master=self.window)
+            graphic = Figure(fig, master=self.window)
 
             if self.graphic_widget is not None:
                 self.graphic_widget.destroy()
