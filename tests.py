@@ -1,9 +1,9 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QMessageBox, QComboBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QMessageBox, QComboBox,QSizePolicy
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from os.path import isfile, join
+from os.path import isfile
 from os import remove
 from requests.exceptions import HTTPError
 from utils.api import Api
@@ -11,43 +11,38 @@ from utils.map import MAP
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, title: str = "Emissions de GES par types de localités", resizable: bool = True, tests: bool = False) -> None:
+    def __init__(self, title: str = "Emissions de GES par types de localités") -> None:
         super().__init__()
-        self.setMinimumSize(800, 600)
         self.setWindowTitle(title)
+        self.resize(800, 600)  # Définir une taille initiale
 
         self.api = Api()
         self.map = MAP(self.api)
         self.dataname = "Communes"
 
         # Créer un widget central pour la fenêtre
-        central_widget = QWidget()
+        central_widget = QWidget(self)
         self.setCentralWidget(central_widget)
 
         # Créer un layout vertical pour le widget central
         central_layout = QVBoxLayout(central_widget)
         central_layout.setContentsMargins(20, 20, 20, 20)
-        central_layout.setAlignment(Qt.AlignTop)
+        central_layout.setAlignment(Qt.AlignCenter)  # Centrer les éléments verticalement
 
         # Créer une combobox principale
-        self.list_ville = QComboBox()
-        self.list_ville.setGeometry(len(self.list_ville.currentText()) + 5,30,30,30)
-        self.list_ville.addItems(["===========","Commune", "Région", "Département","==========="])
-
-        # Appliquer le style pour centrer le texte dans la ComboBox
-        self.list_ville.setStyleSheet("QComboBox::item { text-align: center; }")
-        central_layout.addWidget(self.list_ville)
-
-        # Connecter le signal de changement de sélection de la combobox principale
-        self.ignore_main_combo_box_change = False
+        self.list_ville = QComboBox(self)
+        self.list_ville.addItems(["===========","Commune", "Région", "Département"])
+        self.list_ville.setStyleSheet("QComboBox { min-width: 200px; }")  # Définir une largeur minimale
         self.list_ville.currentIndexChanged.connect(self.on_main_combo_box_changed)
+        central_layout.addWidget(self.list_ville, alignment=Qt.AlignCenter)  # Centrer la combobox
+        self.ignore_main_combo_box_change = False
 
         # Créer un layout horizontal pour les boutons
         button_layout = QHBoxLayout()
         central_layout.addLayout(button_layout)
 
-        research_button = QPushButton("Générer un graphique")
-        map_button = QPushButton("Afficher une carte")
+        research_button = QPushButton("Générer un graphique", self)
+        map_button = QPushButton("Afficher une carte", self)
 
         # Ajouter les boutons au layout horizontal
         button_layout.addWidget(research_button)
@@ -63,9 +58,16 @@ class MainWindow(QMainWindow):
         # Créer le FigureCanvas pour afficher le graphique
         self.figure = Figure()
         self.canvas = FigureCanvas(self.figure)
-        central_layout.addWidget(self.canvas)
+        central_layout.addWidget(self.canvas, alignment=Qt.AlignCenter)
+    
+    def init():
+        if isfile("map.html"):
+            remove("map.html")
 
-        central_layout.addStretch(1)
+        app = QApplication(sys.argv)
+        window = MainWindow()
+        window.show()
+        sys.exit(app.exec_())
 
     def on_main_combo_box_changed(self):
         if self.ignore_main_combo_box_change:
@@ -100,14 +102,6 @@ class MainWindow(QMainWindow):
         self.list_ville.setCurrentText(selected_text)
         self.ignore_main_combo_box_change = False
 
-    def init():
-        if isfile("map.html"):
-            remove("map.html")
-
-        app = QApplication(sys.argv)
-        window = MainWindow()
-        window.show()
-        sys.exit(app.exec_())
 
     def __generatemap(self):
         self.map.save("map.html")
@@ -136,10 +130,23 @@ class MainWindow(QMainWindow):
 
                 # Mettre à jour le graphique dans le canvas
                 self.canvas.draw()
+    
 
         except HTTPError as e:
             error_message = f"Erreur de requête vers l'API: {str(e.response)}"
             QMessageBox.critical(None, "Erreur", error_message)
+    
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+
+        # Obtenir la taille de la fenêtre
+        width = event.size().width()
+        height = event.size().height()
+
+        # Redimensionner le canvas pour qu'il corresponde à la nouvelle taille de la fenêtre
+        self.canvas.resize(width, height)
+        self.canvas.move((width-self.canvas.get_width_height()[0])//2,(height-self.canvas.get_width_height()[1])//2)
+        self.canvas.draw()
 
 
 
