@@ -16,7 +16,7 @@ class MainWindow(QMainWindow):
     def __init__(self, title: str = "Emissions de GES par types de localités") -> None:
         super().__init__()
         self.setWindowTitle(title)
-        self.resize(800, 600)  # Définir une taille initiale
+        self.setMinimumSize(800,600) #pas de pb avec les redimensionnements
 
         self.api = Api()
         self.map = MAP(self.api)
@@ -65,10 +65,11 @@ class MainWindow(QMainWindow):
         self.figure = Figure()
         self.canvas = FigureCanvas(self.figure)
         central_layout.addWidget(self.canvas, alignment=Qt.AlignCenter)
+        self.canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
     
     def init():
-        #if isfile("map.html"):
-            #remove("map.html")
+        if isfile("map.html"):
+            remove("map.html")
 
         app = QApplication(sys.argv)
         window = MainWindow()
@@ -115,7 +116,7 @@ class MainWindow(QMainWindow):
 
     def __show_graphic(self):
         try:
-            if not self.list_ville.currentText() in ["Retour","Commune", "Région", "Département"]:
+            if not self.list_ville.currentText() in ["Retour","Commune", "Région", "Département","Choisissez le type de localité"]:
                 inputdata = self.list_ville.currentText()
                 data = self.api.getCO2(self.dataname, inputdata)
                 dates = list(data.keys())
@@ -136,6 +137,7 @@ class MainWindow(QMainWindow):
                 ax.tick_params(axis='x', rotation=90)
 
                 # Mettre à jour le graphique dans le canvas
+                self.figure.subplots_adjust(bottom=0.25)
                 self.canvas.draw()
     
 
@@ -166,9 +168,8 @@ class MainWindow(QMainWindow):
         canvas_x = (window_width - canvas_width) // 2
         canvas_y = (window_height - canvas_height - taille_elem) // 2
 
-        self.canvas.resize(canvas_width, canvas_height)
+        self.canvas.setMinimumSize(int(window_width * 0.9), int(window_height * 0.9))
         self.canvas.move(canvas_x, canvas_y)
-        self.canvas.draw()
 
         # Positionner le QComboBox au centre horizontalement
         combo_box_width = 150
@@ -176,20 +177,18 @@ class MainWindow(QMainWindow):
         combo_box_x = (window_width - combo_box_width) // 2
         combo_box_y = canvas_y - combo_box_height - 20
 
-        self.list_ville.setGeometry(combo_box_x, combo_box_y, combo_box_width, combo_box_height)
+        self.list_ville.setGeometry(combo_box_x, combo_box_y+10, combo_box_width, combo_box_height)
 
         # Positionner les boutons au centre horizontalement
         button_width = 150
         button_height = 30
         button_margin = 20
 
-        button_x = (window_width - 2 * button_width - button_margin) // 2
+        button_x = (window_width - 2 * button_width - button_margin ) // 2
         button_y = canvas_y + canvas_height + button_margin
 
         self.research_button.setGeometry(button_x, button_y, button_width, button_height)
-        self.map_button.setGeometry(button_x + button_width + button_margin, button_y, button_width, button_height)
-
-
+        self.map_button.setGeometry(button_x + button_width, button_y, button_width, button_height)
 
 
 
