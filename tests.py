@@ -1,6 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QMessageBox, QComboBox,QSizePolicy
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from os.path import isfile
@@ -31,9 +33,10 @@ class MainWindow(QMainWindow):
 
         # Créer une combobox principale
         self.list_ville = QComboBox(self)
-        self.list_ville.addItems(["===========","Commune", "Région", "Département"])
+        self.list_ville.addItems(["Choisissez le type de localité","Commune", "Région", "Département"])
         self.list_ville.setStyleSheet("QComboBox { min-width: 200px; }")  # Définir une largeur minimale
         self.list_ville.currentIndexChanged.connect(self.on_main_combo_box_changed)
+
         central_layout.addWidget(self.list_ville, alignment=Qt.AlignCenter)  # Centrer la combobox
         self.ignore_main_combo_box_change = False
 
@@ -41,19 +44,22 @@ class MainWindow(QMainWindow):
         button_layout = QHBoxLayout()
         central_layout.addLayout(button_layout)
 
-        research_button = QPushButton("Générer un graphique", self)
-        map_button = QPushButton("Afficher une carte", self)
+        self.research_button = QPushButton("Générer un graphique", self)
+        self.map_button = QPushButton("Afficher une carte", self)
 
         # Ajouter les boutons au layout horizontal
-        button_layout.addWidget(research_button)
-        button_layout.addWidget(map_button)
+        button_layout.addWidget(self.research_button)
+        button_layout.addWidget(self.map_button)
 
-        research_button.setFixedSize(150, 30)
-        map_button.setFixedSize(150, 30)
+        self.research_button.setFixedSize(150, 30)
+        self.map_button.setFixedSize(150, 30)
 
         # Associer les fonctions aux boutons
-        research_button.clicked.connect(self.__show_graphic)
-        map_button.clicked.connect(self.__generatemap)
+        self.research_button.clicked.connect(self.__show_graphic)
+        self.map_button.clicked.connect(self.__generatemap)
+
+        self.web_view = QWebEngineView(self)
+        central_layout.addWidget(self.web_view, alignment=Qt.AlignCenter)
 
         # Créer le FigureCanvas pour afficher le graphique
         self.figure = Figure()
@@ -61,8 +67,8 @@ class MainWindow(QMainWindow):
         central_layout.addWidget(self.canvas, alignment=Qt.AlignCenter)
     
     def init():
-        if isfile("map.html"):
-            remove("map.html")
+        #if isfile("map.html"):
+            #remove("map.html")
 
         app = QApplication(sys.argv)
         window = MainWindow()
@@ -96,7 +102,7 @@ class MainWindow(QMainWindow):
             
         elif selected_text == "Retour":
             self.list_ville.clear()
-            self.list_ville.addItems(["Commune", "Région", "Département"])
+            self.list_ville.addItems(["Choisissez le type de localité","Commune", "Région", "Département"])
             self.list_ville.setCurrentIndex(0)
         
         self.list_ville.setCurrentText(selected_text)
@@ -105,6 +111,7 @@ class MainWindow(QMainWindow):
 
     def __generatemap(self):
         self.map.save("map.html")
+        #self.web_view.setUrl(QUrl.fromLocalFile("map.html"))
 
     def __show_graphic(self):
         try:
@@ -139,14 +146,49 @@ class MainWindow(QMainWindow):
     def resizeEvent(self, event):
         super().resizeEvent(event)
 
-        # Obtenir la taille de la fenêtre
-        width = event.size().width()
-        height = event.size().height()
+        window_width = event.size().width()
+        window_height = event.size().height()
 
-        # Redimensionner le canvas pour qu'il corresponde à la nouvelle taille de la fenêtre
-        self.canvas.resize(width, height)
-        self.canvas.move((width-self.canvas.get_width_height()[0])//2,(height-self.canvas.get_width_height()[1])//2)
+        canvas_margin = 50
+        taille_elem = 100  # Hauteur des autres éléments (combobox / boutons)
+
+        canvas_width = window_width - 2 * canvas_margin
+        canvas_height = window_height - 2 * canvas_margin - taille_elem
+
+        # Limiter la taille maximale du canvas
+        max_canvas_width = 1000
+        max_canvas_height = 800
+
+        canvas_width = min(canvas_width, max_canvas_width)
+        canvas_height = min(canvas_height, max_canvas_height)
+
+        # Positionner le canvas au centre de la fenêtre
+        canvas_x = (window_width - canvas_width) // 2
+        canvas_y = (window_height - canvas_height - taille_elem) // 2
+
+        self.canvas.resize(canvas_width, canvas_height)
+        self.canvas.move(canvas_x, canvas_y)
         self.canvas.draw()
+
+        # Positionner le QComboBox au centre horizontalement
+        combo_box_width = 150
+        combo_box_height = 30
+        combo_box_x = (window_width - combo_box_width) // 2
+        combo_box_y = canvas_y - combo_box_height - 20
+
+        self.list_ville.setGeometry(combo_box_x, combo_box_y, combo_box_width, combo_box_height)
+
+        # Positionner les boutons au centre horizontalement
+        button_width = 150
+        button_height = 30
+        button_margin = 20
+
+        button_x = (window_width - 2 * button_width - button_margin) // 2
+        button_y = canvas_y + canvas_height + button_margin
+
+        self.research_button.setGeometry(button_x, button_y, button_width, button_height)
+        self.map_button.setGeometry(button_x + button_width + button_margin, button_y, button_width, button_height)
+
 
 
 
