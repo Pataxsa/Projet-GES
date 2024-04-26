@@ -2,8 +2,7 @@
 Module main pour créer et lancer l'interface
 """
 
-from utils.gui import Gui
+from utils.gui import GUI
 
 # Crée une interface
-gui = Gui("Recherche GES par Lieux")
-gui.init()
+GUI.init("Recherche GES par Lieux")

@@ -12,7 +12,7 @@ from utils.api import Api
 from utils.map import MAP
 
 
-class MainWindow(QMainWindow):
+class GUI(QMainWindow):
     def __init__(self, title: str = "Emissions de GES par types de localités") -> None:
         super().__init__()
         self.setWindowTitle(title)
@@ -76,12 +76,12 @@ class MainWindow(QMainWindow):
         self.canvas.setMaximumSize(1000, 800) # Taille max du canvas
         self.canvas.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding) # Fait en sorte que le canvas puisse s'étendre
     
-    def init():
+    def init(titre):
         if isfile("map.html"):
             remove("map.html")
 
         app = QApplication(sys.argv)
-        window = MainWindow()
+        window = GUI(title = titre)
         window.show()
         sys.exit(app.exec())
 
@@ -152,6 +152,3 @@ class MainWindow(QMainWindow):
         except HTTPError as e:
             error_message = f"Erreur de requête vers l'API: {str(e.response)}"
             QMessageBox.critical(None, "Erreur", error_message)
-
-
-MainWindow.init()
