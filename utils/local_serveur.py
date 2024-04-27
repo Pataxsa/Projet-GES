@@ -13,7 +13,6 @@ class LocalServer:
         os.chdir(self.directory)
         handler = SimpleHTTPRequestHandler
         self.httpd = HTTPServer((self.host, self.port), handler)
-        print(f"Server lancé à http://{self.host}:{self.port}")
         server_thread = Thread(target=self.httpd.serve_forever)
         server_thread.start()
 

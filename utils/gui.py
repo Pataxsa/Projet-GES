@@ -10,7 +10,7 @@ from os import remove
 from requests.exceptions import HTTPError
 from utils.api import Api
 from utils.map import MAP
-from tests import test
+from utils.local_serveur import LocalServer
 
 class GUI(QMainWindow):
     def __init__(self, title: str = "Emissions de GES par types de localités") -> None:
@@ -61,12 +61,6 @@ class GUI(QMainWindow):
         self.map_button.clicked.connect(self.__generatemap)
 
 
-
-        self.web_view = QWebEngineView(self)
-        central_layout.addWidget(self.web_view, alignment=Qt.AlignmentFlag.AlignCenter)
-
-
-
         # Créer le FigureCanvas pour afficher le graphique
         self.figure = Figure()
         self.figure.set_facecolor(central_widget.palette().color(QPalette.ColorRole.Window).name()) # Mettre le fond du canvas a la même couleur que le fond du menu
@@ -74,11 +68,10 @@ class GUI(QMainWindow):
         central_layout.addWidget(self.canvas)
         self.canvas.setMaximumSize(1000, 800) # Taille max du canvas
         self.canvas.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding) # Fait en sorte que le canvas puisse s'étendre
-    
+        
+        
+        self.local_server = LocalServer(directory=".")
     def init(titre):
-        if isfile("map.html"):
-            remove("map.html")
-
         app = QApplication(sys.argv)
         window = GUI(title = titre)
         window.show()
@@ -104,7 +97,12 @@ class GUI(QMainWindow):
 
 
     def __generatemap(self):
-        pass
+        self.local_server.start_server()
+        # Charger la carte dans le navigateur Web local
+        web_view = QWebEngineView(self)
+        web_view.load(QUrl("http://localhost:8000/../map.html"))
+        self.setCentralWidget(web_view)
+        web_view.show()
 
 
     def __show_graphic(self):

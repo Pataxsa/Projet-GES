@@ -4,7 +4,6 @@ Module map pour générer une carte
 from folium import TileLayer, Map, GeoJsonPopup, GeoJson, LayerControl
 from json import load
 from branca.colormap import LinearColormap
-from os.path import isfile
 from utils.api import Api
 
 
