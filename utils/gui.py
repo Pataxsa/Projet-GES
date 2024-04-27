@@ -5,8 +5,6 @@ from PySide6.QtGui import QPalette
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from os.path import isfile
-from os import remove
 from requests.exceptions import HTTPError
 from utils.api import Api
 from utils.map import MAP
@@ -58,7 +56,7 @@ class GUI(QMainWindow):
 
         # Associer les fonctions aux boutons
         self.research_button.clicked.connect(self.__show_graphic)
-        self.map_button.clicked.connect(self.__generatemap)
+        self.map_button.clicked.connect(self.__showMap)
 
 
         # Créer le FigureCanvas pour afficher le graphique
@@ -71,11 +69,12 @@ class GUI(QMainWindow):
         
         
         self.local_server = LocalServer(directory=".")
+
     def init(titre):
         app = QApplication(sys.argv)
         window = GUI(title = titre)
         window.show()
-        sys.exit(app.exec())
+        sys.exit(app.exec_())
 
     def on_main_combo_box_changed(self):
         
@@ -96,16 +95,31 @@ class GUI(QMainWindow):
                 self.list_ville.addItems(["Choisissez le type de localité", "Commune", "Région", "Département"])
 
 
-    def __generatemap(self):
+    def __showMap(self):
+        if isinstance(self.centralWidget(), QWebEngineView):
+            # Supprimer le widget central actuel s'il s'agit d'un WebEngineView
+            web_view = self.centralWidget()
+            layout = self.centralWidget().layout()
+            layout.removeWidget(web_view)
+            web_view.deleteLater()
+
+        self.canvas.hide()
+        # Démarrer le serveur local pour afficher la carte
         self.local_server.start_server()
+
         # Charger la carte dans le navigateur Web local
-        web_view = QWebEngineView(self)
-        web_view.load(QUrl("http://localhost:8000/../map.html"))
-        self.setCentralWidget(web_view)
-        web_view.show()
+        self.web_view = QWebEngineView()
+        self.web_view.load(QUrl("http://localhost:8000/../map.html"))
+
+        # Remplacer le widget central actuel par la carte
+        self.centralWidget().layout().addWidget(self.web_view)
 
 
     def __show_graphic(self):
+        if isinstance(self.centralWidget(), QWebEngineView):
+            # Supprimer le widget central actuel s'il s'agit d'un WebEngineView
+            self.centralWidget().layout().deleteLater()
+
         try:
             if not self.list_ville.currentText() in ["Retour","Commune", "Région", "Département","Choisissez le type de localité"]:
                 inputdata = self.list_ville.currentText()
@@ -131,6 +145,14 @@ class GUI(QMainWindow):
                 # Mettre à jour le graphique dans le canvas
                 self.figure.subplots_adjust(bottom=0.25)
                 self.canvas.draw()
+
+                # Réafficher le canvas maintenant que le graphique est prêt
+                self.canvas.show()
         except HTTPError as e:
             error_message = f"Erreur de requête vers l'API: {str(e.response)}"
             QMessageBox.critical(None, "Erreur", error_message)
+    
+    def closeEvent(self, event):
+        # Arrêter le serveur local lorsque la fenêtre est fermée
+        self.local_server.stop_server()
+        event.accept()
