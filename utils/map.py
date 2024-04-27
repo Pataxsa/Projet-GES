@@ -1,13 +1,11 @@
 """
 Module map pour générer une carte
 """
-
 from folium import TileLayer, Map, GeoJsonPopup, GeoJson, LayerControl
 from json import load
 from branca.colormap import LinearColormap
 from os.path import isfile
 from utils.api import Api
-from webbrowser import open as webopen
 
 
 class MAP:
@@ -34,13 +32,9 @@ class MAP:
 
     def save(self, name: str) -> None:
         """
-        Fonction save qui sauvegarde la carte si le fichier existe et lance le fichier html
-        """
-        
-        if not isfile("map.html"):
-            self.map.save(name)
-
-        webopen(name)
+        Fonction save qui sauvegarde la carte
+        """     
+        self.map.save(name,close_file=False)
 
     # Fonction privé qui permet de générer les données de la carte
     def __generate(self) -> None:

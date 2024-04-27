@@ -10,7 +10,7 @@ from os import remove
 from requests.exceptions import HTTPError
 from utils.api import Api
 from utils.map import MAP
-
+from tests import test
 
 class GUI(QMainWindow):
     def __init__(self, title: str = "Emissions de GES par types de localités") -> None:
@@ -38,7 +38,6 @@ class GUI(QMainWindow):
         self.list_ville.currentIndexChanged.connect(self.on_main_combo_box_changed)
 
         central_layout.addWidget(self.list_ville, alignment=Qt.AlignmentFlag.AlignHCenter)  # Centrer la combobox horizontalement
-        self.ignore_main_combo_box_change = False
 
         # Créer un layout horizontal pour les boutons
         button_layout = QHBoxLayout()
@@ -62,15 +61,15 @@ class GUI(QMainWindow):
         self.map_button.clicked.connect(self.__generatemap)
 
 
-        """ A faire, en cours de test
+
         self.web_view = QWebEngineView(self)
         central_layout.addWidget(self.web_view, alignment=Qt.AlignmentFlag.AlignCenter)
-        """
+
 
 
         # Créer le FigureCanvas pour afficher le graphique
         self.figure = Figure()
-        self.figure.set_facecolor(self.palette().color(QPalette.ColorGroup.Current, QPalette.ColorRole.Dark).name()) # Mettre le fond du canvas a la même couleur que le fond du menu
+        self.figure.set_facecolor(central_widget.palette().color(QPalette.ColorRole.Window).name()) # Mettre le fond du canvas a la même couleur que le fond du menu
         self.canvas: FigureCanvas = FigureCanvas(self.figure)
         central_layout.addWidget(self.canvas)
         self.canvas.setMaximumSize(1000, 800) # Taille max du canvas
@@ -86,41 +85,26 @@ class GUI(QMainWindow):
         sys.exit(app.exec())
 
     def on_main_combo_box_changed(self):
-        if self.ignore_main_combo_box_change:
-            return
         
         selected_text = self.list_ville.currentText()
-        self.ignore_main_combo_box_change = True
 
-        if selected_text == "Commune":
-            self.dataname = "Communes"
-            self.list_ville.clear()
-            self.list_ville.addItems(["Retour"] + self.api.communes)
-            self.list_ville.setCurrentIndex(1)
-
-        elif selected_text == "Région":
-            self.dataname = "Régions"
-            self.list_ville.clear()
-            self.list_ville.addItems(["Retour"] + self.api.regions)
-            self.list_ville.setCurrentIndex(1)
-
-        elif selected_text == "Département":
-            self.dataname = "Départements"
-            self.list_ville.clear()
-            self.list_ville.addItems(["Retour"] + self.api.departements)
-            self.list_ville.setCurrentIndex(1)
-            
-        elif selected_text == "Retour":
-            self.list_ville.clear()
-            self.list_ville.addItems(["Choisissez le type de localité","Commune", "Région", "Département"])
-            self.list_ville.setCurrentIndex(0)
-        
-        self.list_ville.setCurrentText(selected_text)
-        self.ignore_main_combo_box_change = False
+        match selected_text:
+            case "Région" | "Département" | "Commune":
+                values = ["Retour"]
+                values.extend(getattr(self.api, f"{selected_text.lower().replace("é", "e")}s"))
+                self.dataname = f"{selected_text}s"
+                self.list_ville.currentIndexChanged.disconnect(self.on_main_combo_box_changed)
+                self.list_ville.clear()
+                self.list_ville.addItems(values)
+                self.list_ville.setCurrentIndex(1)
+                self.list_ville.currentIndexChanged.connect(self.on_main_combo_box_changed)
+            case "Retour":
+                self.list_ville.clear()
+                self.list_ville.addItems(["Choisissez le type de localité", "Commune", "Région", "Département"])
 
 
     def __generatemap(self):
-        self.map.save("map.html")
+        pass
 
 
     def __show_graphic(self):
