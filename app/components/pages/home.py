@@ -1,1 +1,1 @@
-#TODO: page principale QWidget ou QBoxLayout (on pourra possiblement la renommer)
+#TODO: page principale QWidget ou QFrame (on pourra possiblement la renommer)

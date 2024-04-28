@@ -21,4 +21,4 @@ if __name__ == "__main__":
 
     preload_window.deleteLater()
     
-    exit(app.exec())
+    app.exec()
