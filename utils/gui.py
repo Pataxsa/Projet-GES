@@ -25,9 +25,9 @@ class GUI(QMainWindow):
         self.setCentralWidget(central_widget)
 
         # Créer un layout vertical pour le widget central
-        central_layout = QVBoxLayout(central_widget)
-        central_layout.setContentsMargins(20, 20, 20, 20)
-        central_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Centrer les éléments verticalement
+        self.central_layout = QVBoxLayout(central_widget)
+        self.central_layout.setContentsMargins(20, 20, 20, 20)
+        self.central_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Centrer les éléments verticalement
 
         # Créer une combobox principale
         self.list_ville = QComboBox(self)
@@ -35,14 +35,14 @@ class GUI(QMainWindow):
         self.list_ville.setStyleSheet("QComboBox { min-width: 200px; }")  # Définir une largeur minimale
         self.list_ville.currentIndexChanged.connect(self.on_main_combo_box_changed)
 
-        central_layout.addWidget(self.list_ville, alignment=Qt.AlignmentFlag.AlignHCenter)  # Centrer la combobox horizontalement
+        self.central_layout.addWidget(self.list_ville, alignment=Qt.AlignmentFlag.AlignHCenter)  # Centrer la combobox horizontalement
 
         # Créer un layout horizontal pour les boutons
         button_layout = QHBoxLayout()
         button_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         button_layout.setContentsMargins(0, 10, 0, 0)
         button_layout.setSpacing(20)
-        central_layout.addLayout(button_layout)
+        self.central_layout.addLayout(button_layout)
 
         self.research_button = QPushButton("Générer un graphique", self)
         self.map_button = QPushButton("Afficher une carte", self)
@@ -63,15 +63,21 @@ class GUI(QMainWindow):
         self.figure = Figure()
         self.figure.set_facecolor(central_widget.palette().color(QPalette.ColorRole.Window).name()) # Mettre le fond du canvas a la même couleur que le fond du menu
         self.canvas: FigureCanvas = FigureCanvas(self.figure)
-        central_layout.addWidget(self.canvas)
+        self.central_layout.addWidget(self.canvas)
         self.canvas.setMaximumSize(1000, 800) # Taille max du canvas
         self.canvas.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding) # Fait en sorte que le canvas puisse s'étendre
         
         
         self.local_server = LocalServer(directory=".")
         self.local_server.start_server()
+
         self.web_view = QWebEngineView()
         self.web_view.setZoomFactor(0.85)
+        self.web_view.load(QUrl("http://localhost:8000/../map.html"))
+
+        # Ajouter la carte, masquée
+        self.central_layout.addWidget(self.web_view)
+        self.web_view.hide()
 
     def init(titre):
         app = QApplication(sys.argv)
@@ -100,16 +106,14 @@ class GUI(QMainWindow):
 
     def __showMap(self):
         self.canvas.hide()    
-
-        # Charger la carte dans le navigateur Web local
-        self.web_view.load(QUrl("http://localhost:8000/../map.html"))
-        # Remplacer le widget central actuel par la carte
-        self.centralWidget().layout().addWidget(self.web_view)
-        self.map_button.clicked.disconnect(self.__showMap)
+        self.web_view.show()
 
 
     def __show_graphic(self):
+        self.web_view.hide()
+        self.canvas.show()
         try:
+
             if not self.list_ville.currentText() in ["Retour","Commune", "Région", "Département","Choisissez le type de localité"]:
                 inputdata = self.list_ville.currentText()
                 data = self.api.getCO2(self.dataname, inputdata)
@@ -135,9 +139,6 @@ class GUI(QMainWindow):
                 self.figure.subplots_adjust(bottom=0.25)
                 self.canvas.draw()
 
-                # Réafficher le canvas maintenant que le graphique est prêt
-                self.canvas.show()
-                self.map_button.clicked.connect(self.__showMap)
         except HTTPError as e:
             error_message = f"Erreur de requête vers l'API: {str(e.response)}"
             QMessageBox.critical(None, "Erreur", error_message)
