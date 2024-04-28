@@ -105,13 +105,10 @@ class GUI(QMainWindow):
         self.web_view.load(QUrl("http://localhost:8000/../map.html"))
         # Remplacer le widget central actuel par la carte
         self.centralWidget().layout().addWidget(self.web_view)
+        self.map_button.clicked.disconnect(self.__showMap)
 
 
     def __show_graphic(self):
-        if isinstance(self.centralWidget().layout(), QWebEngineView):
-            # Supprimer le widget central actuel s'il s'agit d'un WebEngineView
-            self.centralWidget().deleteLater()
-
         try:
             if not self.list_ville.currentText() in ["Retour","Commune", "Région", "Département","Choisissez le type de localité"]:
                 inputdata = self.list_ville.currentText()
@@ -140,6 +137,7 @@ class GUI(QMainWindow):
 
                 # Réafficher le canvas maintenant que le graphique est prêt
                 self.canvas.show()
+                self.map_button.clicked.connect(self.__showMap)
         except HTTPError as e:
             error_message = f"Erreur de requête vers l'API: {str(e.response)}"
             QMessageBox.critical(None, "Erreur", error_message)
