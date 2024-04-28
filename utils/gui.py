@@ -69,6 +69,9 @@ class GUI(QMainWindow):
         
         
         self.local_server = LocalServer(directory=".")
+        self.local_server.start_server()
+        self.web_view = QWebEngineView()
+        self.web_view.setZoomFactor(0.85)
 
     def init(titre):
         app = QApplication(sys.argv)
@@ -96,29 +99,18 @@ class GUI(QMainWindow):
 
 
     def __showMap(self):
-        if isinstance(self.centralWidget(), QWebEngineView):
-            # Supprimer le widget central actuel s'il s'agit d'un WebEngineView
-            web_view = self.centralWidget()
-            layout = self.centralWidget().layout()
-            layout.removeWidget(web_view)
-            web_view.deleteLater()
-
-        self.canvas.hide()
-        # Démarrer le serveur local pour afficher la carte
-        self.local_server.start_server()
+        self.canvas.hide()    
 
         # Charger la carte dans le navigateur Web local
-        self.web_view = QWebEngineView()
         self.web_view.load(QUrl("http://localhost:8000/../map.html"))
-
         # Remplacer le widget central actuel par la carte
         self.centralWidget().layout().addWidget(self.web_view)
 
 
     def __show_graphic(self):
-        if isinstance(self.centralWidget(), QWebEngineView):
+        if isinstance(self.centralWidget().layout(), QWebEngineView):
             # Supprimer le widget central actuel s'il s'agit d'un WebEngineView
-            self.centralWidget().layout().deleteLater()
+            self.centralWidget().deleteLater()
 
         try:
             if not self.list_ville.currentText() in ["Retour","Commune", "Région", "Département","Choisissez le type de localité"]:
