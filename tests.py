@@ -5,7 +5,7 @@ from PySide6.QtCore import QUrl
 from utils.local_serveur import LocalServer
 from utils.map import MAP
 from utils.api import Api
-
+"""
 class Test(QMainWindow):
     def __init__(self, titre):
         super().__init__()
@@ -29,3 +29,4 @@ class Test(QMainWindow):
 
 
 Test.init("intégration de la carte")
+"""
