@@ -1,32 +1,29 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow
-from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtCore import QUrl
-from utils.local_serveur import LocalServer
-from utils.map import MAP
-from utils.api import Api
-"""
-class Test(QMainWindow):
-    def __init__(self, titre):
+from PyQt6.QtCore import QUrl
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton
+from PySide6.QtMultimedia import QSoundEffect
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
         super().__init__()
-        self.setWindowTitle(titre)
-        self.setGeometry(100, 100, 800, 600)
 
-    def closeEvent(self, event):
-        self.local_server.stop_server()
-        event.accept()
+        self.setWindowTitle("Jouer un son")
+        self.setGeometry(100, 100, 400, 200)
 
-    def init(titre_app):
-        app = QApplication(sys.argv)
-        window = Test(titre=titre_app)
-        window.local_server = LocalServer(directory=".")
-        window.local_server.start_server()
-        web_view = QWebEngineView(window)
-        web_view.load(QUrl("http://localhost:8000/../map.html"))
-        window.setCentralWidget(web_view)
-        window.show()
-        sys.exit(app.exec_())
+        self.button = QPushButton("Jouer un son", self)
+        self.button.setGeometry(150, 80, 100, 30)
+        self.button.clicked.connect(self.play_sound)
+
+        self.sound_effect = QSoundEffect()
+        self.sound_effect.setSource(QUrl.fromLocalFile("greg.wav"))
+
+    def play_sound(self):
+        self.sound_effect.play()
 
 
-Test.init("intégration de la carte")
-"""
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())

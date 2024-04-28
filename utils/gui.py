@@ -2,6 +2,7 @@ import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QMessageBox, QComboBox,QSizePolicy
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QPalette
+from pygame import init as py_init, mixer
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -18,6 +19,7 @@ class GUI(QMainWindow):
 
         self.api = Api()
         self.map = MAP(self.api)
+        py_init()
         self.dataname = "Communes"
 
         # Créer un widget central pour la fenêtre
@@ -105,11 +107,13 @@ class GUI(QMainWindow):
 
 
     def __showMap(self):
+        self.play_sound()
         self.canvas.hide()    
         self.web_view.show()
 
 
     def __show_graphic(self):
+        self.play_sound()
         self.web_view.hide()
         self.canvas.show()
         try:
@@ -142,6 +146,12 @@ class GUI(QMainWindow):
         except HTTPError as e:
             error_message = f"Erreur de requête vers l'API: {str(e.response)}"
             QMessageBox.critical(None, "Erreur", error_message)
+
+    
+    def play_sound(self):
+        mixer.music.load("interface/sound/greg.mp3")
+        # Jouer le son
+        mixer.music.play()
     
     def closeEvent(self, event):
         # Arrêter le serveur local lorsque la fenêtre est fermée
