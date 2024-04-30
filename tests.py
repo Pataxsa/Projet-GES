@@ -57,7 +57,7 @@ class Test(QMainWindow):
         self.menu_button.setGeometry(0, 0, 100, 30)
 
         # Créer un bouton pour générer des graphiques
-        self.graphic_button = QPushButton("Générer des graphiques", self)
+        self.graphic_button = QPushButton("Générer le graphique", self)
         self.graphic_button.setFixedSize(150, 30)
         self.graphic_button.clicked.connect(self.__show_graphic)
         self.central_layout.addWidget(self.graphic_button, alignment=Qt.AlignmentFlag.AlignHCenter)
