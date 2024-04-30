@@ -9,7 +9,6 @@ if __name__ == "__main__":
     app = QApplication()
 
     preload_window = Preload() # Préchargement (splash_screen)
-    preload_window.show()
     preload_window.update(text="Importation des modules...", percent=40)
 
     from app.windows.main import Main

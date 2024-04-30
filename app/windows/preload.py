@@ -36,6 +36,8 @@ class Preload(QWidget):
         self.progressbar.setStyleSheet("QProgressBar::chunk { background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #78d, stop: 0.5 #45a, stop: 1 #238 ); border-radius: 7px; border: 1px solid black; }")
         central_layout.addWidget(self.progressbar)
 
+        self.show()
+
     def update(self, text: str, percent: int) -> None:
         """
         Fonction update qui actualise le texte et la barre de progression

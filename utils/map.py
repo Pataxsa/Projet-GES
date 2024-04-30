@@ -7,7 +7,7 @@ from json import load
 from branca.colormap import LinearColormap
 from os.path import isfile
 from utils.api import Api
-from utils.constants import ROOT_PATH
+from utils.constants import ROOT_PATH, GEO_JSON_TYPE
 from webbrowser import open as webopen
 
 class Map:
@@ -21,8 +21,8 @@ class Map:
         self.__map: MAP = MAP(location=[46.862725, 2.287592], zoom_start=6, tiles=None)
         
         # Fichiers geojson des départements/regions
-        self.__geojson_departements: dict[str, str | list[dict[str, str | dict[str, str | int | list[list[float, float]]]]]] = load(open(f"{ROOT_PATH}\\data\\departements.geojson"))
-        self.__geojson_regions: dict[str, str | list[dict[str, str | dict[str, str | int | list[list[float, float]]]]]] = load(open(f"{ROOT_PATH}\\data\\regions.geojson"))
+        self.__geojson_departements: GEO_JSON_TYPE = load(open(f"{ROOT_PATH}\\data\\departements.geojson"))
+        self.__geojson_regions: GEO_JSON_TYPE = load(open(f"{ROOT_PATH}\\data\\regions.geojson"))
 
         # Co2 des departements/regions
         self.__data_departements: dict[str, int] = api.getCO2Total("Départements")
