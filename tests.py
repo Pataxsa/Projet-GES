@@ -1,8 +1,8 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QMessageBox, QComboBox, QSizePolicy, QMenu
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QMessageBox, QComboBox, QSizePolicy, QMenu, QHBoxLayout
 from PySide6.QtCore import Qt, QUrl
+from PySide6.QtMultimedia import QSoundEffect
 from PySide6.QtGui import QPalette, QIcon
-from pygame import init as py_init, mixer
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -12,17 +12,15 @@ from utils.map import MAP
 from utils.local_serveur import LocalServer
 
 class Test(QMainWindow):
-    def __init__(self, title: str = "Emissions de GES par types de localités") -> None:
+    def __init__(self, title: str = "Emissions de GES par types de localités",test=True) -> None:
         super().__init__()
         self.setWindowTitle(title)
         self.setMinimumSize(800,600) #pas de pb avec les redimensionnements
-
         self.api = Api()
         self.map = MAP(self.api)
-        py_init()
-        self.play_sound()
         self.dataname = "Communes"
 
+        self.test = test
         # Créer un widget central pour la fenêtre
         central_widget = QWidget(self)
         self.setCentralWidget(central_widget)
@@ -50,17 +48,42 @@ class Test(QMainWindow):
         # Créer un bouton pour le menu
         self.menu_button = QPushButton("Menu", self)
         self.menu_button.setMenu(self.menu)
-        self.menu_button.setFixedSize(100, 40)
-        self.menu_button.setIcon(QIcon("interface\\icons\\leaf.png").pixmap(40,40))
+        self.menu_button.setFixedSize(100, 30)
+        self.menu_button.setIcon(QIcon("interface\\icons\\leaf.png").pixmap(30,30))
 
         # Ajouter le bouton en haut à gauche
         self.menu_button.setGeometry(0, 0, 100, 30)
+
+        # Créer un layout horizontal pour les boutons du menu et de génération de graphiques
+        button_layout = QHBoxLayout()
+
+        # Ajouter un espace extensible à gauche
+        button_layout.addStretch(1)
 
         # Créer un bouton pour générer des graphiques
         self.graphic_button = QPushButton("Générer le graphique", self)
         self.graphic_button.setFixedSize(150, 30)
         self.graphic_button.clicked.connect(self.__show_graphic)
-        self.central_layout.addWidget(self.graphic_button, alignment=Qt.AlignmentFlag.AlignHCenter)
+
+        # Ajouter le bouton de génération de graphiques au layout horizontal
+        button_layout.addWidget(self.graphic_button)
+
+        # Créer un bouton pour enregistrer les graphiques
+        self.save_button = QPushButton("Enregistrer le graphique", self)
+        self.save_button.setFixedSize(150, 30)
+        self.save_button.clicked.connect(self.save_graph)
+
+        # Ajouter le bouton pour enregistrer les graphiques au layout horizontal
+        button_layout.addWidget(self.save_button)
+
+        # Aligner les éléments à droite
+        button_layout.addStretch(1)
+
+        # Ajouter le layout horizontal au layout vertical central
+        self.central_layout.addLayout(button_layout)
+
+        # Masquer le bouton jusqu'à ce qu'un graphique soit généré
+        self.save_button.hide()
 
         # Créer le FigureCanvas pour afficher le graphique
         self.figure = Figure()
@@ -86,6 +109,7 @@ class Test(QMainWindow):
     def init(titre):
         app = QApplication(sys.argv)
         window = Test(title = titre)
+        window.play_sound()
         window.show()
         sys.exit(app.exec())
 
@@ -106,13 +130,17 @@ class Test(QMainWindow):
             case "Retour":
                 self.list_ville.clear()
                 self.list_ville.addItems(["Choisissez le type de localité", "Commune", "Région", "Département"])
+    
+    def save_graph(self):
+        if not self.test:
+            self.figure.savefig(f"bilan_GES_{self.dataname[0:-1]}_{self.list_ville.currentText()}")
 
     def __showMap(self):
         #cacher widgets pour faire des graphiques
         self.canvas.hide()
         self.list_ville.hide()
         self.graphic_button.hide()
-
+        self.save_button.hide()
         self.web_view.show()
 
     def __show_graphic(self):
@@ -146,15 +174,20 @@ class Test(QMainWindow):
                 # Mettre à jour le graphique dans le canvas
                 self.figure.subplots_adjust(bottom=0.25)
                 self.canvas.draw()
+                self.save_button.show()
 
         except HTTPError as e:
             error_message = f"Erreur de requête vers l'API: {str(e.response)}"
             QMessageBox.critical(None, "Erreur", error_message)
 
+
+        
     def play_sound(self):
-        mixer.music.load("interface/sound/loading_sound.mp3")
-        # Jouer le son
-        mixer.music.play()
+        self.sound_effect = QSoundEffect()
+        self.sound_effect.setSource(QUrl.fromLocalFile("interface/sound/loading_sound.wav"))
+        self.sound_effect.play()
+
+
     
     def closeEvent(self, event):
         # Arrêter le serveur local lorsque la fenêtre est fermée
