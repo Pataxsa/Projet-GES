@@ -61,9 +61,9 @@ class Api:
         
         # Nom des communes/departements/regions + données totale (self.france)
         self.france: list[dict[str, int | str]] = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure","type_de_collectivite","date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b], size=self.maxlines)
-        communes: list[str] = sorted(set([com["raison_sociale"] for com in self.france if "type_de_collectivite" in com.keys() and "type_de_structure" in com.keys() and com["type_de_collectivite"] == "Communes" and com["type_de_structure"] == "Collectivité territoriale (dont EPCI)"]))
-        departements: list[str] = sorted(set([dep["departement"] for dep in self.france]))
-        regions: list[str] = sorted(set([reg["region"] for reg in self.france]))
+        communes: list[str] = sorted({com["raison_sociale"] for com in self.france if "type_de_collectivite" in com.keys() and "type_de_structure" in com.keys() and com["type_de_collectivite"] == "Communes" and com["type_de_structure"] == "Collectivité territoriale (dont EPCI)"})
+        departements: list[str] = sorted({dep["departement"] for dep in self.france})
+        regions: list[str] = sorted({reg["region"] for reg in self.france})
         self.locality_names: dict[str, list[str]] = {"Communes": communes, "Departements": departements, "Regions": regions}
         
     # Fonction privée pour faire des requetes basiques avec des paramètres

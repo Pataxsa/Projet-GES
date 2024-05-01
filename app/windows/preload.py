@@ -17,7 +17,7 @@ class Preload(QWidget):
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.ToolTip)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setFixedHeight(250)
+        self.setFixedHeight(150)
         self.setFixedWidth(300)
 
         central_layout = QVBoxLayout()
