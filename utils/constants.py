@@ -23,3 +23,6 @@ Constantes type alias
 
 # Type GeoJson
 type GEO_JSON_TYPE = dict[str, str | list[dict[str, str | dict[str, str | int | list[list[float, float]]]]]]
+
+# Type Feature
+type FEATURE_TYPE = dict[str, str | dict[str, str | int | list[list[float, float]]]]
