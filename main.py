@@ -1,6 +1,7 @@
 """
 Module main pour créer et lancer l'interface
 """
+
 from PySide6.QtWidgets import QApplication
 
 from app.windows.preload import Preload

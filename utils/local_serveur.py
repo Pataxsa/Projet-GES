@@ -1,3 +1,5 @@
+#TODO: A SUPPRIMER
+
 import os
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from threading import Thread

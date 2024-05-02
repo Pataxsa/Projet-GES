@@ -1,3 +1,5 @@
+#TODO: A SUPPRIMER
+
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QMessageBox, QComboBox, QSizePolicy, QMenu, QHBoxLayout
 from PySide6.QtCore import Qt, QUrl
@@ -184,7 +186,7 @@ class GUI(QMainWindow):
         
     def play_sound(self):
         self.sound_effect = QSoundEffect()
-        self.sound_effect.setSource(QUrl.fromLocalFile("interface/sound/loading_sound.wav"))
+        self.sound_effect.setSource(QUrl.fromLocalFile("app/assets/sounds/loading_sound.wav"))
         self.sound_effect.play()
 
 
