@@ -1,23 +1,24 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QMessageBox, QComboBox, QSizePolicy, QMenu, QHBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QComboBox, QSizePolicy, QMenu, QHBoxLayout
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtMultimedia import QSoundEffect
-from PySide6.QtGui import QPalette, QIcon
+from PySide6.QtGui import QPalette
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from requests.exceptions import HTTPError
+
 from utils.api import Api
-from utils.map import MAP
+from utils.map import Map
 from utils.local_serveur import LocalServer
+from utils.constants import RESOURCE_PATH
 
 class Test(QMainWindow):
-    def __init__(self, title: str = "Emissions de GES par types de localités",test=True) -> None:
+    def __init__(self, title: str = "Emissions de GES par types de localités", test=True) -> None:
         super().__init__()
         self.setWindowTitle(title)
         self.setMinimumSize(800,600) #pas de pb avec les redimensionnements
         self.api = Api()
-        self.map = MAP(self.api)
+        self.map = Map(self.api)
         self.dataname = "Communes"
 
         self.test = test
@@ -49,7 +50,7 @@ class Test(QMainWindow):
         self.menu_button = QPushButton("Menu", self)
         self.menu_button.setMenu(self.menu)
         self.menu_button.setFixedSize(100, 30)
-        self.menu_button.setIcon(QIcon("interface\\icons\\leaf.png").pixmap(30,30))
+        #self.menu_button.setIcon(QIcon("interface\\icons\\leaf.png").pixmap(30,30)) TODO: Utiliser des icones SVG a la place de png
 
         # Ajouter le bouton en haut à gauche
         self.menu_button.setGeometry(0, 0, 100, 30)
@@ -120,7 +121,7 @@ class Test(QMainWindow):
         match selected_text:
             case "Région" | "Département" | "Commune":
                 values = ["Retour"]
-                values.extend(getattr(self.api, f"{selected_text.lower().replace('é', 'e')}s"))
+                values.extend(self.api.locality_names[f"{selected_text.replace("é", "e")}s"])
                 self.dataname = f"{selected_text}s"
                 self.list_ville.currentIndexChanged.disconnect(self.on_main_combo_box_changed)
                 self.list_ville.clear()
@@ -148,43 +149,37 @@ class Test(QMainWindow):
         self.list_ville.show()
         self.graphic_button.show()
         self.canvas.show()
-        try:
+        if not self.list_ville.currentText() in ["Retour","Commune", "Région", "Département","Choisissez le type de localité"]:
+            inputdata = self.list_ville.currentText()
+            data = self.api.getCO2(self.dataname, inputdata)
+            dates = list(data.keys())
+            totalco2 = list(data.values())
 
-            if not self.list_ville.currentText() in ["Retour","Commune", "Région", "Département","Choisissez le type de localité"]:
-                inputdata = self.list_ville.currentText()
-                data = self.api.getCO2(self.dataname, inputdata)
-                dates = list(data.keys())
-                totalco2 = list(data.values())
+            # Effacer le contenu précédent du graphique
+            self.figure.clear()
 
-                # Effacer le contenu précédent du graphique
-                self.figure.clear()
+            # Récupérer l'axe de la figure
+            ax = self.figure.subplots()
 
-                # Récupérer l'axe de la figure
-                ax = self.figure.subplots()
+            # Créer le graphique
+            ax.bar(dates, totalco2, label="CO2")
+            ax.set_title(f"Bilan GES, {self.dataname[0:-1]} : {inputdata}", color="white")
+            ax.set_xlabel('Dates',  color="white")
+            ax.set_ylabel('Tonnes de CO2',  color="white")
+            ax.legend()
+            ax.tick_params(axis='x', rotation=90)
+            ax.tick_params(labelcolor='white')
 
-                # Créer le graphique
-                ax.bar(dates, totalco2, label="CO2")
-                ax.set_title(f"Bilan GES, {self.dataname[0:-1]} : {inputdata}", color="white")
-                ax.set_xlabel('Dates',  color="white")
-                ax.set_ylabel('Tonnes de CO2',  color="white")
-                ax.legend()
-                ax.tick_params(axis='x', rotation=90)
-                ax.tick_params(labelcolor='white')
-
-                # Mettre à jour le graphique dans le canvas
-                self.figure.subplots_adjust(bottom=0.25)
-                self.canvas.draw()
-                self.save_button.show()
-
-        except HTTPError as e:
-            error_message = f"Erreur de requête vers l'API: {str(e.response)}"
-            QMessageBox.critical(None, "Erreur", error_message)
+            # Mettre à jour le graphique dans le canvas
+            self.figure.subplots_adjust(bottom=0.25)
+            self.canvas.draw()
+            self.save_button.show()
 
 
         
     def play_sound(self):
         self.sound_effect = QSoundEffect()
-        self.sound_effect.setSource(QUrl.fromLocalFile("interface/sound/loading_sound.wav"))
+        self.sound_effect.setSource(QUrl.fromLocalFile(f"{RESOURCE_PATH}\\sounds\\loading_sound.wav"))
         self.sound_effect.play()
 
 
