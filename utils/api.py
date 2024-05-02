@@ -2,11 +2,11 @@
 Module api pour générer la base de l'API
 """
 
-from requests import get
+from requests_cache import CachedSession
 from requests.exceptions import HTTPError, ConnectionError
 from typing import Any
 
-from utils.constants import API_LINK
+from utils.constants import API_LINK, ROOT_PATH, REQUEST_CACHE_EXPIRE
 
 class Api:
     """
@@ -59,6 +59,9 @@ class Api:
             'responsable_du_suivi', 'fonction', 'telephone', 'courriel', '_id',
             '_i', '_rand'
         ]
+
+        # Session utilisant le cache pour les requetes
+        self.__session = CachedSession(cache_name=f"{ROOT_PATH}\\cache\\request-cache", expire_after=REQUEST_CACHE_EXPIRE)
         
         # Nom des communes/departements/regions + données totale (self.france)
         self.france: list[dict[str, int | str]] = self.__getLines(select=["raison_sociale", "departement", "region", "type_de_structure", "type_de_collectivite", "date_de_publication"] + [b for b in self.params if "emissions_publication_p" in b], size=self.maxlines)
@@ -71,7 +74,7 @@ class Api:
     def __getData(self, link: str, param: dict[str, Any]) -> dict[str, int | list]:
         try:
             url = API_LINK + link
-            response = get(url, params=param) if param else get(url)
+            response = self.__session.get(url, params=param) if param else self.__session.get(url)
         except ConnectionError:
             raise HTTPError(response="Connexion impossible")
 

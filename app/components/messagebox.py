@@ -4,6 +4,7 @@ Composant messagebox
 
 from PySide6.QtWidgets import QMessageBox, QWidget
 from PySide6.QtGui import QIcon
+
 from utils.constants import RESOURCE_PATH
 
 class MessageBox(QMessageBox):

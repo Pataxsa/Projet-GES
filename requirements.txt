@@ -5,6 +5,7 @@ pillow == 10.3.0
 folium == 0.16.0
 branca == 0.7.1
 requests == 2.31.0
+requests-cache==1.2.0
 matplotlib == 3.8.3
 PySide6==6.7.0
 pyinstaller == 6.5.0
@@ -40,3 +41,7 @@ urllib3==2.2.1
 wheel==0.43.0
 xyzservices==2024.4.0
 packaging==24.0
+attrs==23.2.0
+cattrs==23.2.3
+platformdirs==4.2.1
+url-normalize==1.4.3
