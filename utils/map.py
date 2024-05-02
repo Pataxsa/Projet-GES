@@ -6,9 +6,10 @@ from folium import TileLayer, Map as MAP, GeoJsonPopup, GeoJson, LayerControl
 from json import load
 from branca.colormap import LinearColormap
 from os.path import isfile
+from webbrowser import open as webopen
+
 from utils.api import Api
 from utils.constants import ROOT_PATH, GEO_JSON_TYPE, FEATURE_TYPE
-from webbrowser import open as webopen
 
 class Map:
     """
@@ -48,8 +49,12 @@ class Map:
         TileLayer('cartodbpositron', name='GES').add_to(self.__map)
 
         for name, geojson in self.__geojson.items():
+            data = self.__data.get(name, {})
+
             for feature in geojson["features"]:
-                feature["properties"].update({ "CO2": f"{int(self.__data[name][feature['properties']['nom']]):,} Tonnes" if (feature['properties']['nom'] in self.__data[name]) else "Pas de valeurs" })
+                co2_value = data.get(feature['properties']['nom'])
+
+                feature["properties"]["CO2"] = f"{int(co2_value):,} Tonnes" if co2_value is not None else "Pas de valeurs"
 
         self.__addGeoJson("Régions", True)
         self.__addGeoJson("Départements")
@@ -88,7 +93,7 @@ class Map:
 
     # Fonction privé qui permet de gérer les couleurs sur la carte
     def __usecolor(self, feature: FEATURE_TYPE, data: dict[str, int], colormap: LinearColormap) -> str:
-        if feature["properties"]["nom"] in data.keys():
+        if feature["properties"]["nom"] in data:
             return colormap(data[feature["properties"]["nom"]])
         else:
             return "grey"

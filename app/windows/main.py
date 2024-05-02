@@ -10,6 +10,7 @@ from matplotlib.figure import Figure
 from os.path import isfile
 from os import remove
 from requests.exceptions import HTTPError
+
 from app.components.messagebox import MessageBox
 from utils.api import Api
 from utils.map import Map
