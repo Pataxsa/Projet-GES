@@ -1,16 +1,17 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QComboBox, QSizePolicy, QMenu, QHBoxLayout
 from PySide6.QtCore import Qt, QUrl
+import os
 from PySide6.QtMultimedia import QSoundEffect
-from PySide6.QtGui import QPalette
+from PySide6.QtGui import QPalette,QIcon
+from PySide6.QtWebEngineCore import QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 from utils.api import Api
 from utils.map import Map
-from utils.local_serveur import LocalServer
-from utils.constants import RESOURCE_PATH
+from utils.constants import RESOURCE_PATH,ROOT_PATH
 
 class Test(QMainWindow):
     def __init__(self, title: str = "Emissions de GES par types de localités", test=True) -> None:
@@ -50,7 +51,7 @@ class Test(QMainWindow):
         self.menu_button = QPushButton("Menu", self)
         self.menu_button.setMenu(self.menu)
         self.menu_button.setFixedSize(100, 30)
-        #self.menu_button.setIcon(QIcon("interface\\icons\\leaf.png").pixmap(30,30)) TODO: Utiliser des icones SVG a la place de png
+        self.menu_button.setIcon(QIcon(f"{RESOURCE_PATH}\\icons\\icon-x32.ico").pixmap(30,30))
 
         # Ajouter le bouton en haut à gauche
         self.menu_button.setGeometry(0, 0, 100, 30)
@@ -94,18 +95,19 @@ class Test(QMainWindow):
         self.canvas.setMaximumSize(1000, 800) # Taille max du canvas
         self.canvas.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding) # Fait en sorte que le canvas puisse s'étendre
 
-        self.local_server = LocalServer(directory=".")
-        self.local_server.start_server()
 
         self.web_view = QWebEngineView()
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "map.html"))
+        self.web_view.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
         self.web_view.setZoomFactor(0.85)
-        self.web_view.load(QUrl("http://localhost:8000/map.html"))
+        self.web_view.load(QUrl.fromLocalFile(file_path))
 
         # Ajouter la carte, masquée
         self.central_layout.addWidget(self.web_view)
         self.web_view.hide()
         self.list_ville.hide()
         self.graphic_button.hide()
+        
 
     def init(titre):
         app = QApplication(sys.argv)
@@ -181,12 +183,5 @@ class Test(QMainWindow):
         self.sound_effect = QSoundEffect()
         self.sound_effect.setSource(QUrl.fromLocalFile(f"{RESOURCE_PATH}\\sounds\\loading_sound.wav"))
         self.sound_effect.play()
-
-
-    
-    def closeEvent(self, event):
-        # Arrêter le serveur local lorsque la fenêtre est fermée
-        self.local_server.stop_server()
-        event.accept()
 
 Test.init("essai menu")
