@@ -1,18 +1,28 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QComboBox, QSizePolicy, QMenu, QHBoxLayout
+"""
+Interface principale
+"""
+
+# TODO: changer la barre de menu + ajouter stacked widget (pour les pages) + rajouter de la docstring + autres trucs...
+
+from PySide6.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QComboBox, QSizePolicy, QMenu, QHBoxLayout
 from PySide6.QtCore import Qt, QUrl
-import os,sys
-from PySide6.QtMultimedia import QSoundEffect
-from PySide6.QtGui import QPalette,QIcon
+from PySide6.QtGui import QPalette, QIcon
 from PySide6.QtWebEngineCore import QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from os.path import abspath
 
 from utils.api import Api
 from utils.map import Map
 from utils.constants import RESOURCE_PATH
 
 class Main(QMainWindow):
+    """
+    Classe Main pour générer l'interface principale
+    """
+    
+    # Initialisation (constructeur)
     def __init__(self, title: str = "Emissions de GES par types de localités", test=True) -> None:
         super().__init__()
         self.setWindowTitle(title)
@@ -95,18 +105,17 @@ class Main(QMainWindow):
         self.canvas.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding) # Fait en sorte que le canvas puisse s'étendre
 
 
+        # TODO: très lent (attribute et setUrl, ne pas charger cela au lancement de l'app mais plutot lorsque cela est nécessaire)
         self.web_view = QWebEngineView()
-        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../map.html"))
-        self.web_view.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
-        self.web_view.setZoomFactor(0.85)
-        self.web_view.load(QUrl.fromLocalFile(file_path))
+        file_path = abspath("map.html")
+        self.web_view.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
+        self.web_view.setUrl(QUrl.fromLocalFile(file_path))
 
         # Ajouter la carte, masquée
         self.central_layout.addWidget(self.web_view)
         self.web_view.hide()
         self.list_ville.hide()
         self.graphic_button.hide()
-    
 
     def on_main_combo_box_changed(self):
         
@@ -168,8 +177,3 @@ class Main(QMainWindow):
             self.figure.subplots_adjust(bottom=0.25)
             self.canvas.draw()
             self.save_button.show()
-        
-    def play_sound(self):
-        self.sound_effect = QSoundEffect()
-        self.sound_effect.setSource(QUrl.fromLocalFile(f"{RESOURCE_PATH}\\sounds\\loading_sound.wav"))
-        self.sound_effect.play()

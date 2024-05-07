@@ -4,7 +4,7 @@ Interface préchargement
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QApplication, QProgressBar
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QProgressBar
 
 class Preload(QWidget):
     """
@@ -36,6 +36,7 @@ class Preload(QWidget):
         self.progressbar.setStyleSheet("QProgressBar::chunk { background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #78d, stop: 0.5 #45a, stop: 1 #238 ); border-radius: 7px; border: 1px solid black; }")
         central_layout.addWidget(self.progressbar)
 
+        #self.play_sound() # JOUER LE SON (je ne sais pas si c'est vraiment nécessaire + bugge a cause du fonctionnement du preload (ne se charge pas en parallèle)) a la limite on charge quand le main_window est ouvert
         self.show()
 
     def update(self, text: str, percent: int) -> None:
@@ -45,4 +46,17 @@ class Preload(QWidget):
 
         self.label.setText(text)
         self.progressbar.setValue(percent)
-        QApplication.processEvents()
+    
+    """
+    def play_sound(self):
+        self.sound_effect = QSoundEffect()
+        self.sound_effect.setSource(QUrl.fromLocalFile(f"{RESOURCE_PATH}\\sounds\\loading_sound.wav"))
+
+        self.thread_worker = QThread()
+        self.thread_worker.started.connect(self.sound_effect.play)
+        self.sound_effect.statusChanged.connect(self.thread_worker.quit)
+        self.thread_worker.start()
+
+    def closeEvent(self, event):
+        self.thread_worker.quit()
+    """

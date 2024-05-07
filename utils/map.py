@@ -49,7 +49,7 @@ class Map:
         TileLayer('cartodbpositron', name='GES').add_to(self.__map)
 
         for name, geojson in self.__geojson.items():
-            data = self.__data.get(name, {})
+            data = self.__data[name]
 
             for feature in geojson["features"]:
                 co2_value = data.get(feature['properties']['nom'])
