@@ -34,7 +34,7 @@ class Gui:
         self.map = MAP(self.api)
 
         # Initialisation des ressources de l'interface
-        self.img = Image.open(f"{self.api.basepath}\\interface\\img\\GES.jpg")
+        self.img = Image.open(f"{self.api.basepath}\\assets\\img\\GES.jpg")
 
         # Initialisation des composants de l'interface
         self.window = tk.Tk()
@@ -81,7 +81,7 @@ class Gui:
         self.canvas.bind('<Configure>', self.__on_resize)
         self.canvas.pack(fill="both", expand=True)
 
-        self.window.iconbitmap(f"{self.api.basepath}\\interface\\icons\\icon-x32.ico")
+        self.window.iconbitmap(f"{self.api.basepath}\\assets\\icons\\icon-x32.ico")
 
         self.window.mainloop()
 
