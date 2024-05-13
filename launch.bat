@@ -34,7 +34,7 @@ if not exist %DATAPATH%\%ENV_NAME% (
 )
 
 
-:: Reinstallation de l'environnement si il y a une erreur
+:: Réinstallation de l'environnement si il y a une erreur
 if not %ERRORLEVEL% == 0 (
     goto input
 )
