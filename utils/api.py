@@ -69,6 +69,8 @@ class Api:
         departements: list[str] = sorted({dep["departement"] for dep in self.france})
         regions: list[str] = sorted({reg["region"] for reg in self.france})
         self.locality_names: dict[str, list[str]] = {"Communes": communes, "Departements": departements, "Regions": regions}
+
+        self.__session.close()
         
     # Fonction privée pour faire des requetes basiques avec des paramètres
     def __getData(self, link: str, param: dict[str, Any]) -> dict[str, int | list]:
