@@ -33,6 +33,7 @@ class SideBar(QWidget):
         label = QLabel(self)
         label.setText(labeltext)
         label.setFont(QFont("Arial", 18, QFont.Weight.Bold))
+        label.setStyleSheet("QLabel { color : white; }")
         central_layout.addWidget(label)
 
         # Boutons
