@@ -33,7 +33,7 @@ class GraphPage(QWidget):
         # Créer une combobox principale
         self.list_ville = QComboBox(self)
         self.list_ville.addItems(["Choisissez le type de localité", "Commune", "Région", "Département"])
-        self.list_ville.setStyleSheet(" QComboBox { min-width: 200px;  } ")  # Définir une largeur minimale
+        self.list_ville.setStyleSheet(" QComboBox { width: 200px;  } ")  # Définir une largeur minimale
         self.list_ville.currentIndexChanged.connect(self.__on_combobox_changed)
         central_layout.addSpacing(40)
         central_layout.addWidget(self.list_ville, alignment=Qt.AlignmentFlag.AlignHCenter)  # Centrer la combobox horizontalement
@@ -42,6 +42,7 @@ class GraphPage(QWidget):
         self.graphic_button = QPushButton("Générer un graphique", self)
         self.graphic_button.setEnabled(False)
         self.graphic_button.setFixedSize(150, 30)
+        self.graphic_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.graphic_button.clicked.connect(self.__show_graphic)
         central_layout.addWidget(self.graphic_button, alignment=Qt.AlignmentFlag.AlignHCenter)
 
