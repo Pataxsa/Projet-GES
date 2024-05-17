@@ -19,11 +19,18 @@ class MapPage(QWidget):
 
     def __init__(self, map: Map, parent: QWidget = None) -> None:
         super().__init__(parent)
+
         # Carte
         self.map = map
-        layout = QVBoxLayout(self)
+
+        # Layout principal
+        central_layout = QVBoxLayout(self)
+        central_layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(central_layout)
+
+        # Map View
         self.map_view = QWebEngineView()
         file_path = abspath(ROOT_PATH + "/map.html") 
         self.map_view.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
         self.map_view.setUrl(QUrl.fromLocalFile(file_path))
-        layout.addWidget(self.map_view)
+        central_layout.addWidget(self.map_view)
