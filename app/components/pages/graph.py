@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas,NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QComboBox, QSizePolicy
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QComboBox, QSizePolicy,QHBoxLayout
 
 from utils.api import Api
 
@@ -23,9 +23,11 @@ class GraphPage(QWidget):
 
         # Données supplémentaires
         self.dataname = None
-
+        self.type_plot = "bar"
         # Layout principal
         central_layout = QVBoxLayout()
+        button_layout = QHBoxLayout()
+        button_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
         central_layout.setContentsMargins(0, 0, 0, 0)
         central_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
         self.setLayout(central_layout)
@@ -43,8 +45,16 @@ class GraphPage(QWidget):
         self.graphic_button.setEnabled(False)
         self.graphic_button.setFixedSize(150, 30)
         self.graphic_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.graphic_button.clicked.connect(self.__show_graphic)
-        central_layout.addWidget(self.graphic_button, alignment=Qt.AlignmentFlag.AlignHCenter)
+        self.graphic_button.clicked.connect(lambda _, type_plot = self.type_plot : self.__show_graphic(type_plot))
+        button_layout.addWidget(self.graphic_button, alignment=Qt.AlignmentFlag.AlignHCenter)
+
+        central_layout.addLayout(button_layout)
+
+        self.trace = QComboBox(self)
+        self.trace.addItems(["Choisissez le type du tracé :", "plot : ligne droite","fill : figure remplie","scatter : nuage de points","bar : graphique à barres (défaut)"])
+        self.trace.setStyleSheet(" QComboBox { width: 200px; height: 27px  } ")
+        button_layout.addWidget(self.trace,alignment=Qt.AlignmentFlag.AlignHCenter)
+        self.trace.currentIndexChanged.connect(self.__type_combobox)
 
         # Créer le FigureCanvas pour afficher le graphique
         self.figure = Figure()
@@ -54,7 +64,7 @@ class GraphPage(QWidget):
         self.canvas = None
 
     # Affiche le graphique
-    def __show_graphic(self) -> None:
+    def __show_graphic(self,type_plot = "bar") -> None:
         if not self.canvas:
             self.canvas = FigureCanvas(self.figure)
             self.canvas.setMaximumSize(1000, 800)
@@ -70,9 +80,8 @@ class GraphPage(QWidget):
 
         # Effacer le contenu précédent du graphique
         self.axe.cla()
-
         # Créer le graphique
-        self.axe.bar(dates, totalco2, label="CO2")
+        getattr(self.axe,type_plot)(dates, totalco2, label="CO2")
         self.axe.set_title(f"Bilan GES, {self.dataname[0:-1]} : {inputdata}", color="white")
         self.axe.set_xlabel('Dates',  color="white")
         self.axe.set_ylabel('Tonnes de CO2',  color="white")
@@ -102,3 +111,11 @@ class GraphPage(QWidget):
                 self.list_ville.clear()
                 self.list_ville.addItems(["Choisissez le type de localité", "Commune", "Région", "Département"])
                 self.graphic_button.setEnabled(False)
+
+    def __type_combobox(self):
+        selected_text = self.trace.currentText()
+        if selected_text != "Choisissez le type du tracé :":
+            diminutif = self.trace.currentText().split(" :")[0]
+            self.type_plot = diminutif
+            if self.canvas:
+                self.__show_graphic(self.type_plot)
