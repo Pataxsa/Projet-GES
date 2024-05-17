@@ -2,9 +2,12 @@
 Interface préchargement
 """
 
-from PySide6.QtCore import Qt
+from PySide6.QtMultimedia import QSoundEffect 
+from PySide6.QtCore import Qt, QThread, QUrl
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QProgressBar, QMainWindow
+
+from utils.constants import RESOURCE_PATH
 
 class Preload(QMainWindow):
     """
@@ -59,6 +62,8 @@ class Preload(QMainWindow):
         central_layout.addWidget(self.progressbar)
 
         self.update(text, percent)
+
+        self.play_sound()
         
         self.show()
 
@@ -69,3 +74,15 @@ class Preload(QMainWindow):
 
         self.label.setText(text)
         self.progressbar.setValue(percent)
+
+    def play_sound(self):
+        self.sound_effect = QSoundEffect()
+        self.sound_effect.setSource(QUrl.fromLocalFile(f"{RESOURCE_PATH}\\sounds\\loading_sound.wav"))
+
+        self.thread_worker = QThread()
+        self.thread_worker.started.connect(self.sound_effect.play)
+        self.sound_effect.statusChanged.connect(self.thread_worker.quit)
+        self.thread_worker.start()
+
+    def closeEvent(self, event):
+        self.thread_worker.quit()
