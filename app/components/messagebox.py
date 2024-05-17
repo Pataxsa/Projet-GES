@@ -13,8 +13,8 @@ class MessageBox(QMessageBox):
     """
 
     # Initialisation (constructeur)
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, parent: QWidget = None) -> None:
+        super().__init__(parent)
     
     @staticmethod
     def show(parent: QWidget = None, window_icon: QIcon = QIcon(f"{RESOURCE_PATH}\\icons\\icon-x32.ico"), title: str = "python", icon: QMessageBox.Icon = QMessageBox.Icon.Critical, text: str = None, informative_text: str = None, detailed_text: str = None, buttons: QMessageBox.StandardButton = QMessageBox.StandardButton.Ok) -> None:

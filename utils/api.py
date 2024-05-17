@@ -2,6 +2,8 @@
 Module api pour générer la base de l'API
 """
 
+#TODO: a modifier pour qu'on puisse avoir les infos en fonction des paramètres (type emission [emission1, emission2], date [date1, date2])
+
 from requests_cache import CachedSession
 from requests.exceptions import HTTPError, ConnectionError
 from typing import Any
@@ -69,6 +71,8 @@ class Api:
         departements: list[str] = sorted({dep["departement"] for dep in self.france})
         regions: list[str] = sorted({reg["region"] for reg in self.france})
         self.locality_names: dict[str, list[str]] = {"Communes": communes, "Departements": departements, "Regions": regions}
+
+        self.__session.close()
         
     # Fonction privée pour faire des requetes basiques avec des paramètres
     def __getData(self, link: str, param: dict[str, Any]) -> dict[str, int | list]:
