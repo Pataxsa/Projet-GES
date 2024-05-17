@@ -7,7 +7,7 @@ a = Analysis(
     ['../main.py'],
     pathex=[],
     binaries=[],
-    datas=[('../interface', 'interface'), ('../data', 'data')],
+    datas=[('../app/assets', 'app/assets'), ('../data', 'data')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -34,7 +34,7 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     version='version.txt',
-    icon=['../interface/icons/icon-x64.ico'],
+    icon=['../app/assets/icons/icon-x64.ico'],
 )
 coll = COLLECT(
     exe,
