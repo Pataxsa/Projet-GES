@@ -40,6 +40,10 @@ class SideButton(QPushButton):
         self.setStyleSheet(f"background-color: {bgcolor.name()}; color: white; border: solid 0px; border-radius: 7px; padding: 10px;")
 
     def setSelected(self, selected: bool) -> None:
+        """
+        Fonction setSelected qui permet de changer l'état de selection sur le bouton
+        """
+        
         self.currentbgcolor = (self.bgcolorselected if selected else self.bgcolor)
         self.__updateStyle(QColor(self.currentbgcolor))
         self.hoveranim.setEndValue(QColor(self.currentbgcolor))
