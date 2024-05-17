@@ -4,7 +4,7 @@ Page graph
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas,NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QComboBox, QSizePolicy
 
@@ -59,8 +59,10 @@ class GraphPage(QWidget):
             self.canvas = FigureCanvas(self.figure)
             self.canvas.setMaximumSize(1000, 800)
             self.canvas.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+            menu = NavigationToolbar(self.canvas,self)
+            
+            self.layout().addWidget(menu,alignment=Qt.AlignmentFlag.AlignHCenter)
             self.layout().addWidget(self.canvas)
-        
         inputdata = self.list_ville.currentText()
         data = self.api.getCO2(self.dataname, inputdata)
         dates = list(data.keys())
