@@ -56,9 +56,9 @@ class Main(QMainWindow):
 
         # Liste des pages
         pages = [
-            HomePage(page_manager),
-            GraphPage(api, page_manager),
-            MapPage(map, page_manager)
+            HomePage(parent=page_manager),
+            GraphPage(api=api, parent=page_manager),
+            MapPage(map=map, parent=page_manager)
         ]
 
         for page in pages:
