@@ -42,6 +42,7 @@ class SideButton(QPushButton):
 
         # Icone du bouton
         self.gif_icon = QMovie(icon)
+        self.gif_icon.setCacheMode(self.gif_icon.CacheMode.CacheAll)
         self.gif_icon.frameChanged.connect(self.__on_changed_frame)
 
         # Initialiser l'animation hover (couleur)
