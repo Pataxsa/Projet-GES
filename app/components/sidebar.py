@@ -53,7 +53,7 @@ class SideBar(QWidget):
 
         # Boutons
         self.buttons = [
-            SideButton(parent=self, text="Acceuil", icon=f"{RESOURCE_PATH}\\icons\\home_button.gif", selected=True),
+            SideButton(parent=self, text="Accueil", icon=f"{RESOURCE_PATH}\\icons\\home_button.gif", selected=True),
             SideButton(parent=self, text="Graphique", icon=f"{RESOURCE_PATH}\\icons\\graph_button.gif"),
             SideButton(parent=self, text="Carte", icon=f"{RESOURCE_PATH}\\icons\\map_button.gif")
         ]
