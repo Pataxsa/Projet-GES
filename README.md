@@ -20,9 +20,9 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
 # Utilisation
 - ## Modules
 - Pour réaliser ce projet nous avons utilisé majoritairement les modules suivants :
-  - <a src="https://pypi.org/project/PySide6/"> Pyside6 </a>
-  - <a src="https://matplotlib.org/stable/index.html">Matplotlib</a>
-  - <a src="https://pypi.org/project/folium/">Folium</a>
+  - <a href="https://pypi.org/project/PySide6/"> Pyside6 </a>
+  - <a href="https://matplotlib.org/stable/index.html">Matplotlib</a>
+  - <a href="https://pypi.org/project/folium/">Folium</a>
 
 - ## Installation
   - Pour installer les dépendances requises par le projet, utilisez le fichier [launch.bat](launch.bat) sur windows ou [launch.sh](launch.sh)  si vous êtes sur un système d'exploitation Linux
