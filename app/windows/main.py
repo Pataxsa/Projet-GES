@@ -73,8 +73,9 @@ class Main(QMainWindow):
 
         central_layout.addWidget(page_manager)
 
-        self.play_sound()
+        #self.play_sound()
 
+    """
     def play_sound(self):
         self.sound_effect = QSoundEffect()
         self.sound_effect.setSource(QUrl.fromLocalFile(f"{RESOURCE_PATH}\\sounds\\loading_sound.wav"))
@@ -86,3 +87,4 @@ class Main(QMainWindow):
 
     def closeEvent(self, event):
         self.thread_worker.quit()
+    """
