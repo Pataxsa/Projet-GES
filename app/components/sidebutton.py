@@ -23,7 +23,7 @@ class SideButton(QPushButton):
     Classe SideButton pour générer un bouton pour la sidebar
     """
 
-    def __init__(self, icon: QPixmap, parent: QWidget = None, text: str = None, animduration: int = 500, bgcolor: str = "#3d3d3d", bgcolorhover: str = "#ff9000", bgcolorselected: str = "#3498db", font: str = "Arial", fontsize: int = 11, selected: bool = False) -> None:
+    def __init__(self, icon: QPixmap, parent: QWidget = None, text: str = None, animduration: int = 700, bgcolor: str = "#3d3d3d", bgcolorhover: str = "#ff9000", bgcolorselected: str = "#3498db", font: str = "Arial", fontsize: int = 11, selected: bool = False) -> None:
         super().__init__(parent)
 
         # Données
