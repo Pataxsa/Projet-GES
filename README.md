@@ -67,45 +67,15 @@ REQUEST_CACHE_EXPIRE: int = 60*60
 
 ## Auteurs
 
-<div style="display: flex; align-items: center;">
+| ![Noam Chamouard](https://secure.gravatar.com/avatar/617d4777fd8033837647706eab4ec720013f7115c617ecd57f2dc6824efd6560?s=64&d=identicon) | **Nom :** Noam Chamouard <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/nchamoua) |
+|:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-  <img src="https://secure.gravatar.com/avatar/617d4777fd8033837647706eab4ec720013f7115c617ecd57f2dc6824efd6560?s=64&d=identicon" style="border-radius:30px; margin-right: 10px;">
-  <div>
-  
-  - *Nom :* Noam Chamouard  
-  - *GitLab :* [mon profil](https://gitlab.univ-lr.fr/nchamoua)
-  </div>
+| ![Axel Cvjetic](https://secure.gravatar.com/avatar/6b909a4d4340cab18b5d46100ab91679c344990a3a29fdfcb9e5164b0fd4c971?s=64&d=identicon) | **Nom :** Axel Cvjetic <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/acvjetic) |
+|:---------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-</div>
+| ![Dimitri Ollivier](https://secure.gravatar.com/avatar/a261e03fb78a7abdec058954aafcc0778fc8cd77f580cebced9ba173f95d91ed?s=64&d=identicon) | **Nom :** Dimitri Ollivier <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/dollivie) |
+|:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-<div style="display: flex; align-items: center; margin-top: 10px;">
+| ![Iyanchrist Mugisha](https://secure.gravatar.com/avatar/a651d3b5f3a9f490d36e163332be73cc24f1047f28735b4e9f788b3637bb9c43?s=64&d=identicon) | **Nom :** Iyanchrist Mugisha <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/imugisha) |
+|:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-  <img src="https://secure.gravatar.com/avatar/6b909a4d4340cab18b5d46100ab91679c344990a3a29fdfcb9e5164b0fd4c971?s=64&d=identicon" style="border-radius:30px; margin-right: 10px;">
-  <div>
-
-  - *Nom :* Axel Cvjetic  
-  - *GitLab :* [mon profil](https://gitlab.univ-lr.fr/acvjetic)
-  </div>
-
-</div>
-
-<div style="display: flex; align-items: center; margin-top: 10px;">
-
-  <img src="https://secure.gravatar.com/avatar/a261e03fb78a7abdec058954aafcc0778fc8cd77f580cebced9ba173f95d91ed?s=64&d=identicon" style="border-radius:30px; margin-right: 10px;">
-  <div>
-
-  - *Nom :* Dimitri Ollivier  
-  - *GitLab :* [mon profil](https://gitlab.univ-lr.fr/dollivie)
-  </div>
-
-</div>
-
-<div style="display: flex; align-items: center; margin-top: 10px;">
-
-  <img src="https://secure.gravatar.com/avatar/a651d3b5f3a9f490d36e163332be73cc24f1047f28735b4e9f788b3637bb9c43?s=64&d=identicon" style="border-radius:30px; margin-right: 10px;">
-  <div>
-
-  - *Nom :* Iyanchrist Mugisha  
-  - *GitLab :* [mon profil](https://gitlab.univ-lr.fr/imugisha)
-  </div>
-</div>
