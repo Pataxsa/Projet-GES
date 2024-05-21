@@ -12,6 +12,7 @@
   - [🚗 Lancement](#lancement-du-projet)
   - [📊 Constantes](#constantes)
 - [👥 Auteurs](#auteurs)
+- [👷‍♂️ Superviseurs](#superviseurs)
 
 # Résumé
 <h3>Un projet en python qui permet d'afficher des graphiques montrant l'évolution de gaz a effet de serre dans un lieu.
@@ -82,3 +83,7 @@ REQUEST_CACHE_EXPIRE: int = 60*60
 | <a href="https://gitlab.univ-lr.fr/imugisha"> <img src="https://secure.gravatar.com/avatar/a651d3b5f3a9f490d36e163332be73cc24f1047f28735b4e9f788b3637bb9c43?s=64&d=identicon" width="64" height="64"> </a> | **Nom :** Iyanchrist Mugisha <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/imugisha) |
 |:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
+## Superviseurs
+
+| <a href="https://gitlab.univ-lr.fr/jviaud"> <img src="https://gitlab.univ-lr.fr/uploads/-/system/user/avatar/566/avatar.png?width=800" width="64" height="64"> </a> | **Nom :** Jean-François Viaud <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/jviaud) |
+|:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
