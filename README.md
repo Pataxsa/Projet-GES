@@ -1,6 +1,6 @@
 <div align="center">
-    <h1>Projet-GES</h1>
     <img src="https://gitlab.univ-lr.fr/l12024/lescrazy/Projet-GES/-/raw/main/app/assets/icons/icon-x64.ico">
+    <h1>Projet-GES</h1>
 </div>
 
 # 📗 Table des matières
@@ -13,7 +13,7 @@
   - [Constantes](#constantes)
 - [👥 Authors](#auteurs)
 
-# Résumé
+### Résumé
 <h3>Un projet en python qui permet d'afficher des graphiques montrant l'évolution de gaz a effet de serre dans un lieu.
 Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serre en France et dans les territoires français.</h3>
 
@@ -67,15 +67,15 @@ REQUEST_CACHE_EXPIRE: int = 60*60
 
 ## Auteurs
 
-| ![Noam Chamouard](https://secure.gravatar.com/avatar/617d4777fd8033837647706eab4ec720013f7115c617ecd57f2dc6824efd6560?s=64&d=identicon) | **Nom :** Noam Chamouard <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/nchamoua) |
+| <a href="https://gitlab.univ-lr.fr/nchamoua"> <img src="https://static.wikia.nocookie.net/brawlstars/images/2/2c/Buzz_Portrait.png/revision/latest?cb=20211031072631&path-prefix=vi" width="64" height="64"> </a> | **Nom :** Noam Chamouard <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/nchamoua) |
 |:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-| ![Axel Cvjetic](https://secure.gravatar.com/avatar/6b909a4d4340cab18b5d46100ab91679c344990a3a29fdfcb9e5164b0fd4c971?s=64&d=identicon) | **Nom :** Axel Cvjetic <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/acvjetic) |
+| <a href="https://gitlab.univ-lr.fr/acvjetic"> <img src="https://avatars.githubusercontent.com/u/65069467?s=400&u=8ae70b9493b3d6209032fb65c7a1d8c720076bd3&v=4" width="64" height="64"> </a> | **Nom :** Axel Cvjetic <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/acvjetic) |
 |:---------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-| ![Dimitri Ollivier](https://secure.gravatar.com/avatar/a261e03fb78a7abdec058954aafcc0778fc8cd77f580cebced9ba173f95d91ed?s=64&d=identicon) | **Nom :** Dimitri Ollivier <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/dollivie) |
+| <a href="https://gitlab.univ-lr.fr/dollivie"> <img src="https://secure.gravatar.com/avatar/a261e03fb78a7abdec058954aafcc0778fc8cd77f580cebced9ba173f95d91ed?s=64&d=identicon" width="64" height="64"> </a> | **Nom :** Dimitri Ollivier <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/dollivie) |
 |:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-| ![Iyanchrist Mugisha](https://secure.gravatar.com/avatar/a651d3b5f3a9f490d36e163332be73cc24f1047f28735b4e9f788b3637bb9c43?s=64&d=identicon) | **Nom :** Iyanchrist Mugisha <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/imugisha) |
+| <a href="https://gitlab.univ-lr.fr/imugisha"> <img src="https://secure.gravatar.com/avatar/a651d3b5f3a9f490d36e163332be73cc24f1047f28735b4e9f788b3637bb9c43?s=64&d=identicon" width="64" height="64"> </a> | **Nom :** Iyanchrist Mugisha <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/imugisha) |
 |:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
