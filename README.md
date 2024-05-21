@@ -20,32 +20,32 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
 # Utilisation
 - ## Modules
 - Pour réaliser ce projet nous avons utilisé majoritairement les modules suivants :
-- - [Pyside6]("https://pypi.org/project/PySide6/)
-- - [Matplotlib]("https://matplotlib.org/stable/index.html)
-- - [Folium]("https://pypi.org/project/folium/)
+  - [Pyside6]("https://pypi.org/project/PySide6/)
+  - [Matplotlib]("https://matplotlib.org/stable/index.html)
+  - [Folium]("https://pypi.org/project/folium/)
 
 - ## Installation
-- Pour installer les dépendances requises par le projet, utilisez le fichier [launch.bat](launch.bat) sur windows ou [launch.sh](launch.sh)  si vous êtes sur un système d'exploitation Linux
+  - Pour installer les dépendances requises par le projet, utilisez le fichier [launch.bat](launch.bat) sur windows ou [launch.sh](launch.sh)  si vous êtes sur un système d'exploitation Linux
 
-- ou la commande suivante dans votre terminal
+  - ou la commande suivante dans votre terminal
 
 ```bash 
 ./launch.bat
 ```
 
-- Sinon pour installer les librairies vous pouvez aussi entrer la commande suivante dans votre terminal
+  - Sinon pour installer les librairies vous pouvez aussi entrer la commande suivante dans votre terminal
 
 ```bash 
 pip install r requirements.txt
 ```
 - ## Lancement du projet
-- Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
+  - Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
 ```bash
 py main.py
 ```
 
 - ## Constantes
-- Si vous le voulez, vous pouvez modifier les constantes dans le fichier [](utils/constants.py)
+  - Si vous le voulez, vous pouvez modifier les constantes dans le fichier [](utils/constants.py)
 ```python
 # Chemin ROOT
 ROOT_PATH: str = getattr(sys, '_MEIPASS', ".")
