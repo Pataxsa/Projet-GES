@@ -4,14 +4,14 @@
 </div>
 
 # 📗 Table des matières
-- [📖 About the Project](#resume)
-  - [🛠 Built With](#modules)
-  - [🚀 Live Demo](#exemple-de-lancement)
-- [💻 Getting Started](#utilisation)
-  - [Install](#installation)
-  - [launch](#lancement-du-projet)
+- [📖 A propos du projet](#resume)
+  - [🛠 Dépendances](#modules)
+  - [🚀 Exemple de lancement](#exemple-de-lancement)
+- [💻 Pour commencer](#utilisation)
+  - [Installations](#installation)
+  - [Lancement](#lancement-du-projet)
   - [Constantes](#constantes)
-- [👥 Authors](#auteurs)
+- [👥 Auteurs](#auteurs)
 
 ### Résumé
 <h3>Un projet en python qui permet d'afficher des graphiques montrant l'évolution de gaz a effet de serre dans un lieu.
