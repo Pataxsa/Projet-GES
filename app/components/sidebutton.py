@@ -2,8 +2,6 @@
 Composant bouton sidebar
 """
 
-#TODO: ajouter icones (svg si statique ou gif si animé)
-
 from PySide6.QtWidgets import QPushButton, QWidget
 from PySide6.QtGui import QColor, QFont, QMovie, QPixmap, QIcon
 from PySide6.QtCore import Qt, QVariantAnimation, QSize
