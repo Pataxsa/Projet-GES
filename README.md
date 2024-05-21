@@ -3,7 +3,7 @@
     <img src="app/assets/icons/icon-x64.ico">
 </div>
 
-# 📗 Table of Contents
+# 📗 Table des matières
 - [📖 About the Project](#resume)
   - [🛠 Built With](#modules)
   - [🚀 Live Demo](#exemple-de-lancement)
