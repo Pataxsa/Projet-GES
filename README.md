@@ -8,12 +8,12 @@
   - [🛠 Dépendances](#modules)
   - [🚀 Exemple de lancement](#exemple-de-lancement)
 - [💻 Pour commencer](#utilisation)
-  - [Installations](#installation)
-  - [Lancement](#lancement-du-projet)
-  - [Constantes](#constantes)
+  - [🏗️ Installations](#installation)
+  - [🚗 Lancement](#lancement-du-projet)
+  - [📊 Constantes](#constantes)
 - [👥 Auteurs](#auteurs)
 
-### Résumé
+# Résumé
 <h3>Un projet en python qui permet d'afficher des graphiques montrant l'évolution de gaz a effet de serre dans un lieu.
 Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serre en France et dans les territoires français.</h3>
 
