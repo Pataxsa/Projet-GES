@@ -1,7 +1,7 @@
-<h1 style="text-align:center;">Projet-GES</h1>
-<span style="display:flex;justify-content:center;">
-    <img src="https://gitlab.univ-lr.fr/l12024/lescrazy/Projet-GES/-/raw/main/app/assets/icons/icon-x64.ico">
-</span>
+<div align="center">
+    <h1>Projet-GES</h1>
+    <center><img src="https://gitlab.univ-lr.fr/l12024/lescrazy/Projet-GES/-/raw/main/app/assets/icons/icon-x64.ico"><center>
+</div>
 
 # 📗 Table des matières
 - [📖 About the Project](#resume)
@@ -13,7 +13,7 @@
   - [Constantes](#constantes)
 - [👥 Authors](#auteurs)
 
-# Resume
+# Résumé
 <h3>Un projet en python qui permet d'afficher des graphiques montrant l'évolution de gaz a effet de serre dans un lieu.
 Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serre en France et dans les territoires français.</h3>
 
@@ -61,52 +61,52 @@ REQUEST_CACHE_EXPIRE: int = 60*60
 ```
 
 ## Exemple de lancement
-<span style="display:flex;justify-content:center;">
-    <img src="exemple_lancement.gif"></img>
-</span>
+<div align="center">
+    <center><img src="exemple_lancement.gif"></img>
+</div>
 
 ## Auteurs
 
-<span style="display: flex; align-items: center;">
+<div style="display: flex; align-items: center;">
 
 <img src="https://secure.gravatar.com/avatar/617d4777fd8033837647706eab4ec720013f7115c617ecd57f2dc6824efd6560?s=64&d=identicon" style="border-radius:30px; margin-right: 10px;">
-<span>
+<div>
 
-- *Nom :* Noam Chamouard  
-- *GitLab :* [mon profil](https://gitlab.univ-lr.fr/nchamoua)
-</span>
+  - *Nom :* Noam Chamouard  
+  - *GitLab :* [mon profil](https://gitlab.univ-lr.fr/nchamoua)
+</div>
 
-</span>
+</div>
 
-<span style="display: flex; align-items: center; margin-top: 10px;">
+<div style="display: flex; align-items: center; margin-top: 10px;">
 
 <img src="https://secure.gravatar.com/avatar/6b909a4d4340cab18b5d46100ab91679c344990a3a29fdfcb9e5164b0fd4c971?s=64&d=identicon" style="border-radius:30px; margin-right: 10px;">
-<span>
+<div>
 
 - *Nom :* Axel Cvjetic  
 - *GitLab :* [mon profil](https://gitlab.univ-lr.fr/acvjetic)
-</span>
+</div>
 
-</span>
+</div>
 
-<span style="display: flex; align-items: center; margin-top: 10px;">
+<div style="display: flex; align-items: center; margin-top: 10px;">
 
 <img src="https://secure.gravatar.com/avatar/a261e03fb78a7abdec058954aafcc0778fc8cd77f580cebced9ba173f95d91ed?s=64&d=identicon" style="border-radius:30px; margin-right: 10px;">
-<span>
+<div>
 
 - *Nom :* Dimitri Ollivier  
 - *GitLab :* [mon profil](https://gitlab.univ-lr.fr/dollivie)
-</span>
+</div>
 
-</span>
+</div>
 
-<span style="display: flex; align-items: center; margin-top: 10px;">
+<div style="display: flex; align-items: center; margin-top: 10px;">
 
 <img src="https://secure.gravatar.com/avatar/a651d3b5f3a9f490d36e163332be73cc24f1047f28735b4e9f788b3637bb9c43?s=64&d=identicon" style="border-radius:30px; margin-right: 10px;">
-<span>
+<div>
 
 - *Nom :* Iyanchrist Mugisha  
 - *GitLab :* [mon profil](https://gitlab.univ-lr.fr/imugisha)
-</span>
+</div>
 
-</span>
+</div>
