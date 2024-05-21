@@ -69,7 +69,7 @@ class SideBar(QWidget):
         Fonction pour changer de page
         
         Paramètres :
-            index (int) : index de la page à afficher
+            > index (int) : index de la page à afficher
 
         Return : None
         """
@@ -88,7 +88,7 @@ class SideBar(QWidget):
         """
         Fonction pour changer le background de la sidebar (evenement)
 
-        Return None
+        Return : None
         """
         painter = QPainter(self)
         gradient = QLinearGradient(QPointF(0, 0), QPointF(self.width(), self.height()))
