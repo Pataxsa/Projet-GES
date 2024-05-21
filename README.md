@@ -3,31 +3,49 @@
     <img src="app/assets/icons/icon-x64.ico">
 </div>
 
+# 📗 Table of Contents
+- [📖 About the Project](#resume)
+  - [🛠 Built With](#modules)
+  - [🚀 Live Demo](#exemple-de-lancement)
+- [💻 Getting Started](#utilisation)
+  - [Install](#installation)
+  - [launch](#lancement-du-projet)
+  - [Constantes](#constantes)
+- [👥 Authors](#auteurs)
+
+# Resume
 <h3>Un projet en python qui permet d'afficher des graphiques montrant l'évolution de gaz a effet de serre dans un lieu.
 Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serre en France et dans les territoires français.</h3>
 
-## Installation
-Pour installer les dépendances requises par le projet, utilisez le fichier [](launch.bat) sur windows ou [](launch.sh) si vous êtes sur un système d'exploitation Linux
+# Utilisation
+- ## Modules
+- Pour réaliser ce projet nous avons utilisé majoritairement les modules suivants :
+- - [Pyside6]("https://pypi.org/project/PySide6/)
+- - [Matplotlib]("https://matplotlib.org/stable/index.html)
+- - [Folium]("https://pypi.org/project/folium/)
 
-ou la commande suivante dans votre terminal
+- ## Installation
+- Pour installer les dépendances requises par le projet, utilisez le fichier [launch.bat](launch.bat) sur windows ou [launch.sh](launch.sh)  si vous êtes sur un système d'exploitation Linux
+
+- ou la commande suivante dans votre terminal
 
 ```bash 
 ./launch.bat
 ```
 
-Sinon pour installer les librairies vous pouvez aussi entrer la commande suivante dans votre terminal
+- Sinon pour installer les librairies vous pouvez aussi entrer la commande suivante dans votre terminal
 
 ```bash 
 pip install r requirements.txt
 ```
-## Lancement du projet
-Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
+- ## Lancement du projet
+- Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
 ```bash
 py main.py
 ```
 
-## Constantes
-Si vous le voulez, vous pouvez modifier les constantes dans le fichier [](utils/constants.py)
+- ## Constantes
+- Si vous le voulez, vous pouvez modifier les constantes dans le fichier [](utils/constants.py)
 ```python
 # Chemin ROOT
 ROOT_PATH: str = getattr(sys, '_MEIPASS', ".")
@@ -41,6 +59,7 @@ API_LINK: str = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
 # Expiration en seconde du cache des requetes (1H par defaut)
 REQUEST_CACHE_EXPIRE: int = 60*60
 ```
+
 ## Exemple de lancement
 <div style="display:flex;justify-content:center;">
     <img src="exemple_lancement.gif"></img>
