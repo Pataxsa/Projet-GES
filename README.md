@@ -1,6 +1,6 @@
 <h1 style="text-align:center;">Projet-GES</h1>
 <div style="display:flex;justify-content:center;">
-    <img src="app/assets/icons/icon-x64.ico">
+    <img src="https://gitlab.univ-lr.fr/l12024/lescrazy/Projet-GES/-/raw/main/app/assets/icons/icon-x64.ico">
 </div>
 
 # 📗 Table des matières
