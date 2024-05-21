@@ -43,7 +43,7 @@ class GraphPage(QWidget):
 
         # Créer une combobox principale
         self.list_ville = QComboBox(self)
-        self.list_ville.items = ["Choisissez le type de localité", "Commune", "Région", "Département"]
+        self.list_ville.items = ["Choisissez le type de localité", "Commune", "Département", "Région"]
         self.list_ville.addItems(self.list_ville.items)
         self.list_ville.setFixedSize(200, 30)
         self.list_ville.currentIndexChanged.connect(self.__on_liste_ville_changed)
