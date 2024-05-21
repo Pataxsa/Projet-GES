@@ -1,5 +1,15 @@
 """
 Page graph
+
+Modules :
+    PySide6.QtCore.Qt : Pour les fonctions spécifiues à Qt
+    PySide6.QtGui.QPalette : Pour la palette de couleur des widgets
+    PySide6.QtWidgets.QWidget : Classe de base des objets QtWidgets
+    PySide6.QtWidgets.QVBoxLayout : Pour mettre les éléments de manière vertical (les uns au-dessus des autres)
+    PySide6.QWidgets.QComboBox : Pour les boutons défilants
+    PySide6.QWidgets.QSizePolicy : Pour le dimensionement horizontal et vertical des widgets
+
+    utils.api.Api : Importe la classe Api    
 """
 
 from PySide6.QtCore import Qt
@@ -55,8 +65,14 @@ class GraphPage(QWidget):
         self.axe = self.figure.subplots()
         self.canvas = None
 
-    # Affiche le graphique
     def __show_graphic(self) -> None:
+        """
+        Fonction qui affiche le graphique
+
+        Return : None
+        """
+
+        #Créé le canva s'il n'est pas déjà créé
         if not self.canvas:
             self.canvas = FigureCanvas(self.figure)
             self.canvas.setMaximumSize(1000, 800)
@@ -66,6 +82,7 @@ class GraphPage(QWidget):
             self.layout().addWidget(menu, alignment=Qt.AlignmentFlag.AlignHCenter)
             self.layout().addWidget(self.canvas)
 
+        #Donne les données au graphique
         inputdata = self.list_ville.currentText()
         data = self.api.getCO2(self.data_type, inputdata)
         dates = list(data.keys())
@@ -86,8 +103,13 @@ class GraphPage(QWidget):
         # Mettre à jour le graphique dans le canvas
         self.canvas.draw()
     
-    # Evenement qui actualise les valeures de la combobox list_ville quand on sélectionne une valeure
     def __on_liste_ville_changed(self) -> None:
+        """
+        Evenement qui actualise les valeurs de la combobox list_ville quand on sélectionne une valeur
+
+        Return : None
+        """
+
         selected_text = self.list_ville.currentText()
 
         match selected_text:
@@ -108,8 +130,13 @@ class GraphPage(QWidget):
             case _:
                 self.__show_graphic()
 
-    # Evenement qui modifie le tracé du graphique quand on sélectionne une valeure
     def __on_list_type_plots_changed(self):
+        """
+        Evenement qui modifie le type du graphique quand on le choisit dans la combobox
+
+        Return : None
+        """
+
         selected_text = self.list_type_plots.currentText()
         selected_text_liste_ville = self.list_ville.currentText()
 
