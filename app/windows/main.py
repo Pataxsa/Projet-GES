@@ -5,6 +5,9 @@ Interface principale
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QStackedWidget
 from PySide6.QtGui import QIcon
 from requests.exceptions import HTTPError
+from PySide6.QtMultimedia import QSoundEffect
+from PySide6.QtCore import QThread, QUrl
+
 from app.components.messagebox import MessageBox
 from app.components.sidebar import SideBar
 from app.components.pages.home import HomePage
@@ -69,3 +72,17 @@ class Main(QMainWindow):
         central_layout.addWidget(sidebar)
 
         central_layout.addWidget(page_manager)
+
+        self.play_sound()
+
+    def play_sound(self):
+        self.sound_effect = QSoundEffect()
+        self.sound_effect.setSource(QUrl.fromLocalFile(f"{RESOURCE_PATH}\\sounds\\loading_sound.wav"))
+
+        self.thread_worker = QThread()
+        self.thread_worker.started.connect(self.sound_effect.play)
+        self.sound_effect.statusChanged.connect(self.thread_worker.quit)
+        self.thread_worker.start()
+
+    def closeEvent(self, event):
+        self.thread_worker.quit()
