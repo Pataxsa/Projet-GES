@@ -2,7 +2,6 @@
 Page home
 
 Module :
-    PySide6.QtCore.Qt : Pour les fonctions spécifiques à Qt
     PySide6.QtGui.QPixmap : Pour l'image de fond
     PySide6.QtWidgets.QWidget : Classe de base des objets QtWidgets
     PySide6.QtWidgets.QVBoxLayout : Pour mettre les éléments de manière vertical (les uns au-dessus des autres)

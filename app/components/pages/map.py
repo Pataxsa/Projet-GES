@@ -13,8 +13,6 @@ Module :
     Map : Importe la classe Map
 """
 
-#TODO: continuer
-
 from PySide6.QtWidgets import QWidget,QVBoxLayout
 from os.path import abspath
 from PySide6.QtCore import QUrl
