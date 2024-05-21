@@ -1,5 +1,12 @@
 """
 Composant messagebox
+
+Module :
+    PySide6.QtWidgets.QMessageBox : Classe offrant des boites à message interactives
+    PySide6.QtWidgets.QWidget : Classe de base des objets QtWidgets
+    PySide6.QtGui.QIcon : Pour avoir des images mouvantes (gif)
+
+    RESOURCE_PATH : Chemin d'accès aux ressources
 """
 
 from PySide6.QtWidgets import QMessageBox, QWidget
@@ -9,7 +16,7 @@ from utils.constants import RESOURCE_PATH
 
 class MessageBox(QMessageBox):
     """
-    Classe MessageBox pour générer une boite a message
+    Classe MessageBox pour générer une boite à message
     """
 
     # Initialisation (constructeur)
@@ -20,6 +27,18 @@ class MessageBox(QMessageBox):
     def show(parent: QWidget = None, window_icon: QIcon = QIcon(f"{RESOURCE_PATH}\\icons\\icon-x32.ico"), title: str = "python", icon: QMessageBox.Icon = QMessageBox.Icon.Critical, text: str = None, informative_text: str = None, detailed_text: str = None, buttons: QMessageBox.StandardButton = QMessageBox.StandardButton.Ok) -> None:
         """
         Fonction statique show qui permet l'affichage de la MessageBox
+
+        Paramètres :
+            > parent (QWidget) : Parent de la messagebox
+            > window_icon (QIcon) : Icone qui va s'ajouter dans la messagebox
+            > title (str) : Titre de la fenêtre de la boite à message
+            > icon (QMessageBox.Icon) : The icon to be displayed in the message box. Defaults to QMessageBox.Icon.Critical.
+            > text (str) : Texte de la boite à message
+            > informative_text (str) : Texte supplémentaire bonus
+            > detailed_text (str) : Texte détaillé bonus dans la messagebox
+            > buttons (QMessageBox.StandardButton) : Bouton à afficher dans la boite à message
+
+        Return : None
         """
 
         messagebox = QMessageBox()
