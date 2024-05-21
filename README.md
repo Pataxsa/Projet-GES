@@ -30,7 +30,7 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
   - ou la commande suivante dans votre terminal
 
 ```bash 
-./launch.bat Wwindows
+./launch.bat #Windows
 ./launch.sh #Linux
 ```
 
@@ -41,14 +41,10 @@ pip install -r requirements.txt #Windows
 pip3 install -r requirements.txt #Linux
 ```
 - ## Lancement du projet
- - ### Sous Windows
-   - Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
+  - Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
 ```bash
-python main.py
-```
-  - ### Sous Linux
-```bash
-python3 main.py
+python main.py #Windows
+python3 main.py #Linux
 ```
 
 - ## Constantes
