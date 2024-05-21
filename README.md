@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://gitlab.univ-lr.fr/l12024/lescrazy/Projet-GES/-/raw/main/app/assets/icons/icon-x64.ico">
+    <img src="https://gitlab.univ-lr.fr/uploads/-/system/project/avatar/9036/icon.ico?width=96" width="134" height="134">
     <h1>Projet-GES</h1>
 </div>
 
@@ -67,10 +67,10 @@ REQUEST_CACHE_EXPIRE: int = 60*60
 
 ## Auteurs
 
-| <a href="https://gitlab.univ-lr.fr/nchamoua"> <img src="https://static.wikia.nocookie.net/brawlstars/images/2/2c/Buzz_Portrait.png/revision/latest?cb=20211031072631&path-prefix=vi" width="64" height="64"> </a> | **Nom :** Noam Chamouard <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/nchamoua) |
+| <a href="https://gitlab.univ-lr.fr/nchamoua"> <img src="https://gitlab.univ-lr.fr/uploads/-/system/user/avatar/2426/avatar.png?width=800" width="64" height="64"> </a> | **Nom :** Noam Chamouard <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/nchamoua) |
 |:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-| <a href="https://gitlab.univ-lr.fr/acvjetic"> <img src="https://avatars.githubusercontent.com/u/65069467?s=400&u=8ae70b9493b3d6209032fb65c7a1d8c720076bd3&v=4" width="64" height="64"> </a> | **Nom :** Axel Cvjetic <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/acvjetic) |
+| <a href="https://gitlab.univ-lr.fr/acvjetic"> <img src="https://gitlab.univ-lr.fr/uploads/-/system/user/avatar/2468/avatar.png?width=800" width="64" height="64"> </a> | **Nom :** Axel Cvjetic <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/acvjetic) |
 |:---------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
 | <a href="https://gitlab.univ-lr.fr/dollivie"> <img src="https://secure.gravatar.com/avatar/a261e03fb78a7abdec058954aafcc0778fc8cd77f580cebced9ba173f95d91ed?s=64&d=identicon" width="64" height="64"> </a> | **Nom :** Dimitri Ollivier <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/dollivie) |
