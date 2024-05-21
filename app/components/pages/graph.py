@@ -4,7 +4,7 @@ Page graph
 Modules :
     PySide6.QtCore.Qt : Pour les fonctions spécifiques à Qt
     PySide6.QtGui.QPalette : Pour la palette de couleur des widgets
-    PySide6.QtWidgets.QWidget : Classe de base des objets QtWidgets
+    PySide6.QtWidgets.QWidget : Classe de base des objets QtWidgets (méthodes et variables)
     PySide6.QtWidgets.QVBoxLayout : Pour mettre les éléments de manière vertical (les uns au-dessus des autres)
     PySide6.QWidgets.QComboBox : Pour les boutons défilants
     PySide6.QWidgets.QSizePolicy : Pour le dimensionement horizontal et vertical des widgets
