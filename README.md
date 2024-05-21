@@ -30,18 +30,25 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
   - ou la commande suivante dans votre terminal
 
 ```bash 
-./launch.bat
+./launch.bat Wwindows
+./launch.sh #Linux
 ```
 
   - Sinon pour installer les librairies vous pouvez aussi entrer la commande suivante dans votre terminal
 
 ```bash 
-pip install -r requirements.txt
+pip install -r requirements.txt #Windows
+pip3 install -r requirements.txt #Linux
 ```
 - ## Lancement du projet
-  - Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
+ - ### Sous Windows
+   - Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
 ```bash
-py main.py
+python main.py
+```
+  - ### Sous Linux
+```bash
+python3 main.py
 ```
 
 - ## Constantes
