@@ -58,13 +58,22 @@ class SideBar(QWidget):
             SideButton(parent=self, text="Map", icon=f"{RESOURCE_PATH}\\icons\\map_button.gif")
         ]
 
+        # Ajout d'évènement, d'index et définition d'espacements aux boutons
         for index, button in enumerate(self.buttons):
             button.clicked.connect(lambda _, index=index: self.__changePage(index))
             central_layout.addSpacing(20)
             central_layout.addWidget(button)
 
-    # Fonction pour changer de page
     def __changePage(self, index: int) -> None:
+        """
+        Fonction pour changer de page
+        
+        Paramètres :
+            index (int) : index de la page à afficher
+
+        Return : None
+        """
+
         clicked_button = self.buttons[index]
         
         for button in self.buttons:
@@ -75,8 +84,12 @@ class SideBar(QWidget):
         
         self.page_manager.setCurrentIndex(index)
 
-    # Changer le background de la barre (evenement)
     def paintEvent(self, event) -> None:
+        """
+        Fonction pour changer le background de la sidebar (evenement)
+
+        Return None
+        """
         painter = QPainter(self)
         gradient = QLinearGradient(QPointF(0, 0), QPointF(self.width(), self.height()))
 
