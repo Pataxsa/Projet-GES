@@ -43,6 +43,8 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
 
 ```bash 
 ./launch.bat #Windows
+
+chmod u+x launch.sh
 ./launch.sh #Linux
 ```
 
