@@ -22,7 +22,7 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
 # Utilisation
 - ## Compatibilité
   - Voici la liste des versions de python compatibles avec le projet : 
-  -
+  
     | Version  | Compatibilité |
     | --------------- | ----------- | 
     | >=3.10 | ✅ |
@@ -38,48 +38,48 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
 
 - ## Installation
   - Clonez le projet pour pouvoir l'utiliser avec la commande suivante : 
-```bash
-git clone https://gitlab.univ-lr.fr/l12024/lescrazy/Projet-GES.git
-```
+    ```
+    git clone https://gitlab.univ-lr.fr/l12024/lescrazy/Projet-GES.git
+    ```
   - Pour installer les dépendances requises par le projet, utilisez le fichier [launch.bat](launch.bat) sur windows ou [launch.sh](launch.sh)  si vous êtes sur un système d'exploitation Linux
 
   - ou la commande suivante dans votre terminal
+    ```bash 
+    ./launch.bat # Windows
 
-```bash 
-./launch.bat #Windows
-
-chmod u+x launch.sh
-./launch.sh #Linux
-```
+    # Linux
+    chmod u+x launch.sh
+    ./launch.sh
+    ```
 
   - Sinon pour installer les librairies vous pouvez aussi entrer la commande suivante dans votre terminal
+    ```bash 
+    pip install -r requirements.txt # Windows
+    pip3 install -r requirements.txt # Linux
+    ```
 
-```bash 
-pip install -r requirements.txt #Windows
-pip3 install -r requirements.txt #Linux
-```
 - ## Lancement du projet
   - Pour lancer le projet vous pouvez exécuter cette commande dans le terminal à partir de la racine du projet
-```bash
-python main.py #Windows
-python3 main.py #Linux
-```
+    ```bash
+    python main.py # Windows
+    python3 main.py # Linux
+    ```
 
 - ## Constantes
   - Si vous le voulez, vous pouvez modifier les constantes dans le fichier [](utils/constants.py)
-```python
-# Chemin ROOT
-ROOT_PATH: str = getattr(sys, '_MEIPASS', ".")
+    ```python
+    # Chemin ROOT
+    ROOT_PATH: str = getattr(sys, '_MEIPASS', ".")
 
-# Chemin vers les ressources (assets)
-RESOURCE_PATH: str = f"{ROOT_PATH}\\app\\assets"
+    # Chemin vers les ressources (assets)
+    RESOURCE_PATH: str = f"{ROOT_PATH}\\app\\assets"
 
-# Base du lien API
-API_LINK: str = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
+    # Base du lien API
+    API_LINK: str = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
 
-# Expiration en seconde du cache des requetes (1H par defaut)
-REQUEST_CACHE_EXPIRE: int = 60*60
-```
+    # Expiration en seconde du cache des requetes (1H par defaut)
+    REQUEST_CACHE_EXPIRE: int = 60*60
+    ```
 
 ## Exemple de lancement
 <div align="center">
