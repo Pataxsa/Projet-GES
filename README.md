@@ -37,6 +37,10 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
   - <a href="https://pypi.org/project/folium/">🌍 Folium</a>
 
 - ## Installation
+  - Clonez le projet pour pouvoir l'utiliser avec la commande suivante : 
+```bash
+git clone https://gitlab.univ-lr.fr/l12024/lescrazy/Projet-GES.git
+```
   - Pour installer les dépendances requises par le projet, utilisez le fichier [launch.bat](launch.bat) sur windows ou [launch.sh](launch.sh)  si vous êtes sur un système d'exploitation Linux
 
   - ou la commande suivante dans votre terminal
