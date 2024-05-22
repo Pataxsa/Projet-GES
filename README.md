@@ -22,12 +22,12 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
 # Utilisation
 - ## Compatibilité
   - Voici la liste des versions de python compatibles avec le projet : 
-  - | Versions | Compatibles ? |
-    |-------------------|---------------|
-    | 3.10              | ✔️            |
-    | 3.11              | ✔️            |
-    | 3.12              | ✔️            |
-    | ...               | ✔️         |
+  -
+    | Version  | Compatibilité |
+    | --------------- | ----------- | 
+    | >=3.10 | ✅ |
+    | <=3.10 >=3.8 | 🤷 |
+    | <=3.8  | ❌ |
 
 
 - ## Modules
