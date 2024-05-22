@@ -22,11 +22,10 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
 # Utilisation
 - ## Compatibilité
   - Voici la liste des versions de python compatibles avec le projet : 
-  
     | Version  | Compatibilité |
     | --------------- | ----------- | 
     | >=3.10 | ✅ |
-    | <=3.10 >=3.8 | 🤷 |
+    | <=3.10, >=3.8 | 🤷 |
     | <=3.8  | ❌ |
 
 
@@ -66,7 +65,7 @@ Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serr
     ```
 
 - ## Constantes
-  - Si vous le voulez, vous pouvez modifier les constantes dans le fichier [](utils/constants.py)
+  - Si vous le voulez, vous pouvez modifier les constantes dans le fichier [constants](utils/constants.py)
     ```python
     # Chemin ROOT
     ROOT_PATH: str = getattr(sys, '_MEIPASS', ".")
