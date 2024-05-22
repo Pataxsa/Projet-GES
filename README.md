@@ -8,6 +8,7 @@
   - [🛠 Dépendances](#modules)
   - [🚀 Exemple de lancement](#exemple-de-lancement)
 - [💻 Pour commencer](#utilisation)
+  - [🐍 Compatibilité](#compatibilité)
   - [🏗️ Installations](#installation)
   - [🚗 Lancement](#lancement-du-projet)
   - [📊 Constantes](#constantes)
@@ -19,6 +20,16 @@
 Vous pourrez y trouver une carte montrant les émissions de gaz à effet de serre en France et dans les territoires français.</h3>
 
 # Utilisation
+- ## Compatibilité
+  - Voici la liste des versions de python compatibles avec le projet : 
+  - | Versions | Compatibles ? |
+    |-------------------|---------------|
+    | 3.10              | ✔️            |
+    | 3.11              | ✔️            |
+    | 3.12              | ✔️            |
+    | ...               | ✔️         |
+
+
 - ## Modules
 - Pour réaliser ce projet nous avons utilisé majoritairement les modules suivants :
   - <a href="https://pypi.org/project/PySide6/">🖥️ Pyside6 </a>
