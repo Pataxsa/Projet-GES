@@ -5,8 +5,8 @@
 
 # 📗 Table des matières
 - [📖 A propos du projet](#à-propos)
-  - [🚀 Exemple de lancement](#exemple)
-  - [🛠 Dépendances](#modules)
+  - [🚀 Exemple](#exemple)
+  - [🛠 Dépendances](#dépendances)
 - [💻 Pour commencer](#pour-commencer)
   - [🐍 Compatibilité](#compatibilité)
   - [🏗️ Installation](#installation)
@@ -21,10 +21,10 @@
 
   ### Exemple
   <div align="center">
-      <img src="exemple_lancement.gif"></img>
+      <img src="assets/example.gif"></img>
   </div>
 
-  ### Modules
+  ### Dépendances
   - Pour réaliser ce projet nous avons utilisé majoritairement les modules suivants :
     - <a href="https://pypi.org/project/PySide6/">🖥️ Pyside6 </a>
     - <a href="https://matplotlib.org/stable/index.html">📈 Matplotlib</a>
