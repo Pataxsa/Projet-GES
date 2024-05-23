@@ -21,7 +21,7 @@
 
   ### Exemple
   <div align="center">
-      <img src="assets/example.gif"></img>
+      <img src="assets/example.mkv"></img>
   </div>
 
   ### Dépendances
@@ -85,6 +85,10 @@
 
 # Feuille de Route
 - [x] Ajout d'une interface
+- [ ] Compatibilité
+  - [x] Compatible Windows
+  - [ ] Compatible Linux
+  - [ ] Compatible Python 3.8
 - [ ] Optimisation du temps de lancement
   - [x] Optimisation des requetes
   - [ ] Optimisation de l'interface
