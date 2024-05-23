@@ -85,9 +85,9 @@
 
 # Feuille de Route
 - [x] Ajout d'une interface
-- [] Optimisation du temps de lancement
+- [ ] Optimisation du temps de lancement
   - [x] Optimisation des requetes
-  - [] Optimisation de l'interface
+  - [ ] Optimisation de l'interface
 - [ ] Ajout d'une page paramètres
 - [ ] Ajout de fonctionalité de tri
 - [ ] Ajout d'un système multi-language
