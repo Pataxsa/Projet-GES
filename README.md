@@ -21,7 +21,7 @@
 
   ### Exemple
   <div align="center">
-      <img src="assets/example.mkv"></img>
+      <img src="assets/example.mp4"></img>
   </div>
 
   ### Dépendances
