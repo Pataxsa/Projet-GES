@@ -12,7 +12,7 @@
   - [🏗️ Installation](#installation)
   - [🚗 Installation rapide](#installation-rapide)
   - [⚙️ Configuration](#configuration)
-- [🛣️ Roadmap](#roadmap)
+- [🛣️ Feuille de route](#feuille-de-route)
 - [👥 Auteurs](#auteurs)
 - [👷‍♂️ Superviseurs](#superviseurs)
 
@@ -83,7 +83,7 @@
       REQUEST_CACHE_EXPIRE: int = 60*60
       ```
 
-# Roadmap
+# Feuille de Route
 - [x] Ajout d'une interface
 - [x] Optimisation du temps de lancement
 - [ ] Ajout d'une page paramètres
