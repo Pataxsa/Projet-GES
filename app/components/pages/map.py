@@ -39,6 +39,7 @@ class MapPage(QWidget):
         self.setLayout(central_layout)
 
         # Map View
+        # TODO: Pas opti (pour opti il ne faut pas le charger au démarrage)
         self.map_view = QWebEngineView()
         file_path = abspath(f"{ROOT_PATH}\\map.html")
         self.map_view.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
