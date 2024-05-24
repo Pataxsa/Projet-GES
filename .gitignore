@@ -5,8 +5,8 @@ __pycache__
 # Ignore visual studio code config
 .vscode
 
-# Ignore map
-map.html
+# Ignore temp
+tmp
 
 # Ignore builds
 build
