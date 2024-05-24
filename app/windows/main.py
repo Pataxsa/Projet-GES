@@ -5,8 +5,6 @@ Interface principale
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QStackedWidget
 from PySide6.QtGui import QIcon
 from requests.exceptions import HTTPError
-from PySide6.QtMultimedia import QSoundEffect
-from PySide6.QtCore import QThread, QUrl
 
 from app.components.messagebox import MessageBox
 from app.components.sidebar import SideBar
@@ -72,5 +70,3 @@ class Main(QMainWindow):
         central_layout.addWidget(sidebar)
 
         central_layout.addWidget(page_manager)
-
-        #self.play_sound()
