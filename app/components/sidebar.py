@@ -11,7 +11,7 @@ Module :
     PySide6.QtWidgets.QWidget : Classe de base des objets QtWidgets (méthodes et variables)
     PySide6.QtWidgets.QVBoxLayout : Pour mettre les éléments de manière vertical (les uns au-dessus des autres)
     PySide6.QtWidgets.QLabel : Pour gérer l'affichage, le placement et la taille des éléments sur la page
-    PySide6.QtWidgets.QStackedWidget : Pour superposer les widgets en en affichant qu'un
+    PySide6.QtWidgets.QStackedWidget : Widget pour superposer les widgets
     
     SideButton : Import les boutons à ajouter à la sidebar
     RESOURCE_PATH : Chemin d'accès aux ressources
