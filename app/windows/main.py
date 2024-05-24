@@ -7,8 +7,6 @@ Module :
     PySide6.QtWidgets.QHBoxLayout : Pour placer les widgets à l'horizontale (les unes à cotés des autres)
     PySide6.QtWidgets.QStackedWidget : Un Widget pour superposer les widgets
     PySide6.QtGui.QIcon : Pour avoir les images mouvantes (gif)
-    PySide6.QtCore.QThread : 
-    PySide6.QtCore.QUrl : Classe pour gérer les Urls
     requests.exceptions.HTTPError : Pour gérer en cas d'erreur lors de la requête de l'API
 
     Importation de toutes les classes nécessaires (pages, boutons, interface, map) du projet
@@ -18,8 +16,6 @@ Module :
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QStackedWidget
 from PySide6.QtGui import QIcon
 from requests.exceptions import HTTPError
-from PySide6.QtCore import QThread, QUrl
-
 from app.components.messagebox import MessageBox
 from app.components.sidebar import SideBar
 from app.components.pages.home import HomePage
