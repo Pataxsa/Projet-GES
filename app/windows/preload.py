@@ -1,5 +1,14 @@
 """
-Interface préchargement
+Interface préchargement (lors du lancement du projet)
+
+Module : 
+    PySide6.QtCore.Qt : Classe de base des Objets de Qt  
+    PySide6.QtGui.QFont : Pour la police de Qt
+    PySide6.QtWidgets.QWidget : Classe pour les objets de Qt
+    PySide6.QtWidgets.QLabel : Pour Gérer disposition et propriétés des éléments de la page
+    PySide6.QtWidgets.QVBoxLayout : Pour placer les widgets verticalement
+    PySide6.QtWidgets.QProgressBar : Pour la barre de chargement
+    PySide6.QtWidgets.QMainWindow : Pour les fenêtres principales (chargement et fenêtre principale)
 """
 
 from PySide6.QtCore import Qt
@@ -13,6 +22,15 @@ class Preload(QMainWindow):
 
     # Initialisation (constructeur)
     def __init__(self, text: str, percent: int) -> None:
+        """
+        Constructeur de la barre de Preload
+
+        Paramètres :
+            > text (str) : Texte à afficher au-dessus de la barre de chargement
+            > percent (int) : Pourcentage de la barre de chargement (affichage et barre)
+
+        Return : None
+        """
         super().__init__()
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.ToolTip)
@@ -58,6 +76,7 @@ class Preload(QMainWindow):
                                        """)
         central_layout.addWidget(self.progressbar)
 
+        # Actualisation du pourcentage et du texte
         self.update(text, percent)
         
         self.show()
@@ -65,6 +84,12 @@ class Preload(QMainWindow):
     def update(self, text: str, percent: int) -> None:
         """
         Fonction update qui actualise le texte et la barre de progression
+        
+        Paramètres :
+            > text (str) : Texte à afficher au-dessus de la barre de chargement
+            > percent (int) : Pourcentage de la barre de chargement (affichage et barre)
+
+        Return : None
         """
 
         self.label.setText(text)
