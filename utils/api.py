@@ -1,5 +1,16 @@
 """
 Module api pour générer la base de l'API
+
+Module : 
+    requests_cache.CachedSession : Pour stocker les données en locales et les actualisé (éviter de refaire des requêtes)
+    requests.exceptions.HTTPError : Pour lever des erreurs en cas de problème lors des requêtes
+    requests.exceptions.ConnectionError : Condition pour HTTPError
+
+    typing.Any :
+
+    API_LINK :
+    ROOT_PATH :
+    REQUEST_CACHE_EXPIRE :
 """
 
 # TODO: a modifier pour qu'on puisse avoir les infos en fonction des paramètres (type emission [emission1, emission2], date [date1, date2])
