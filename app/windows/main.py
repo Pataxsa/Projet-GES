@@ -41,7 +41,7 @@ class Main(QMainWindow):
         self.setWindowTitle(title)
         self.setMinimumSize(800,600)
 
-        # Palette de couleur par défaut (comme ca tout le monde a les même couleurs)
+        # Palette de couleur par défaut (comme ça tout le monde a les mêmes couleurs)
         self.setPalette(Palette())
 
         # Initialisation du module API
@@ -73,6 +73,7 @@ class Main(QMainWindow):
             MapPage(map=map, parent=page_manager)
         ]
 
+        # Ajout des pages au Widget principal
         for page in pages:
             page_manager.addWidget(page)
 
