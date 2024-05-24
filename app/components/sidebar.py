@@ -21,7 +21,7 @@ from PySide6.QtCore import Qt, QPointF
 from PySide6.QtGui import QPainter, QLinearGradient, QColor, QFont
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 
-from app.components.sidebutton import SideButton
+from app.components import SideButton
 from utils.constants import RESOURCE_PATH
 
 class SideBar(QWidget):

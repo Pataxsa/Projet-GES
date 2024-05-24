@@ -13,14 +13,14 @@ Module :
     Map : Importe la classe Map
 """
 
-from PySide6.QtWidgets import QWidget,QVBoxLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout
 from os.path import abspath
 from PySide6.QtCore import QUrl
 from PySide6.QtWebEngineCore import QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 
+from utils import Map
 from utils.constants import ROOT_PATH
-from utils.map import Map
 
 class MapPage(QWidget):
     """

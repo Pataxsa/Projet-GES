@@ -17,14 +17,9 @@ from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QStackedWidget
 from PySide6.QtGui import QIcon
 from requests.exceptions import HTTPError
 
-from app.components.messagebox import MessageBox
-from app.components.sidebar import SideBar
-from app.components.pages.home import HomePage
-from app.components.pages.graph import GraphPage
-from app.components.pages.map import MapPage
-from utils.palette import Palette
-from utils.api import Api
-from utils.map import Map
+from app.components import MessageBox, SideBar
+from app.components.pages import GraphPage, HomePage, MapPage
+from utils import Api, Map, Palette
 from utils.constants import RESOURCE_PATH
 
 class Main(QMainWindow):

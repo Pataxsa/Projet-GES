@@ -8,7 +8,7 @@ from branca.colormap import LinearColormap
 from os.path import isfile, isdir
 from os import mkdir
 
-from utils.api import Api
+from utils import Api
 from utils.constants import ROOT_PATH, GEO_JSON_TYPE, FEATURE_TYPE
 
 class Map:

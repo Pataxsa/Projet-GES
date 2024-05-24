@@ -13,8 +13,6 @@ Module :
     REQUEST_CACHE_EXPIRE :
 """
 
-# TODO: a modifier pour qu'on puisse avoir les infos en fonction des paramètres (type emission [emission1, emission2], date [date1, date2])
-
 from requests_cache import CachedSession
 from requests.exceptions import HTTPError, ConnectionError
 from typing import Any

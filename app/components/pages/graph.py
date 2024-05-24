@@ -18,7 +18,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QComboBox, QSizePolicy
 
-from utils.api import Api
+from utils import Api
 
 class GraphPage(QWidget):
     """
