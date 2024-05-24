@@ -16,6 +16,7 @@ Module :
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QStackedWidget
 from PySide6.QtGui import QIcon
 from requests.exceptions import HTTPError
+
 from app.components.messagebox import MessageBox
 from app.components.sidebar import SideBar
 from app.components.pages.home import HomePage

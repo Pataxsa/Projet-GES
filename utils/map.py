@@ -6,7 +6,7 @@ from folium import TileLayer, Map as MAP, GeoJsonPopup, GeoJson, LayerControl
 from json import load
 from branca.colormap import LinearColormap
 from os.path import isfile
-from webbrowser import open as webopen
+
 from utils.api import Api
 from utils.constants import ROOT_PATH, GEO_JSON_TYPE, FEATURE_TYPE
 
