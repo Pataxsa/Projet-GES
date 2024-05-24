@@ -5,7 +5,7 @@ Module map pour générer une carte
 from folium import TileLayer, Map as MAP, GeoJsonPopup, GeoJson, LayerControl
 from json import load
 from branca.colormap import LinearColormap
-from os.path import isfile, isdir
+from os.path import isdir
 from os import mkdir
 
 from utils import Api
@@ -43,8 +43,8 @@ class Map:
         if not isdir(f"{ROOT_PATH}\\tmp"):
             mkdir(f"{ROOT_PATH}\\tmp")
         
-        if not isfile(name):
-            self.__map.save(name)
+        # TODO: Optimiser ca (ne pas gen ca au démarrage)
+        self.__map.save(name)
 
 
     # Fonction privé qui permet de générer les données de la carte
