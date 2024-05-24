@@ -74,17 +74,3 @@ class Main(QMainWindow):
         central_layout.addWidget(page_manager)
 
         #self.play_sound()
-
-    """
-    def play_sound(self):
-        self.sound_effect = QSoundEffect()
-        self.sound_effect.setSource(QUrl.fromLocalFile(f"{RESOURCE_PATH}\\sounds\\loading_sound.wav"))
-
-        self.thread_worker = QThread()
-        self.thread_worker.started.connect(self.sound_effect.play)
-        self.sound_effect.statusChanged.connect(self.thread_worker.quit)
-        self.thread_worker.start()
-
-    def closeEvent(self, event):
-        self.thread_worker.quit()
-    """
