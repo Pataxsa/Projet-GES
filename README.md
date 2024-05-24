@@ -104,7 +104,7 @@
 | <a href="https://gitlab.univ-lr.fr/acvjetic"> <img src="https://gitlab.univ-lr.fr/uploads/-/system/user/avatar/2468/avatar.png?width=800" width="64" height="64"> </a> | **Nom :** Axel Cvjetic <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/acvjetic) |
 |:---------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
-| <a href="https://gitlab.univ-lr.fr/dollivie"> <img src="https://secure.gravatar.com/avatar/a261e03fb78a7abdec058954aafcc0778fc8cd77f580cebced9ba173f95d91ed?s=64&d=identicon" width="64" height="64"> </a> | **Nom :** Dimitri Ollivier <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/dollivie) |
+| <a href="https://gitlab.univ-lr.fr/dollivie"> <img src="https://gitlab.univ-lr.fr/uploads/-/system/user/avatar/2429/avatar.png?width=800" width="64" height="64"> </a> | **Nom :** Dimitri Ollivier <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/dollivie) |
 |:----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
 
 | <a href="https://gitlab.univ-lr.fr/imugisha"> <img src="https://secure.gravatar.com/avatar/a651d3b5f3a9f490d36e163332be73cc24f1047f28735b4e9f788b3637bb9c43?s=64&d=identicon" width="64" height="64"> </a> | **Nom :** Iyanchrist Mugisha <br> **GitLab :** [mon profil](https://gitlab.univ-lr.fr/imugisha) |
