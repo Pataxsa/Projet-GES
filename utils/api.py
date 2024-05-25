@@ -83,8 +83,17 @@ class Api:
 
         self.__session.close()
         
-    # Fonction privée pour faire des requetes basiques avec des paramètres
     def __getData(self, link: str, param: dict[str, Any]) -> dict[str, int | list]:
+        """
+        Fonction privée pour faire des requêtes basiques avec des paramètres
+
+        Paramètres :
+            > link (str): Fin de l'URL où la requête est envoyé
+            > param (dict[str, Any]): Dictionnaire contenant les paramètres de la requête "get"
+
+        Return : (dict[str, int | list]) Un dictionnaire contenant les données JSON de la réponse (clés -> str / valeurs -> int ou list)
+        """
+
         try:
             url = API_LINK + link
             response = self.__session.get(url, params=param) if param else self.__session.get(url)
@@ -95,8 +104,16 @@ class Api:
 
         return response.json()
 
-    # Fonction privé qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le parametre size pour prendre en compte plus de valeurs)
     def __getLines(self, select: list[str] = None, **kwargs) -> list[dict[str, int | str]]:
+        """
+        Fonction privée qui renvoie les informations de certaines lignes (en fonction des paramètres, utiliser le paramètre size pour prendre en compte plus de valeurs)
+
+        Paramètres :
+            > select (list[str]) : Une liste de chaînes de caractères spécifiant les lignes à prendre dans la requête
+            > **kwargs : Dictionnaire qui va être utilisé comme paramètre de la requête "get"
+
+        Return (list[dict[str, int | str]]) : Liste de dicos représentant les résultats des lignes de données (clés -> str / valeurs -> int ou str)
+        """
         if select:
             kwargs["select"] = ",".join(select)
 
