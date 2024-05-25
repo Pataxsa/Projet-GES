@@ -25,7 +25,7 @@ class GraphPage(QWidget):
     Classe GraphPage pour générer la page graph
     """
 
-    def __init__(self, api: Api, default_plot: str = "bar", parent: QWidget = None) -> None:
+    def __init__(self, api: Api, default_plot: int = 0, parent: QWidget = None) -> None:
         super().__init__(parent)
 
         # Api
@@ -52,7 +52,7 @@ class GraphPage(QWidget):
 
         # Crée une combobox pour sélectionner le tracé du graphique
         self.list_type_plots = QComboBox(self)
-        self.list_type_plots.items = ["Choisissez le type du tracé", "bar : graphique à barres (défaut)", "fill : figure remplie", "scatter : nuage de points", "plot : ligne droite"]
+        self.list_type_plots.items = ["Choisissez le type du tracé", "graphique à barres (défaut)", "figure remplie", "nuage de points", "tiges", "ligne droite"]
         self.list_type_plots.setFixedSize(200, 30)
         self.list_type_plots.addItems(self.list_type_plots.items)
         self.list_type_plots.currentIndexChanged.connect(self.__on_list_type_plots_changed)
@@ -64,6 +64,9 @@ class GraphPage(QWidget):
         self.figure.subplots_adjust(bottom=0.25)
         self.axe = self.figure.subplots()
         self.canvas = None
+
+        # Liste des plots disponible
+        self.plots = [self.axe.bar, self.axe.fill, self.axe.scatter, self.axe.stem, self.axe.plot]
 
     def __show_graphic(self) -> None:
         """
@@ -92,7 +95,7 @@ class GraphPage(QWidget):
         self.axe.cla()
         
         # Créer le graphique
-        getattr(self.axe, self.type_plot)(dates, totalco2, label="CO2")
+        self.plots[self.type_plot](dates, totalco2, label="CO2")
         self.axe.set_title(f"Bilan GES, {self.data_type[0:-1]} : {inputdata}", color="white")
         self.axe.set_xlabel('Dates',  color="white")
         self.axe.set_ylabel('Tonnes de CO2',  color="white")
@@ -137,11 +140,11 @@ class GraphPage(QWidget):
         Return : None
         """
 
-        selected_text = self.list_type_plots.currentText()
+        selected_index = self.list_type_plots.currentIndex()-1
         selected_text_liste_ville = self.list_ville.currentText()
 
-        if selected_text != self.list_type_plots.items[0]:
-            self.type_plot = selected_text.split(" : ")[0]
+        if selected_index >= 0:
+            self.type_plot = selected_index
 
             if self.canvas and selected_text_liste_ville not in self.list_ville.items:
                 self.__show_graphic()
