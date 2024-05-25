@@ -6,11 +6,11 @@ Module :
     requests.exceptions.HTTPError : Pour lever des erreurs en cas de problème lors des requêtes
     requests.exceptions.ConnectionError : Condition pour HTTPError
 
-    typing.Any :
+    typing.Any : Pour ne pas avoir d'erreur de type
 
-    API_LINK :
-    ROOT_PATH :
-    REQUEST_CACHE_EXPIRE :
+    API_LINK : Lien vers l'api (les données)
+    ROOT_PATH : Chemin racine du projet
+    REQUEST_CACHE_EXPIRE : Temps avant expiration
 """
 
 from requests_cache import CachedSession
