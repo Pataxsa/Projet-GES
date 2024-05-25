@@ -13,9 +13,10 @@ Module :
     Map : Importe la classe Map
 """
 
-from PySide6.QtWidgets import QWidget, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PySide6.QtGui import QFont
 from os.path import abspath
-from PySide6.QtCore import QUrl
+from PySide6.QtCore import QUrl, Qt
 from PySide6.QtWebEngineCore import QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 
@@ -39,9 +40,28 @@ class MapPage(QWidget):
         self.setLayout(central_layout)
 
         # Map View
-        # TODO: Pas opti (pour opti il ne faut pas le charger au démarrage)
-        self.map_view = QWebEngineView()
-        file_path = abspath(f"{ROOT_PATH}\\tmp\\map.html")
-        self.map_view.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
-        self.map_view.setUrl(QUrl.fromLocalFile(file_path))
-        central_layout.addWidget(self.map_view)
+        self.map_view = None
+
+    # Evenement lorsque la page est affichée
+    def showEvent(self, event):
+        if not self.map_view:
+            self.map.save(f"{ROOT_PATH}\\tmp\\map.html")
+            self.progress_label = QLabel(parent=self, text=f"0%")
+            self.progress_label.setFont(QFont("Arial", 24))
+            self.progress_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.layout().addWidget(self.progress_label)
+            self.map_view = QWebEngineView()
+            self.map_view.loadProgress.connect(self.__load_progress)
+            file_path = abspath(f"{ROOT_PATH}\\tmp\\map.html")
+            self.map_view.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
+            self.map_view.setUrl(QUrl.fromLocalFile(file_path))
+    
+    # Evenement qui s'actualise lorsque lorsque le QWebEngineView se charge
+    def __load_progress(self, progress):
+        self.progress_label.setText(f"{progress}%")
+        
+        if progress == 100:
+            self.layout().removeWidget(self.progress_label)
+            del self.progress_label
+            self.layout().addWidget(self.map_view)
+            self.map.delete(f"{ROOT_PATH}\\tmp\\map.html")

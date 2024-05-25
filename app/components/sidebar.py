@@ -90,6 +90,7 @@ class SideBar(QWidget):
 
         Return : None
         """
+        
         painter = QPainter(self)
         gradient = QLinearGradient(QPointF(0, 0), QPointF(self.width(), self.height()))
 
