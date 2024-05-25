@@ -93,9 +93,9 @@
   - [x] Compatible Windows
   - [ ] Compatible Linux
   - [ ] Compatible Python 3.8
-- [ ] Optimisation du temps de lancement
+- [x] Optimisation du temps de lancement
   - [x] Optimisation des requetes
-  - [ ] Optimisation de l'interface
+  - [x] Optimisation de l'interface
 - [ ] Ajout d'une page paramètres
 - [ ] Ajout de fonctionalité de tri
 - [ ] Ajout d'un système multi-language
