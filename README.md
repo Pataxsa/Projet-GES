@@ -62,13 +62,13 @@
         ```
 
   - ## Installation rapide
-    - Pour installer le projet plus rapidement, vous pouvez aussi utiliser le fichier [launch.bat](launch.bat) sur windows ou [launch.sh](launch.sh) si vous êtes sur un système d'exploitation Linux
+    - Pour installer le projet plus rapidement, vous pouvez aussi utiliser le fichier [launch.bat](launch.bat) sur windows ou [launch.bash](launch.bash) si vous êtes sur un système d'exploitation Linux
       ```bash 
       ./launch.bat # Windows
 
       # Linux
-      chmod u+x launch.sh
-      ./launch.sh
+      chmod u+x launch.bash
+      ./launch.bash
       ```
 
   - ## Configuration
@@ -91,7 +91,7 @@
 - [x] Ajout d'une interface
 - [ ] Compatibilité
   - [x] Compatible Windows
-  - [ ] Compatible Linux
+  - [x] Compatible Linux
   - [ ] Compatible Python 3.8
 - [x] Optimisation du temps de lancement
   - [x] Optimisation des requetes

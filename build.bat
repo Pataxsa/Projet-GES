@@ -58,11 +58,11 @@ if not %ERRORLEVEL% == 0 (
     goto input
 )
 
-set /p INPUT="Voulez vous compiler en mode portable ? (Y/N):"
+set /p INPUT="Voulez vous compiler en mode installateur ? (Y/N):"
 
-:: Compilation du programme (mode portable ou non)
+:: Compilation du programme (mode installateur ou non)
 if "%INPUT%"=="Y" (
-    pyinstaller specs/build-portable.spec
+    py setup.py bdist_msi
 ) else (
-    pyinstaller specs/build.spec
+    py setup.py build
 )

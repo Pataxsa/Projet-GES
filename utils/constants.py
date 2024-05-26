@@ -21,6 +21,25 @@ API_LINK: str = "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/"
 REQUEST_CACHE_EXPIRE: int = 60*60
 
 """
+Constantes executable
+"""
+
+# Nom de l'application executable
+APP_NAME: str = "Projet-GES"
+
+# Version de l'application executable
+APP_VERSION: str = "1.1.0"
+
+# Description de l'application executable
+APP_DESCRIPTION: str = "App GES"
+
+# Auteur de l'application executable
+AUTHOR: str = "Les Crazy"
+
+# Version de python requise
+PYTHON_VERSION: str = ">=3.10"
+
+"""
 Constantes type alias
 """
 
