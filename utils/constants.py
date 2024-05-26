@@ -2,14 +2,12 @@
 Module constants pour les constantes utilitaires
 """
 
-import sys
-
 """
 Constantes
 """
 
 # Chemin ROOT
-ROOT_PATH: str = getattr(sys, '_MEIPASS', ".")
+ROOT_PATH: str = "."
 
 # Chemin vers les ressources (assets)
 RESOURCE_PATH: str = f"{ROOT_PATH}\\app\\assets"
