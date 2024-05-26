@@ -32,7 +32,7 @@
     - <a href="https://pypi.org/project/folium/">🌍 Folium</a>
 
   ### API/Données
-  - Les données utilisées pour créer les graphiques et la carte sont prises sur l'api de l'ademe à l'adresse suivante https://data.ademe.fr/datasets/gnzo7xgwv5d271w1t0yw8ynb/api-doc
+  - Les données utilisées pour créer les graphiques et la carte sont prises sur [l'api de l'ademe](https://data.ademe.fr/datasets/gnzo7xgwv5d271w1t0yw8ynb)
 
 # Pour commencer
   - ## Compatibilité
