@@ -1,11 +1,11 @@
 from cx_Freeze import setup, Executable
-from utils.constants import RESOURCE_PATH, APP_NAME, APP_DESCRIPTION, APP_VERSION, AUTHOR, PYTHON_VERSION
+from utils.constants import RESOURCE_PATH, APP_NAME, APP_DESCRIPTION, APP_VERSION, AUTHOR
 
 options = {
     "build_exe": {
         "excludes": ["fontTools"],
         "zip_include_packages": ["encodings", "PySide6", "shiboken6", "matplotlib", "numpy", "PIL"],
-        "include_files": [("./app/assets", "app/assets"), ("./data", "data")],
+        "include_files": [("./app/assets", "app/assets"), ("./data", "data"), "./LICENCE.txt"],
         "optimize": 1
     },
     "bdist_msi": {
@@ -31,6 +31,5 @@ setup(
     description=APP_DESCRIPTION,
     author=AUTHOR,
     options=options,
-    executables=[executable],
-    python_requires=PYTHON_VERSION
+    executables=[executable]
 )

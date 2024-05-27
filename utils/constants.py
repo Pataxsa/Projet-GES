@@ -34,9 +34,6 @@ APP_DESCRIPTION: str = "App GES"
 # Auteur de l'application executable
 AUTHOR: str = "Les Crazy"
 
-# Version de python requise
-PYTHON_VERSION: str = ">=3.10"
-
 """
 Constantes type alias
 """
