@@ -3,7 +3,8 @@ from utils.constants import RESOURCE_PATH, APP_NAME, APP_DESCRIPTION, APP_VERSIO
 
 options = {
     "build_exe": {
-        "zip_include_packages": ["encodings", "PySide6", "shiboken6"],
+        "excludes": ["fontTools"],
+        "zip_include_packages": ["encodings", "PySide6", "shiboken6", "matplotlib", "numpy", "PIL"],
         "include_files": [("./app/assets", "app/assets"), ("./data", "data")],
         "optimize": 1
     },
