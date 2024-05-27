@@ -91,7 +91,7 @@ class Api:
             > link (str): Fin de l'URL où la requête est envoyé
             > param (dict[str, Any]): Dictionnaire contenant les paramètres de la requête "get"
 
-        Return : (dict[str, int | list]) Un dictionnaire contenant les données JSON de la réponse (clés -> str / valeurs -> int ou list)
+        Returnv : (dict[str, int | list]) Un dictionnaire contenant les données JSON de la réponse (clés -> str / valeurs -> int ou list)
         """
 
         try:
@@ -112,7 +112,7 @@ class Api:
             > select (list[str]) : Une liste de chaînes de caractères spécifiant les lignes à prendre dans la requête
             > **kwargs : Dictionnaire qui va être utilisé comme paramètre de la requête "get"
 
-        Return (list[dict[str, int | str]]) : Liste de dicos représentant les résultats des lignes de données (clés -> str / valeurs -> int ou str)
+        Return : (list[dict[str, int | str]]) Liste de dicos représentant les résultats des lignes de données (clés -> str / valeurs -> int ou str)
         """
         if select:
             kwargs["select"] = ",".join(select)
@@ -122,12 +122,19 @@ class Api:
     def getCO2(self, type_data: str, nom: str) -> dict[str, int]:
         """
         Fonction getCO2 qui renvoie le CO2 total par année d'un lieu (renvoie un dictionnaire clés:années et valeurs:total co2)
-        """
 
+        Paramètres :
+            > type_data (str): Lieu où on veut récupérer les données CO2 (Communes, Département, etc)
+            > nom (str): Lieu où on veut récupérer les données CO2 (précis)
+
+        Return : (dict[str, int]) Dictionnaire où clés -> années (str) et valeurs -> total de CO2 émis l'années (int)
+        """
+        # Mise en forme paramètre
         params = [b for b in self.params if "emissions_publication_p" in b]
         type_data_key = type_data.lower().replace("é", "e").removesuffix("s")
         dates_co2 = {}
 
+        # Fonction de sélection et total
         for val in self.france:
             if (type_data in ["Régions", "Départements"] and val[type_data_key] == nom) or (type_data == "Communes" and val.get("type_de_structure") == "Collectivité territoriale (dont EPCI)" and val.get("type_de_collectivite") == "Communes" and val["raison_sociale"] == nom):
                 date = val["date_de_publication"].split("-")[0]
@@ -140,12 +147,20 @@ class Api:
     def getCO2Total(self, type_data: str) -> dict[str, int]:
         """
         Fonction getCO2Total qui renvoie le CO2 total (toutes les dates) d'un lieu (renvoie un dictionnaire clés:nom et valeurs:total co2)
+
+        Paramètres :
+            > type_data (str): Type de lieu (Département, Région, etc)
+
+        Return : (dict[str, int]) Dictionnaire où clés -> noms des lieux (str) et valeurs -> total CO2 (int)
+
         """
 
+        # Mise en forme des paramètres
         params = [b for b in self.params if "emissions_publication_p" in b]
         type_data_key = type_data.lower().replace("é", "e").removesuffix("s")
         data = {}
 
+        # Total CO2 dans le lieu donné
         for val in self.france:
             nom = val[type_data_key]
             totalco2 = sum(val[param] for param in params if param in val)
