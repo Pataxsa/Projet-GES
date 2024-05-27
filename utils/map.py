@@ -1,5 +1,20 @@
 """
 Module map pour générer une carte
+
+Modules :
+    > folium.TileLayer : Pour ajouter des couches de tuiles (Départements - Régions)
+    > folium.Map : Classe principale pour créer les objets de la map
+    > folium.GeoJsonPopup : Pour afficher les données quand on clique sur une zone
+    > folium.GeoJson : Pour ajouter des données en format GeoJson
+    > folium.LayerControl : Pour pouvoir passer de Départements à Régions sur la map (controle des couches)
+
+    > json.load`: Pour charger des données en .JSON
+    > branca.colormap.LinearColormap : Pour créer des colormaps linéaires pour la visualisation des données
+    > os.path.isdir et os.path.isfile : Pour vérifier si les fichiers / dossiers existent
+    > os.mkdir et os.remove : Pour créer des dossiers et supprimer des fichiers
+
+    > Api : import de la classe API pour obtenir les données CO2
+    > GEO_JSON_TYPE et FEATURE_TYPE : Format / type de données à traiter
 """
 
 from folium import TileLayer, Map as MAP, GeoJsonPopup, GeoJson, LayerControl
@@ -37,6 +52,11 @@ class Map:
     def save(self, name: str) -> None:
         """
         Fonction save qui sauvegarde la carte si le fichier existe
+
+        Paramètres :
+            > name (str) : nom du ficher quand il sera sauvegarder
+        
+        Return : None
         """
 
         if not isdir(f"{ROOT_PATH}\\tmp"):
@@ -47,15 +67,26 @@ class Map:
     def delete(self, name: str) -> None:
         """
         Fonction delete qui supprime la carte si le fichier existe
+
+        Paramètres : 
+            > name (str) : nom à vérifier avant suppression
+
+        Return : None
         """
 
         if isfile(name):
             remove(name)
 
-    # Fonction privé qui permet de générer les données de la carte
     def __generate(self) -> None:
+        """
+        Fonction privé qui permet de générer les données de la carte
+        
+        Return : None
+        """
+        # Ajout de la première couche de la map
         TileLayer('cartodbpositron', name='GES').add_to(self.__map)
 
+        # Ajout des données à chaque lieu
         for name, geojson in self.__geojson.items():
             data = self.__data[name]
 
@@ -64,21 +95,35 @@ class Map:
 
                 feature["properties"]["CO2"] = f"{int(co2_value):,} Tonnes" if co2_value is not None else "Pas de valeurs"
 
+        # Ajout des couches, Régions par défaut
         self.__addGeoJson("Régions", True)
         self.__addGeoJson("Départements")
 
+        # Bouton pour basculer d'une couche à une autre
         LayerControl().add_to(self.__map)
-    
-    # Fonction privé qui permet l'ajout des données sur la carte (geojson et colormap)
+
     def __addGeoJson(self, name: str, show: bool = False) -> None:
+        """
+        Fonction privé qui permet l'ajout des données sur la carte (geojson et colormap)
+        
+        Paramètres :
+            name (str) : Le nom dess données GeoJSON à ajouter à la map
+            show (bool) : True si les données sont visibles par défaut
+
+        Return : None
+        """
+
         data = self.__data[name.replace("é","e")]
         geojson = self.__geojson[name.replace("é","e")]
 
+        # Définition variations de couleurs 
         colormap = LinearColormap(["green", "yellow", "red"], vmin=min(data.values()), vmax=(sum(data.values())/len(data.values())))
 
+        # Ajout de la légende
         colormap.caption = f"Total CO2 en tonnes des {name.lower()}"
         self.__map.add_child(colormap)
 
+        # Pop up lorsque l'on clique sur une zone
         popup = GeoJsonPopup(fields=["nom", "CO2"])
 
         GeoJson(
@@ -99,8 +144,17 @@ class Map:
             },
         ).add_to(self.__map)
 
-    # Fonction privé qui permet de gérer les couleurs sur la carte
     def __usecolor(self, feature: FEATURE_TYPE, data: dict[str, int], colormap: LinearColormap) -> str:
+        """    
+        Fonction privé qui permet de gérer les couleurs sur la carte
+
+        Paramètres :
+            > feature (FEATURE_TYPE) : Lieu où placer la couleur
+            > data (dict[str, int]) : Dictionnaire avec les valeurs de CO2 et les noms des lieux
+            > colormap (LinearColormap) : Légende de couleur des valeurs CO2
+
+        Return : (str) Couleur de remplissage
+        """
         if feature["properties"]["nom"] in data:
             return colormap(data[feature["properties"]["nom"]])
         else:
