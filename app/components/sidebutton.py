@@ -7,11 +7,11 @@ Module :
     PySide6.QtGui.QColor : Classe pour les couleurs
     PySide6.QtGui.QFont : Classe pour l'écriture (police) de Qt 
     PySide6.QtGui.QMovie : Pour que les gifs soient "mobile"
-    PySide6.QtGui.QPixmap :
+    PySide6.QtGui.QPixmap : Pour l'afficher sur le widget principal
     PySide6.QtGui.QIcon : Pour avoir les images mouvantes (gif)
     PySide6.QtCore.Qt : Pour les fonctions spécifiques à Qt
-    PySide6.QtCore.QVariantAnimation :
-    PySide6.QtCore.QSize :
+    PySide6.QtCore.QVariantAnimation : Pour l'animation de quand on passe sur un bouton
+    PySide6.QtCore.QSize : Pour la taille des boutons (x y)
 """
 
 from PySide6.QtWidgets import QPushButton, QWidget

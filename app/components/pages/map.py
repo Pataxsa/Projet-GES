@@ -6,7 +6,7 @@ Module :
     PySide6.QtWidgets.QVBoxLayout : Pour placer les éléments verticalement (les uns au-dessus des autres)
     PySide6.QtCore.QUrl : Classe pour gérer les URLs (de la map)
     PySide6.QtWebEngineCore.QWebEngineSettings : Pour configurer la page de la map "comme un site" 
-    PySide6.QWebEngineWidgets.QWebEngineView : Pour pouvoir voir la map dans la page (site)
+    PySide6.QtWebEngineWidgets.QWebEngineView : Pour pouvoir voir la map dans la page (site)
     
     abspath : Pour obtenir le chemin absolu d'un fichier
     ROOT_PATH : Import la variable ROOT_PATH depuis utils.constants

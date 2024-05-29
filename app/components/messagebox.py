@@ -32,7 +32,7 @@ class MessageBox(QMessageBox):
             > parent (QWidget) : Parent de la messagebox
             > window_icon (QIcon) : Icone qui va s'ajouter dans la messagebox
             > title (str) : Titre de la fenêtre de la boite à message
-            > icon (QMessageBox.Icon) : The icon to be displayed in the message box. Defaults to QMessageBox.Icon.Critical.
+            > icon (QMessageBox.Icon) : Icone de la boite à message
             > text (str) : Texte de la boite à message
             > informative_text (str) : Texte supplémentaire bonus
             > detailed_text (str) : Texte détaillé bonus dans la messagebox

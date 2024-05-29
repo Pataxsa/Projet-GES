@@ -6,8 +6,8 @@ Modules :
     PySide6.QtGui.QPalette : Pour la palette de couleur des widgets
     PySide6.QtWidgets.QWidget : Classe de base des objets QtWidgets (méthodes et variables)
     PySide6.QtWidgets.QVBoxLayout : Pour mettre les éléments de manière vertical (les uns au-dessus des autres)
-    PySide6.QWidgets.QComboBox : Pour les boutons défilants
-    PySide6.QWidgets.QSizePolicy : Pour le dimensionement horizontal et vertical des widgets
+    PySide6.QtWidgets.QComboBox : Pour les boutons défilants
+    PySide6.QtWidgets.QSizePolicy : Pour le dimensionement horizontal et vertical des widgets
 
     Api : Importe la classe Api    
 """
@@ -50,7 +50,7 @@ class GraphPage(QWidget):
         central_layout.addSpacing(40)
         central_layout.addWidget(self.list_ville, alignment=Qt.AlignmentFlag.AlignHCenter)
 
-        # Crée une combobox pour sélectionner le tracé du graphique
+        # Créer une combobox pour sélectionner le tracé du graphique
         self.list_type_plots = QComboBox(self)
         self.list_type_plots.items = ["Choisissez le type du tracé", "graphique à barres (défaut)", "figure remplie", "nuage de points", "tiges", "ligne droite"]
         self.list_type_plots.setFixedSize(200, 30)
@@ -75,7 +75,7 @@ class GraphPage(QWidget):
         Return : None
         """
 
-        # Créé le canva s'il n'est pas déjà créé
+        # Créer le canva s'il n'est pas déjà créé
         if not self.canvas:
             self.canvas = FigureCanvas(self.figure)
             self.canvas.setMaximumSize(1000, 800)

@@ -91,7 +91,7 @@ class Api:
             > link (str): Fin de l'URL où la requête est envoyé
             > param (dict[str, Any]): Dictionnaire contenant les paramètres de la requête "get"
 
-        Returnv : (dict[str, int | list]) Un dictionnaire contenant les données JSON de la réponse (clés -> str / valeurs -> int ou list)
+        Return : (dict[str, int | list]) Un dictionnaire contenant les données JSON de la réponse (clés -> str / valeurs -> int ou list)
         """
 
         try:
