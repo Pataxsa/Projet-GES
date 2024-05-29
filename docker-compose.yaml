@@ -1,0 +1,12 @@
+# Run: docker compose run --rm linux
+# Build: docker compose build linux
+
+services:
+  linux:
+    platform: linux/amd64
+    container_name: 'linux'
+    build:
+      context: .
+      dockerfile: linux.dockerfile
+    volumes:
+      - .:/application

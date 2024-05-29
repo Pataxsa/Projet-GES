@@ -1,0 +1,16 @@
+# Ignore python cache
+__pycache__
+.pytest_cache
+
+# Ignore visual studio code config
+.vscode/
+
+# Ignore temp
+tmp/
+
+# Ignore builds
+build/
+dist/
+
+# Ignore cache
+cache/
