@@ -6,7 +6,6 @@
 # 📗 Table des matières
 - [📖 A propos du projet](#à-propos)
   - [🚀 Exemple](#exemple)
-  - [🎉 Mvp](#mvp)
   - [🛠 Dépendances](#dépendances)
   - [🔗 API](#apidonnées)
 - [💻 Pour commencer](#pour-commencer)
@@ -24,11 +23,6 @@
   ### Exemple
   <div align="center">
       <img src="assets/example.mp4"></img>
-  </div>
-
-  ### Mvp
-  <div align="center">
-      <img src="assets/MVP.png"></img>
   </div>
 
   ### Dépendances
