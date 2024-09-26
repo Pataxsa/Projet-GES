@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://gitlab.univ-lr.fr/uploads/-/system/project/avatar/9036/icon.ico?width=96" width="134" height="134">
+    <img src="assets/icon.ico" width="134" height="134">
     <h1>Projet-GES</h1>
 </div>
 
