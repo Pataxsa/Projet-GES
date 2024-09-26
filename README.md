@@ -22,7 +22,11 @@
 
   ### Exemple
   <div align="center">
-      <img src="assets/example.mp4"></img>
+
+
+https://github.com/user-attachments/assets/76072199-eed5-4de2-9a98-80c0ba701bb3
+
+
   </div>
 
   ### Dépendances
